@@ -1,43 +1,33 @@
 class Player extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame, pointValue, speedMultiply = 1) {
-        super(scene, x, y, texture, frame);
-        scene.add.existing(this);                                       // add object to existing scene
-        this.moveSpeed = 3;                                             // pixel per frame on "ground"
-        this.airSpeed = 2;                                              // pixel per frame on "air"
-        this.grounded = false;                                          // if on ground
-        this.goingUp = false;                                           // if it's going up
-        this.jumpHeight;                                                // y cord of where to stop going up
+    constructor(scene,x,y,key, frame, maxVX = 300, maxVY = 300, acceleration = 400, drag = 600, jump_velocity = -1000) {
+        super(scene, x, y, key, frame);
+        scene.physics.world.enable(this);
+        scene.add.existing(this);
+        this.body.maxVelocity.x = maxVX;
+        this.body.maxVelocity.y = maxVY;
+        this.ACCELERATION = acceleration;
+        this.DRAG = drag;    
+        this.JUMP_VELOCITY = jump_velocity;
     }
 
-    // NOTE: 75 is a hard-coded number for a floor
     update() {
-        if (this.y >= game.config.height - 75) {
-            this.grounded = true;
-        }
-
-        // move left or right regardless of the state
-        if(keyA.isDown && this.x >= 0) {                            // move left
-            this.x -= this.moveSpeed;
-        } else if (keyD.isDown && this.x <= game.config.width) {    // move right
-            this.x += this.moveSpeed;
-        }
-
-        if (this.grounded) {
-            if (keyW.isDown && this.y >= 0) {                    // jump
-                this.grounded = false;
-                this.goingUp = true;
-                this.jumpHeight = this.y - 100;                 // change height limit for jump here
-                this.y -= this.airSpeed;
-            }
+        // check keyboard input
+        if(cursors.left.isDown) {
+            this.body.setAccelerationX(-this.ACCELERATION);
+            this.setFlip(true, false);         
+        } else if(cursors.right.isDown) {
+            this.body.setAccelerationX(this.ACCELERATION);
+            this.resetFlip();          
         } else {
-            if (this.goingUp) {
-                this.y -= this.airSpeed;
-                if (this.y <= this.jumpHeight) {
-                    this.goingUp = false;
-                }
-            } else {
-                this.y += this.airSpeed;
-            }
+            // set acceleration to 0 so DRAG will take over
+            this.body.setAccelerationX(0);
+            this.body.setDragX(this.DRAG);
+        }
+
+        // use JustDown to avoid 'pogo' jumps if you player keeps the up key held down
+        // note: there is unfortunately no .justDown property in Phaser's cursor object
+        if(this.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
+            this.body.setVelocityY(this.JUMP_VELOCITY);
         }
     }
 }

@@ -2,24 +2,50 @@ class Play extends Phaser.Scene {
     constructor() {
         super("playScene");
     }
-
-    preload() {
-
-    }
-
     create() {
-        this.tempSprite = this.add.rectangle(-50, -50, 50, 50, 0xFFFFFF).setOrigin(0, 0);
-        this.floor = this.add.rectangle(0, game.config.height - 50, game.config.width, 50, 0xFF00FF).setOrigin(0, 0);
 
-        this.player = new Player(this, 50, 50, this.tempSprite);
-        // define keys
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        const SCALE = 0.5;
+        const tileSize = 35;
+
+        // variables and settings
+        this.ACCELERATION = 500;
+        this.MAX_X_VEL = 500;   // pixels/second
+        this.MAX_Y_VEL = 5000;
+        this.DRAG = 600;    // DRAG < ACCELERATION = icy slide
+        this.JUMP_VELOCITY = -1000;
+        this.physics.world.gravity.y = 3000;
+
+        // set bg color
+        this.cameras.main.setBackgroundColor('#227B96');
+
+        // draw grid lines for jump height reference
+        let graphics = this.add.graphics();
+        graphics.lineStyle(2, 0xFFFFFF, 0.1);
+        for(let y = game.config.height-70; y >= 35; y -= 35) {
+            graphics.lineBetween(0, y, game.config.width, y);
+        }
+
+        // make ground tiles group
+        this.ground = this.add.group();
+        let groundTile = this.physics.add.sprite(0, game.config.height - tileSize, 'platformer_atlas', 'block').setScale(SCALE).setOrigin(0);
+        groundTile.scaleX = 35;
+        groundTile.body.immovable = true;
+        groundTile.body.allowGravity = false;
+        this.ground.add(groundTile);
+        
+        // Player
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'platformer_atlas', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY);
+
+        // set up Phaser-provided cursor key input
+        cursors = this.input.keyboard.createCursorKeys();
+
+        // add physics collider
+        this.physics.add.collider(this.player, this.ground);
     }
 
     update() {
         this.player.update();
+        // wrap physics object(s) .wrap(gameObject, padding)
+        this.physics.world.wrap(this.player, this.player.width/2);
     }
 }
