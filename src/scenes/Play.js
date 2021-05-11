@@ -45,37 +45,13 @@ class Play extends Phaser.Scene {
         // add physics collider
         this.physics.add.collider(this.player, this.ground);
 
-        // create camera control configuration object to pass to Camera Controller (see below)
-        // https://photonstorm.github.io/phaser3-docs/Phaser.Types.Cameras.Controls.html#.SmoothedKeyControlConfig__anchor
-        let controlConfig = {
-            camera: this.cameras.main,      // which camera?
-            left: cursors.left,             // define keys...
-            right: cursors.right,
-            up: cursors.up,
-            down: cursors.down,
-            zoomIn: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
-            zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
-            zoomSpeed: 0.01,
-            acceleration: 0.05,             // physics values (keep these low)
-            drag: 0.0005,
-            maxSpeed: 0.4
-        }
-        // create smoothed key camera control
-        // i.e., we control the cam w/ the defined keys w/ physics controls
-        // note: you *must* call the update method of this controller each frame (see below)
-        // https://photonstorm.github.io/phaser3-docs/Phaser.Cameras.Controls.SmoothedKeyControl.html
-        this.camControl = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
-
-        // configure main camera (bg image is 3000x3000)
         this.cameras.main.setBounds(0, 0, 3000, 3000);
         this.cameras.main.setZoom(1);
 
         this.cameras.main.startFollow(this.player);
     }
 
-    update(time, delta) {
-        // update our camera controller (delta: Δ time in ms since last frame)
-        //this.camControl.update(delta);
+    update() {
 
         this.player.update();
         // wrap physics object(s) .wrap(gameObject, padding)
