@@ -21,23 +21,28 @@ class Play extends Phaser.Scene {
         // draw grid lines for jump height reference
         let graphics = this.add.graphics();
         graphics.lineStyle(2, 0xFFFFFF, 0.1);
-        for(let y = game.config.height-70; y >= 35; y -= 35) {
-            graphics.lineBetween(0, y, game.config.width, y);
+        for(let y = 3000; y >= 35; y -= 35) {
+            graphics.lineBetween(0, y, 3000, y);
         }
-        for(let x = game.config.width-70; x >= 35; x -= 35) {
-            graphics.lineBetween(x, 0, x, game.config.height);
+        for(let x = 3000; x >= 35; x -= 35) {
+            graphics.lineBetween(x, 0, x, 3000);
         }
 
         // make ground tiles group
         this.ground = this.add.group();
-        let groundTile = this.physics.add.sprite(0, game.config.height - tileSize, 'platformer_atlas', 'block').setScale(SCALE).setOrigin(0);
-        groundTile.scaleX = 55;
-        groundTile.body.immovable = true;
-        groundTile.body.allowGravity = false;
-        this.ground.add(groundTile);
+
+        for (let floor = 0; floor < 10; ++floor) {
+            var x = (floor % 2) ? 500 : 0;
+            var y = 3000 - floor * 100;
+            let groundTile = this.physics.add.sprite(x, y, 'platformer_atlas', 'block').setScale(SCALE).setOrigin(0);
+            groundTile.scaleX = 35;
+            groundTile.body.immovable = true;
+            groundTile.body.allowGravity = false;
+            this.ground.add(groundTile);
+        }
         
         // Player
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'platformer_atlas', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY);
+        this.player = new Player(this, 50, 2800, 'platformer_atlas', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -49,12 +54,10 @@ class Play extends Phaser.Scene {
         this.cameras.main.setZoom(1);
 
         this.cameras.main.startFollow(this.player);
+        this.cameras.main.setFollowOffset( 0, 150);
     }
 
     update() {
-
         this.player.update();
-        // wrap physics object(s) .wrap(gameObject, padding)
-        this.physics.world.wrap(this.player, this.player.width/2);
     }
 }
