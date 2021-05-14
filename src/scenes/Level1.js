@@ -54,7 +54,7 @@ class Level1 extends Phaser.Scene {
         let player = this.player
         let scene = this;
 
-        // Add Objects that give playr trail mix
+        // Add Objects that give player trail mix
 
         this.nutsObj = this.add.rectangle(950, 1950, 10, 10, 0x928C6F).setOrigin(0,0);
         this.physics.world.enable(this.nutsObj);
@@ -94,9 +94,10 @@ class Level1 extends Phaser.Scene {
             }
         });
 
+        // Add Status Text
         this.statusText = this.add.text(0, 0, 'Inventory: [] State: Normal').setOrigin(0, 0)
+        // This makes Status Text stay in the same spot on screen, regardless of where camera goes
         this.statusText.setScrollFactor(0,0);
-        console.log(this.statusText);
     }
 
     update() {
@@ -109,6 +110,20 @@ class Level1 extends Phaser.Scene {
         }
     }
 
+    // Give player ingredient function. Currently unused, but could be bound to my ingredient objects.
+    givePlayer(mix){
+        if (mix == "nuts"){
+            this.player.nuts = true;
+        }
+        else {
+            if (player.inventory.length < 2 && !player.inventory.includes(mix)){
+                player.inventory.push(mix);
+                scene.updateText();
+            }
+        }
+    }
+
+    // Function to update Status text to reflect player status
     updateText(){
         if (this.player.nuts){
             this.statusText.text = "Inventory: Nuts, " + this.player.inventory + " State: " + this.player.powerUpState

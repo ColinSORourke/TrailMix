@@ -34,7 +34,7 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        // check out of bounce
+        // check out of bounds
         if (this.x <= -5 || 3005 <= this.x || this.y <= -5 || 3005 <= this.y) {
             this.reset();
             this.x = this.respawnX;
@@ -59,12 +59,14 @@ class Player extends Phaser.GameObjects.Sprite {
         }
         
         // Some Collision checking
+        // Ceiling Collision
         if (this.body.touching.up){
             if (this.resetOnBonk){
                 this.reset();
             }
             this.jumping = true;
         }
+        // Ground Collision
         if (this.body.touching.down){
             if (this.resetOnGround){
                 this.reset();
@@ -73,13 +75,14 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.jumping = false;
             }
         }
+        // Side collision
         if (this.body.touching.left || this.body.touching.right){
             if (this.resetOnCollide){
                 this.reset();
             }
         }
 
-        // JUMPING LOGIC
+        // JUMPING LOGIC - this more complicated jump gives us variable size jumps depending on quick taps/longer hold
         if(!this.jumping && Phaser.Input.Keyboard.DownDuration(cursors.up, 300) && this.mobile) {
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
@@ -102,7 +105,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // Switch inventory to correct PowerupState
     eatMix(){
         if (this.nuts && this.inventory.length == 2){
-            console.log("attempting to eat trail mix");
+            // Not sure if there is a better way to do this
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
                 this.powerUpState = "superDash";
             }
