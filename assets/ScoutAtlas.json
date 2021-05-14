@@ -1,1 +1,32 @@
-[{"name":"scout-idle-03","x":0,"y":0,"width":48,"height":35},{"name":"scout-jump-00","x":0,"y":36,"width":48,"height":35},{"name":"scout-jump-01","x":49,"y":0,"width":48,"height":35},{"name":"scout-jump-02","x":49,"y":36,"width":48,"height":35},{"name":"scout-jump-03","x":0,"y":72,"width":48,"height":35},{"name":"scout-run-00","x":49,"y":72,"width":48,"height":35},{"name":"scout-run-01","x":0,"y":108,"width":48,"height":35},{"name":"scout-run-02","x":49,"y":108,"width":48,"height":35},{"name":"scout-run-03","x":98,"y":0,"width":48,"height":35},{"name":"scout-run-04","x":98,"y":36,"width":48,"height":35},{"name":"scout-run-05","x":98,"y":72,"width":48,"height":35},{"name":"scout-powerup-00","x":98,"y":108,"width":48,"height":35},{"name":"scout-fall-00","x":0,"y":144,"width":48,"height":35},{"name":"scout-fall-01","x":49,"y":144,"width":48,"height":35},{"name":"scout-idle-00","x":98,"y":144,"width":48,"height":35},{"name":"scout-idle-01","x":147,"y":0,"width":48,"height":35},{"name":"scout-idle-02","x":147,"y":36,"width":48,"height":35}]
+{
+"textures": [
+    {
+        "image": "BodyAndHeadAnims.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 195,
+            "h": 179
+        },
+        "scale": 1,
+        "frames":[
+            {"name":"scout-idle-03","x":0,"y":0,"width":48,"height":35},
+            {"name":"scout-jump-00","x":0,"y":36,"width":48,"height":35},
+            {"name":"scout-jump-01","x":49,"y":0,"width":48,"height":35},
+            {"name":"scout-jump-02","x":49,"y":36,"width":48,"height":35},
+            {"name":"scout-jump-03","x":0,"y":72,"width":48,"height":35},
+            {"name":"scout-run-00","x":49,"y":72,"width":48,"height":35},
+            {"name":"scout-run-01","x":0,"y":108,"width":48,"height":35},
+            {"name":"scout-run-02","x":49,"y":108,"width":48,"height":35},
+            {"name":"scout-run-03","x":98,"y":0,"width":48,"height":35},
+            {"name":"scout-run-04","x":98,"y":36,"width":48,"height":35},
+            {"name":"scout-run-05","x":98,"y":72,"width":48,"height":35},
+            {"name":"scout-powerup-00","x":98,"y":108,"width":48,"height":35},
+            {"name":"scout-fall-00","x":0,"y":144,"width":48,"height":35},
+            {"name":"scout-fall-01","x":49,"y":144,"width":48,"height":35},
+            {"name":"scout-idle-00","x":98,"y":144,"width":48,"height":35},
+            {"name":"scout-idle-01","x":147,"y":0,"width":48,"height":35},
+            {"name":"scout-idle-02","x":147,"y":36,"width":48,"height":35}
+        ]
+    }
+]
+}
