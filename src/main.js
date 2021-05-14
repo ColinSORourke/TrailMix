@@ -27,7 +27,7 @@ let cursors;
 ACCELERATION = 1000;
 MAX_X_VEL = 500;   // pixels/second
 MAX_Y_VEL = 5000;
-DRAG = 1200;    // DRAG < ACCELERATION = icy slide
+DRAG = 1600;    // DRAG < ACCELERATION = icy slide
 JUMP_VELOCITY = -500;
 
 const SCALE = 0.5;
