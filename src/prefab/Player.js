@@ -150,7 +150,6 @@ class Player extends Phaser.GameObjects.Sprite {
                 break;
             case "glide":
                 this.body.setGravityY(1500);
-                this.ACCELERATION *= 2/3;
                 this.body.maxVelocity.x = this.MAXVX;
                 this.resetOnGround = false;
                 break;
@@ -167,6 +166,31 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.mobile = true;
                 break;
         }
+    }
+
+    hardReset(){
+        this.powerUpState = "normal";
+        this.nuts = false;
+        this.inventory = [];
+
+        this.body.maxVelocity.x = this.MAXVX;
+        this.body.maxVelocity.y = this.MAXVY;
+        this.body.setGravityY(1500);
+        this.body.setDragX(0);
+        this.body.setAccelerationX(0);
+        this.body.setVelocityX(0);
+        this.body.setVelocityY(0);
+        
+        this.jumping = false;
+
+        this.powerUpState = "normal";
+        this.resetOnGround = false;
+        this.resetOnBonk = false;
+        this.resetOnCollide = false;
+        this.mobile = true;
+
+        this.x = this.respawnX;
+        this.y = this.respawnY;
     }
 
 
@@ -200,7 +224,6 @@ class Player extends Phaser.GameObjects.Sprite {
         if (!this.body.touching.down){
             this.body.setVelocityY(0);
             this.body.maxVelocity.x = this.MAXVX*1.25;
-            this.ACCELERATION *= 1.5;
             this.body.setGravityY(70);
             this.resetOnGround = true;
         }
