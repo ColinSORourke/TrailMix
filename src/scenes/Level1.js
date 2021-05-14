@@ -1,19 +1,8 @@
-class Play extends Phaser.Scene {
+class Level1 extends Phaser.Scene {
     constructor() {
-        super("playScene");
+        super("level1Scene");
     }
     create() {
-
-        const SCALE = 0.5;
-        const tileSize = 35;
-
-        // variables and settings
-        this.ACCELERATION = 500;
-        this.MAX_X_VEL = 500;   // pixels/second
-        this.MAX_Y_VEL = 5000;
-        this.DRAG = 600;    // DRAG < ACCELERATION = icy slide
-        this.JUMP_VELOCITY = -1000;
-        this.physics.world.gravity.y = 3000;
 
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
@@ -42,22 +31,35 @@ class Play extends Phaser.Scene {
         }
         
         // Player
-        this.player = new Player(this, 50, 2800, 'platformer_atlas', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY);
+        this.player = new Player(this, 50, 2800, 'platformer_atlas', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
-        // add physics collider
+        // add physics collider between player & ground group
         this.physics.add.collider(this.player, this.ground);
 
+        // set up main camera to follow the player
         this.cameras.main.setBounds(0, 0, 3000, 3000);
         this.cameras.main.setZoom(1);
-
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setFollowOffset( 0, 150);
+
+        // add 'door' to next level
+        this.door = this.add.rectangle(1312, 2048, 50, 50, 0xFFFFFF).setOrigin(0,0);
+        this.physics.world.enable(this.door);
+        this.door.body.immovable = true;
+        this.door.body.allowGravity = false;
+        this.physics.add.overlap(this.player, this.door, this.goToNextScene.bind(this));
     }
 
     update() {
         this.player.update();
+    }
+
+    goToNextScene() {
+        if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
+            this.scene.start('level2Scene');
+        }
     }
 }
