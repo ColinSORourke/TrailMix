@@ -17,7 +17,7 @@ class Level2 extends Phaser.Scene {
     }
     
     // Player
-    this.player = new Player(this, 50, 50, 'platformer_atlas', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY);
+    this.player = new Player(this, 50, 50, 'Scout', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY);
 
     // set up Phaser-provided cursor key input
     cursors = this.input.keyboard.createCursorKeys();

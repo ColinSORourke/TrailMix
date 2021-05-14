@@ -4,6 +4,7 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
+        this.load.atlas('Scout', './assets/ScoutAtlas.png', './assets/ScoutAtlas.json')
     }
 
     create() {

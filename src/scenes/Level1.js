@@ -3,7 +3,6 @@ class Level1 extends Phaser.Scene {
         super("level1Scene");
     }
     create() {
-
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
 
@@ -23,7 +22,7 @@ class Level1 extends Phaser.Scene {
         for (let floor = 0; floor < 10; ++floor) {
             var x = (floor % 2) ? 500 : 0;
             var y = 3000 - floor * 100;
-            let groundTile = this.physics.add.sprite(x, y, 'platformer_atlas', 'block').setScale(SCALE).setOrigin(0);
+            let groundTile = this.physics.add.sprite(x, y, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
             groundTile.scaleX = 35;
             groundTile.body.immovable = true;
             groundTile.body.allowGravity = false;
@@ -31,10 +30,13 @@ class Level1 extends Phaser.Scene {
         }
         
         // Player
-        this.player = new Player(this, 50, 2800, 'platformer_atlas', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY);
+        this.player = new Player(this, 50, 2800, 'Scout', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);;
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         // add physics collider between player & ground group
         this.physics.add.collider(this.player, this.ground);

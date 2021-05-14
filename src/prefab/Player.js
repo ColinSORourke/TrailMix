@@ -8,40 +8,73 @@ class Player extends Phaser.GameObjects.Sprite {
         this.ACCELERATION = acceleration;
         this.DRAG = drag;    
         this.JUMP_VELOCITY = jump_velocity;
+
+        //this.setCollideWorldBounds(true);
+
+        this.jumping = false;
+        this.powerUpState = "none";
+
         this.respawnX = x;
         this.respawnY = y;
     }
 
     update() {
-        if (-5 <= this.x && this.x <= 3005 &&
-            -5 <= this.y && this.y <= 3005) {
-            // check keyboard input
-            if(cursors.left.isDown) {
-                this.body.setAccelerationX(-this.ACCELERATION);
-                this.setFlip(true, false);         
-            } else if(cursors.right.isDown) {
-                this.body.setAccelerationX(this.ACCELERATION);
-                this.resetFlip();          
-            } else {
-                // set acceleration to 0 so DRAG will take over
-                this.body.setAccelerationX(0);
-                this.body.setDragX(this.DRAG);
-            }
-
-            if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
-                this.debug();
-            }
-
-
-            // use JustDown to avoid 'pogo' jumps if you player keeps the up key held down
-            // note: there is unfortunately no .justDown property in Phaser's cursor object
-            if(this.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
-                this.body.setVelocityY(this.JUMP_VELOCITY);
-            }
-        } else {
-             this.x = this.respawnX;
-             this.y = this.respawnY;
+        // check out of bounce
+        if (this.x <= -5 || 3005 <= this.x || this.y <= -5 || 3005 <= this.y) {
+            this.x = this.respawnX;
+            this.y = this.respawnY;
         }
+
+        // check keyboard input
+        if(cursors.left.isDown) {
+            //this.body.setDragX(0);
+            this.body.setAccelerationX(-this.ACCELERATION);
+            this.setFlip(true, false);         
+        } else if(cursors.right.isDown) {
+            //this.body.setDragX(0);
+            this.body.setAccelerationX(this.ACCELERATION);
+            this.resetFlip();          
+        } else {
+            this.body.setVelocityX(0);
+            // set acceleration to 0 so DRAG will take over
+            this.body.setAccelerationX(0);
+            this.body.setDragX(this.DRAG);
+        }
+
+        if (this.jumping && this.body.touching.down){
+            this.jumping = false;
+        }
+
+        if(!this.jumping && Phaser.Input.Keyboard.DownDuration(cursors.up, 300)) {
+            this.body.setVelocityY(this.JUMP_VELOCITY);
+        }
+
+        if(Phaser.Input.Keyboard.UpDuration(cursors.up)) {
+	    	this.jumping = true;
+	    }
+
+        if(Phaser.Input.Keyboard.JustDown(keyF)){
+            this.powerUpState = "superJump";
+            this.setTint(0x2978A0);
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(keyD)){
+            this.doPowerup();
+        }
+    }
+
+    doPowerup(){
+        switch (this.powerUpState){
+            case "none":
+                break;
+            case "superJump":
+                this.superJump();
+                break;
+        }
+    }
+
+    superJump(){
+
     }
 
     debug() {
