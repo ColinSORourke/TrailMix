@@ -55,6 +55,7 @@ class Level1 extends Phaser.Scene {
         let scene = this;
 
         // Add Objects that give player trail mix
+        // Once we have actual sprites for the ingredients, we can load these as the MixObj class (see MixObj.js)
 
         this.nutsObj = this.add.rectangle(950, 1950, 10, 10, 0x928C6F).setOrigin(0,0);
         this.physics.world.enable(this.nutsObj);

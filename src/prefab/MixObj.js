@@ -1,4 +1,4 @@
-class MixObjc extends Phaser.GameObjects.Sprite {
+class MixObj extends Phaser.GameObjects.Sprite {
     constructor(scene,x,y,key, frame, player, mix, infinite) {
         super(scene, x, y, key, frame);
 
@@ -7,15 +7,27 @@ class MixObjc extends Phaser.GameObjects.Sprite {
         this.body.immovable = true;
     
         let self = this;
-        scene.physics.add.overlap(player, this, function(){
-            if (player.inventory.length < 2 && !player.inventory.includes(mix)){
-                player.inventory.push(mix);
-                scene.updateText();
-                if (!infinite){
-                    self.destroy();
+        if (mix == "nuts"){
+            scene.physics.add.overlap(player, this, function(){
+                if (!player.nuts){
+                    player.nuts = true;
+                    scene.updateText();
+                    if (!infinite){
+                        self.destroy();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            scene.physics.add.overlap(player, this, function(){
+                if (player.inventory.length < 2 && !player.inventory.includes(mix)){
+                    player.inventory.push(mix);
+                    scene.updateText();
+                    if (!infinite){
+                        self.destroy();
+                    }
+                }
+            });
+        }
     }
 
 }
