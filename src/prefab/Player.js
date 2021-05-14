@@ -11,15 +11,19 @@ class Player extends Phaser.GameObjects.Sprite {
 
         //this.setCollideWorldBounds(true);
 
+        this.jumping = false;
         this.powerUpState = "none";
     }
 
     update() {
         // check keyboard input
+
         if(cursors.left.isDown) {
+            this.body.setDragX(0);
             this.body.setAccelerationX(-this.ACCELERATION);
             this.setFlip(true, false);         
         } else if(cursors.right.isDown) {
+            this.body.setDragX(0);
             this.body.setAccelerationX(this.ACCELERATION);
             this.resetFlip();          
         } else {
@@ -28,11 +32,18 @@ class Player extends Phaser.GameObjects.Sprite {
             this.body.setDragX(this.DRAG);
         }
 
-        // use JustDown to avoid 'pogo' jumps if you player keeps the up key held down
-        // note: there is unfortunately no .justDown property in Phaser's cursor object
-        if(this.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
+
+        if (this.jumping && this.body.touching.down){
+            this.jumping = false;
+        }
+
+        if(!this.jumping && Phaser.Input.Keyboard.DownDuration(cursors.up, 300)) {
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
+
+        if(Phaser.Input.Keyboard.UpDuration(cursors.up)) {
+	    	this.jumping = true;
+	    }
 
         if(Phaser.Input.Keyboard.JustDown(keyF)){
             this.powerUpState = "superJump";
