@@ -9,7 +9,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.DRAG = drag;    
         this.JUMP_VELOCITY = jump_velocity;
 
-        this.setCollideWorldBounds(true);
+        //this.setCollideWorldBounds(true);
 
         this.powerUpState = "none";
     }
