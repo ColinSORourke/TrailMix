@@ -30,7 +30,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // use JustDown to avoid 'pogo' jumps if you player keeps the up key held down
         // note: there is unfortunately no .justDown property in Phaser's cursor object
-        if(this.body.touching.down && ( Phaser.Input.Keyboard.JustDown(cursors.up) || Phaser.Input.Keyboard.JustDown(keySPACE))) {
+        if(this.body.touching.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
 

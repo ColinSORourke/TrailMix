@@ -2,10 +2,6 @@ class Play extends Phaser.Scene {
     constructor() {
         super("playScene");
     }
-
-    preload() {
-        this.load.atlas('Scout', './assets/ScoutAtlas.png', './assets/ScoutAtlas.json')
-    }
     create() {
 
         const SCALE = 0.5;
@@ -38,7 +34,7 @@ class Play extends Phaser.Scene {
         for (let floor = 0; floor < 10; ++floor) {
             var x = (floor % 2) ? 500 : 0;
             var y = 3000 - floor * 100;
-            let groundTile = this.physics.add.sprite(x, y, 'platformer-atlas', 'block').setOrigin(0.5, 1);
+            let groundTile = this.physics.add.sprite(x, y, 'platformer_atlas', 'block').setScale(SCALE).setOrigin(0);
             groundTile.scaleX = 35;
             groundTile.body.immovable = true;
             groundTile.body.allowGravity = false;
@@ -46,13 +42,10 @@ class Play extends Phaser.Scene {
         }
         
         // Player
-        this.player = new Player(this, 50, 2800, 'Scout', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY);
+        this.player = new Player(this, 50, 2800, 'platformer_atlas', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         // add physics collider
         this.physics.add.collider(this.player, this.ground);
