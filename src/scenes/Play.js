@@ -17,7 +17,6 @@ class Play extends Phaser.Scene {
         this.MAX_Y_VEL = 5000;
         this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -500;
-        this.physics.world.gravity.y = 1500;
 
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');

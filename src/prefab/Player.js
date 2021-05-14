@@ -9,10 +9,15 @@ class Player extends Phaser.GameObjects.Sprite {
         this.DRAG = drag;    
         this.JUMP_VELOCITY = jump_velocity;
 
+        this.body.setGravityY(1500);
+
         //this.setCollideWorldBounds(true);
 
         this.jumping = false;
         this.powerUpState = "none";
+
+
+        this.resetOnGround = false;
     }
 
     update() {
@@ -33,7 +38,14 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
 
+        if (this.body.touching.up){
+            this.jumping = true;
+        }
+
         if (this.jumping && this.body.touching.down){
+            if (this.resetOnGround){
+                this.reset();
+            }
             this.jumping = false;
         }
 
@@ -46,7 +58,7 @@ class Player extends Phaser.GameObjects.Sprite {
 	    }
 
         if(Phaser.Input.Keyboard.JustDown(keyF)){
-            this.powerUpState = "superJump";
+            this.powerUpState = "glide";
             this.setTint(0x2978A0);
         }
 
@@ -62,10 +74,29 @@ class Player extends Phaser.GameObjects.Sprite {
             case "superJump":
                 this.superJump();
                 break;
+            case "glide":
+                this.glide();
+                break;
         }
     }
 
     superJump(){
 
+    }
+
+    glide(){
+        this.body.setGravityY(100);
+        this.resetOnGround = true;
+    }
+
+    reset(){
+        switch (this.powerUpState){
+            case "none":
+                break;
+            case "glide":
+                this.body.setGravityY(1500);
+                this.resetOnGround = false;
+                break;
+        }
     }
 }
