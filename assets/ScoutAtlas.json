@@ -1,7 +1,7 @@
 {
 "textures": [
     {
-        "image": "BodyAndHeadAnims.png",
+        "image": "ScoutAtlas.png",
         "format": "RGBA8888",
         "size": {
             "w": 195,

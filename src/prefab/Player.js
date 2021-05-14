@@ -9,6 +9,8 @@ class Player extends Phaser.GameObjects.Sprite {
         this.DRAG = drag;    
         this.JUMP_VELOCITY = jump_velocity;
 
+        this.setCollideWorldBounds(true);
+
         this.powerUpState = "none";
     }
 
@@ -47,8 +49,12 @@ class Player extends Phaser.GameObjects.Sprite {
             case "none":
                 break;
             case "superJump":
-                this.body.setVelocityY(this.JUMP_VELOCITY * 3);
+                this.superJump();
                 break;
         }
+    }
+
+    superJump(){
+
     }
 }

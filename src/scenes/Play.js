@@ -12,10 +12,10 @@ class Play extends Phaser.Scene {
         const tileSize = 35;
 
         // variables and settings
-        this.ACCELERATION = 500;
+        this.ACCELERATION = 800;
         this.MAX_X_VEL = 500;   // pixels/second
         this.MAX_Y_VEL = 5000;
-        this.DRAG = 600;    // DRAG < ACCELERATION = icy slide
+        this.DRAG = 1000;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -1000;
         this.physics.world.gravity.y = 3000;
 
