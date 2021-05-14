@@ -148,6 +148,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 break;
             case "glide":
                 this.body.setGravityY(1500);
+                this.ACCELERATION *= 2/3;
                 this.resetOnGround = false;
                 break;
             case "superJump":
@@ -177,7 +178,7 @@ class Player extends Phaser.GameObjects.Sprite {
         }
     }
 
-    // Press D to superDash, moving quickly in the direction you're facing until you hit a ceiling
+    // Press D to superDash, moving quickly in the direction you're facing until you hit a wall
     superDash(){
         let direction = 800;
         if (this.flipX){
@@ -194,6 +195,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // Press D while falling to begin gliding
     glide(){
         if (this.body.velocity.y > 0){
+            this.ACCELERATION *= 1.5;
             this.body.setGravityY(70);
             this.resetOnGround = true;
         }
