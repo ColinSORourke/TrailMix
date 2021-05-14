@@ -12,12 +12,12 @@ class Play extends Phaser.Scene {
         const tileSize = 35;
 
         // variables and settings
-        this.ACCELERATION = 800;
+        this.ACCELERATION = 1000;
         this.MAX_X_VEL = 500;   // pixels/second
         this.MAX_Y_VEL = 5000;
-        this.DRAG = 1000;    // DRAG < ACCELERATION = icy slide
+        this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -1000;
-        this.physics.world.gravity.y = 3000;
+        this.physics.world.gravity.y = 1500;
 
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
         for (let floor = 0; floor < 10; ++floor) {
             var x = (floor % 2) ? 500 : 0;
             var y = 3000 - floor * 100;
-            let groundTile = this.physics.add.sprite(x, y, 'platformer-atlas', 'block').setOrigin(0.5, 1);
+            let groundTile = this.physics.add.sprite(x, y, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
             groundTile.scaleX = 35;
             groundTile.body.immovable = true;
             groundTile.body.allowGravity = false;
@@ -46,7 +46,7 @@ class Play extends Phaser.Scene {
         }
         
         // Player
-        this.player = new Player(this, 50, 2800, 'Scout', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY);
+        this.player = new Player(this, 50, 2800, 'Scout', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY).setOrigin(0.5, 1);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();

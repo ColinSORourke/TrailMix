@@ -2,6 +2,7 @@ let config = {
     type: Phaser.WEBGL,
     width: 1000,
     height: 750,
+    pixelArt: true,
     physics: {
       default: 'arcade',
       arcade: {
@@ -18,5 +19,5 @@ let config = {
 let game = new Phaser.Game(config);
 
 // reserve keyboard variables
-let keyA, keyD, keyLEFT, keyRIGHT, keyW, keyS, keyUP, keyDown;
+let keyF, keyD, keySPACE;
 let cursors;
