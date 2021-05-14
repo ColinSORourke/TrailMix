@@ -3,21 +3,32 @@ class Player extends Phaser.GameObjects.Sprite {
         super(scene, x, y, key, frame);
         scene.physics.world.enable(this);
         scene.add.existing(this);
+
+        // APPLY PHYSICS
         this.body.maxVelocity.x = maxVX;
         this.body.maxVelocity.y = maxVY;
         this.ACCELERATION = acceleration;
         this.DRAG = drag;    
         this.JUMP_VELOCITY = jump_velocity;
-
         this.body.setGravityY(1500);
 
+
+        this.SCENE = scene;        
+
         //this.setCollideWorldBounds(true);
-
         this.jumping = false;
-        this.powerUpState = "none";
+        
+        // Trail Mix Baag
+        this.nuts = false;
+        this.inventory = [];
 
-
+        // Related to Powerups / Movement
+        this.powerUpState = "normal";
         this.resetOnGround = false;
+        this.resetOnBonk = false;
+        this.resetOnCollide = false;
+        this.mobile = true;
+
         this.respawnX = x;
         this.respawnY = y;
     }
@@ -25,59 +36,93 @@ class Player extends Phaser.GameObjects.Sprite {
     update() {
         // check out of bounce
         if (this.x <= -5 || 3005 <= this.x || this.y <= -5 || 3005 <= this.y) {
+            this.reset();
             this.x = this.respawnX;
             this.y = this.respawnY;
         }
 
-        // check keyboard input
-        if(cursors.left.isDown) {
-            //this.body.setDragX(0);
-            this.body.setAccelerationX(-this.ACCELERATION);
-            this.setFlip(true, false);         
-        } else if(cursors.right.isDown) {
-            //this.body.setDragX(0);
-            this.body.setAccelerationX(this.ACCELERATION);
-            this.resetFlip();          
-        } else {
-            this.body.setVelocityX(0);
-            // set acceleration to 0 so DRAG will take over
-            this.body.setAccelerationX(0);
-            this.body.setDragX(this.DRAG);
+        // MOVING LEFT/RIGHT LOGIC
+        if (this.mobile){
+            if(cursors.left.isDown) {
+                this.body.setDragX(0);
+                this.body.setAccelerationX(-this.ACCELERATION);
+                this.setFlip(true, false);         
+            } else if(cursors.right.isDown) {
+                this.body.setDragX(0);
+                this.body.setAccelerationX(this.ACCELERATION);
+                this.resetFlip();          
+            } else {
+                // set acceleration to 0 so DRAG will take over
+                this.body.setAccelerationX(0);
+                this.body.setDragX(this.DRAG);
+            }
         }
-
-
+        
+        // Some Collision checking
         if (this.body.touching.up){
+            if (this.resetOnBonk){
+                this.reset();
+            }
             this.jumping = true;
         }
-
-        if (this.jumping && this.body.touching.down){
+        if (this.body.touching.down){
             if (this.resetOnGround){
                 this.reset();
             }
-            this.jumping = false;
+            if (this.jumping){
+                this.jumping = false;
+            }
+        }
+        if (this.body.touching.left || this.body.touching.right){
+            if (this.resetOnCollide){
+                this.reset();
+            }
         }
 
-        if(!this.jumping && Phaser.Input.Keyboard.DownDuration(cursors.up, 300)) {
+        // JUMPING LOGIC
+        if(!this.jumping && Phaser.Input.Keyboard.DownDuration(cursors.up, 300) && this.mobile) {
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
-
         if(Phaser.Input.Keyboard.UpDuration(cursors.up)) {
 	    	this.jumping = true;
 	    }
 
+        // POWERUP BUTTONS
+        // Eat Trail Mix
         if(Phaser.Input.Keyboard.JustDown(keyF)){
-            this.powerUpState = "glide";
-            this.setTint(0x2978A0);
+            this.eatMix();
         }
 
+        // Do Powerup Action (maybe)
         if (Phaser.Input.Keyboard.JustDown(keyD)){
             this.doPowerup();
         }
     }
 
+    // Switch inventory to correct PowerupState
+    eatMix(){
+        if (this.nuts && this.inventory.length == 2){
+            console.log("attempting to eat trail mix");
+            if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
+                this.powerUpState = "superDash";
+            }
+            if (this.inventory.includes("banana") && this.inventory.includes("chocolate")){
+                this.powerUpState = "superJump";
+            }
+            if (this.inventory.includes("banana") && this.inventory.includes("raisin")){
+                this.powerUpState = "glide";
+            }
+            this.nuts = false;
+            this.inventory = [];
+            this.SCENE.updateText();
+        }
+    }
+
+
+    // DO POWERUP SWITCH STATEMENT
     doPowerup(){
         switch (this.powerUpState){
-            case "none":
+            case "normal":
                 break;
             case "superJump":
                 this.superJump();
@@ -85,19 +130,16 @@ class Player extends Phaser.GameObjects.Sprite {
             case "glide":
                 this.glide();
                 break;
+            case "superDash":
+                this.superDash();
+                break;
         }
     }
 
-    superJump(){
-
-    }
-
-    glide(){
-        this.body.setGravityY(100);
-        this.resetOnGround = true;
-    }
-
+    // Reset body to a default state
     reset(){
+        this.body.setDragX(0);
+        this.body.setAccelerationX(0);
         switch (this.powerUpState){
             case "none":
                 break;
@@ -105,10 +147,52 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.body.setGravityY(1500);
                 this.resetOnGround = false;
                 break;
-        
+            case "superJump":
+                this.body.setGravityY(1500);
+                this.body.setVelocityY(0);
+                this.resetOnBonk = false;
+                this.mobile = true;
+                break;
+            case "superDash":
+                this.body.setGravityY(1500);
+                this.body.setVelocityX(0);
+                this.resetOnCollide = false;
+                this.mobile = true;
+                break;
         }
     }
-    debug() {
-        console.log("X: " + this.x + " | Y: " + this.y);
+
+
+    // POWERUPS GO HERE
+    // Press D while on the ground to SuperJump, going up until you hit a ceiling
+    superJump(){
+        if (this.body.touching.down){
+            this.body.setVelocityY(-800)
+            this.body.setGravityY(0)
+            this.mobile = false;
+            this.resetOnBonk = true;
+        }
+    }
+
+    // Press D to superDash, moving quickly in the direction you're facing until you hit a ceiling
+    superDash(){
+        let direction = 800;
+        if (this.flipX){
+            direction = -800
+        }
+        this.body.setVelocityX(direction)
+        this.body.setVelocityY(0);
+        this.body.setDragX(0);
+        this.body.setGravityY(0)
+        this.mobile = false;
+        this.resetOnCollide = true;
+    }
+
+    // Press D while falling to begin gliding
+    glide(){
+        if (this.body.velocity.y > 0){
+            this.body.setGravityY(70);
+            this.resetOnGround = true;
+        }
     }
 }

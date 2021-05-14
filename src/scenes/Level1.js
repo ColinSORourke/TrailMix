@@ -7,13 +7,6 @@ class Level1 extends Phaser.Scene {
         const SCALE = 0.5;
         const tileSize = 35;
 
-        // variables and settings
-        this.ACCELERATION = 1000;
-        this.MAX_X_VEL = 500;   // pixels/second
-        this.MAX_Y_VEL = 5000;
-        this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
-        this.JUMP_VELOCITY = -500;
-
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
 
@@ -36,7 +29,6 @@ class Level1 extends Phaser.Scene {
             let groundTile = this.physics.add.sprite(x, y, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
             groundTile.scaleX = 35;
             groundTile.body.immovable = true;
-            groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
         }
         
@@ -54,16 +46,57 @@ class Level1 extends Phaser.Scene {
 
         // set up main camera to follow the player
         this.cameras.main.setBounds(0, 0, 3000, 3000);
+        this.cameras.main.setDeadzone(400, 200);
         this.cameras.main.setZoom(1);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setFollowOffset( 0, 150);
 
-        // add 'door' to next level
-        this.door = this.add.rectangle(1312, 2048, 50, 50, 0xFFFFFF).setOrigin(0,0);
-        this.physics.world.enable(this.door);
-        this.door.body.immovable = true;
-        this.door.body.allowGravity = false;
-        this.physics.add.overlap(this.player, this.door, this.goToNextScene.bind(this));
+        let player = this.player
+        let scene = this;
+
+        // Add Objects that give playr trail mix
+
+        this.nutsObj = this.add.rectangle(950, 1950, 10, 10, 0x928C6F).setOrigin(0,0);
+        this.physics.world.enable(this.nutsObj);
+        this.nutsObj.body.immovable = true;
+        this.physics.add.overlap(this.player, this.nutsObj, function(){
+            player.nuts = true;
+            scene.updateText();
+        });
+
+        this.raisinObj = this.add.rectangle(1050, 1950, 10, 10, 0x4B3F72).setOrigin(0,0);
+        this.physics.world.enable(this.raisinObj);
+        this.raisinObj.body.immovable = true;
+        this.physics.add.overlap(this.player, this.raisinObj, function(){
+            if (player.inventory.length < 2 && !player.inventory.includes("raisin")){
+                player.inventory.push("raisin");
+                scene.updateText();
+            }
+        });
+
+        this.chocObj = this.add.rectangle(1150, 1950, 10, 10, 0x5A464C).setOrigin(0,0);
+        this.physics.world.enable(this.chocObj);
+        this.chocObj.body.immovable = true;
+        this.physics.add.overlap(this.player, this.chocObj, function(){
+            if (player.inventory.length < 2 && !player.inventory.includes("chocolate")){
+                player.inventory.push("chocolate");
+                scene.updateText();
+            }
+        });
+
+        this.bananObj = this.add.rectangle(1250, 1950, 10, 10, 0xFFFACC).setOrigin(0,0);
+        this.physics.world.enable(this.bananObj);
+        this.bananObj.body.immovable = true;
+        this.physics.add.overlap(this.player, this.bananObj, function(){
+            if (player.inventory.length < 2 && !player.inventory.includes("banana")){
+                player.inventory.push("banana");
+                scene.updateText();
+            }
+        });
+
+        this.statusText = this.add.text(0, 0, 'Inventory: [] State: Normal').setOrigin(0, 0)
+        this.statusText.setScrollFactor(0,0);
+        console.log(this.statusText);
     }
 
     update() {
@@ -71,8 +104,17 @@ class Level1 extends Phaser.Scene {
     }
 
     goToNextScene() {
-        if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
+        if (cursors.down.isDown) {
             this.scene.start('level2Scene');
+        }
+    }
+
+    updateText(){
+        if (this.player.nuts){
+            this.statusText.text = "Inventory: Nuts, " + this.player.inventory + " State: " + this.player.powerUpState
+        }
+        else {
+            this.statusText.text = "Inventory: " + this.player.inventory + " State: " + this.player.powerUpState
         }
     }
 }

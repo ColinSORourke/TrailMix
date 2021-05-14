@@ -9,7 +9,7 @@ let config = {
           debug: true,
           gravity: {
               x: 0,
-              y: 3000
+              y: 0,
           }
       }
   },
@@ -24,11 +24,11 @@ let cursors;
 
 // global variables and function
 // variables and settings
-let ACCELERATION = 500;
-let MAX_X_VEL = 500;   // pixels/second
-let MAX_Y_VEL = 5000;
-let DRAG = 600;    // DRAG < ACCELERATION = icy slide
-let JUMP_VELOCITY = -1000;
+ACCELERATION = 1000;
+MAX_X_VEL = 500;   // pixels/second
+MAX_Y_VEL = 5000;
+DRAG = 1200;    // DRAG < ACCELERATION = icy slide
+JUMP_VELOCITY = -500;
 
 const SCALE = 0.5;
 const tileSize = 35;
