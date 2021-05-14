@@ -7,6 +7,8 @@ class Player extends Phaser.GameObjects.Sprite {
         // APPLY PHYSICS
         this.body.maxVelocity.x = maxVX;
         this.body.maxVelocity.y = maxVY;
+        this.MAXVX = maxVX;
+        this.MAXVY = maxVY;
         this.ACCELERATION = acceleration;
         this.DRAG = drag;    
         this.JUMP_VELOCITY = jump_velocity;
@@ -149,6 +151,7 @@ class Player extends Phaser.GameObjects.Sprite {
             case "glide":
                 this.body.setGravityY(1500);
                 this.ACCELERATION *= 2/3;
+                this.body.maxVelocity.x = this.MAXVX;
                 this.resetOnGround = false;
                 break;
             case "superJump":
@@ -192,9 +195,11 @@ class Player extends Phaser.GameObjects.Sprite {
         this.resetOnCollide = true;
     }
 
-    // Press D while falling to begin gliding
+    // Press D while midair to begin gliding
     glide(){
-        if (this.body.velocity.y > 0){
+        if (!this.body.touching.down){
+            this.body.setVelocityY(0);
+            this.body.maxVelocity.x = this.MAXVX*1.25;
             this.ACCELERATION *= 1.5;
             this.body.setGravityY(70);
             this.resetOnGround = true;
