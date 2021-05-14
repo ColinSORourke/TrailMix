@@ -3,7 +3,6 @@ class Level1 extends Phaser.Scene {
         super("level1Scene");
     }
     create() {
-<<<<<<< HEAD:src/scenes/Play.js
 
         const SCALE = 0.5;
         const tileSize = 35;
@@ -15,8 +14,6 @@ class Level1 extends Phaser.Scene {
         this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -500;
 
-=======
->>>>>>> 182960652968bc76ec68b94beadcc1b0a6f633db:src/scenes/Level1.js
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
 
