@@ -18,20 +18,28 @@ class Player extends Phaser.GameObjects.Sprite {
 
 
         this.resetOnGround = false;
+        this.respawnX = x;
+        this.respawnY = y;
     }
 
     update() {
-        // check keyboard input
+        // check out of bounce
+        if (this.x <= -5 || 3005 <= this.x || this.y <= -5 || 3005 <= this.y) {
+            this.x = this.respawnX;
+            this.y = this.respawnY;
+        }
 
+        // check keyboard input
         if(cursors.left.isDown) {
-            this.body.setDragX(0);
+            //this.body.setDragX(0);
             this.body.setAccelerationX(-this.ACCELERATION);
             this.setFlip(true, false);         
         } else if(cursors.right.isDown) {
-            this.body.setDragX(0);
+            //this.body.setDragX(0);
             this.body.setAccelerationX(this.ACCELERATION);
             this.resetFlip();          
         } else {
+            this.body.setVelocityX(0);
             // set acceleration to 0 so DRAG will take over
             this.body.setAccelerationX(0);
             this.body.setDragX(this.DRAG);
@@ -97,6 +105,10 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.body.setGravityY(1500);
                 this.resetOnGround = false;
                 break;
+        
         }
+    }
+    debug() {
+        console.log("X: " + this.x + " | Y: " + this.y);
     }
 }

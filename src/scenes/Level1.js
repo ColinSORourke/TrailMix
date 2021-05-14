@@ -1,12 +1,9 @@
-class Play extends Phaser.Scene {
+class Level1 extends Phaser.Scene {
     constructor() {
-        super("playScene");
-    }
-
-    preload() {
-        this.load.atlas('Scout', './assets/ScoutAtlas.png', './assets/ScoutAtlas.json')
+        super("level1Scene");
     }
     create() {
+<<<<<<< HEAD:src/scenes/Play.js
 
         const SCALE = 0.5;
         const tileSize = 35;
@@ -18,6 +15,8 @@ class Play extends Phaser.Scene {
         this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
         this.JUMP_VELOCITY = -500;
 
+=======
+>>>>>>> 182960652968bc76ec68b94beadcc1b0a6f633db:src/scenes/Level1.js
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
 
@@ -45,7 +44,7 @@ class Play extends Phaser.Scene {
         }
         
         // Player
-        this.player = new Player(this, 50, 2800, 'Scout', 0, this.MAX_X_VEL, this.MAX_Y_VEL, this.ACCELERATION, this.DRAG, this.JUMP_VELOCITY).setOrigin(0.5, 1);
+        this.player = new Player(this, 50, 2800, 'Scout', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);;
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -53,17 +52,30 @@ class Play extends Phaser.Scene {
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        // add physics collider
+        // add physics collider between player & ground group
         this.physics.add.collider(this.player, this.ground);
 
+        // set up main camera to follow the player
         this.cameras.main.setBounds(0, 0, 3000, 3000);
         this.cameras.main.setZoom(1);
-
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setFollowOffset( 0, 150);
+
+        // add 'door' to next level
+        this.door = this.add.rectangle(1312, 2048, 50, 50, 0xFFFFFF).setOrigin(0,0);
+        this.physics.world.enable(this.door);
+        this.door.body.immovable = true;
+        this.door.body.allowGravity = false;
+        this.physics.add.overlap(this.player, this.door, this.goToNextScene.bind(this));
     }
 
     update() {
         this.player.update();
+    }
+
+    goToNextScene() {
+        if (Phaser.Input.Keyboard.JustDown(cursors.down)) {
+            this.scene.start('level2Scene');
+        }
     }
 }
