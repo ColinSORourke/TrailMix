@@ -102,6 +102,11 @@ class Player extends Phaser.GameObjects.Sprite {
         if (Phaser.Input.Keyboard.JustDown(keyD)){
             this.doPowerup();
         }
+
+        // Debug: get player's position
+        if (Phaser.Input.Keyboard.JustDown(cursors.down)){
+            this.debugGetLocation();
+        }
     }
 
     // Switch inventory to correct PowerupState
@@ -231,5 +236,10 @@ class Player extends Phaser.GameObjects.Sprite {
             this.resetOnGround = true;
             this.jumping = true;
         }
+    }
+
+    // DEBUG FUNCTIONS //
+    debugGetLocation() {
+        console.log("X: " + this.x + " | Y: " + this.y);
     }
 }
