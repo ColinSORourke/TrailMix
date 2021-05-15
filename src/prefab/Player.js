@@ -20,7 +20,7 @@ class Player extends Phaser.GameObjects.Sprite {
         //this.setCollideWorldBounds(true);
         this.jumping = false;
         
-        // Trail Mix Baag
+        // Trail Mix Bag
         this.nuts = false;
         this.inventory = [];
 
@@ -152,6 +152,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.body.setGravityY(1500);
                 this.body.maxVelocity.x = this.MAXVX;
                 this.resetOnGround = false;
+                this.jumping = false;
                 break;
             case "superJump":
                 this.body.setGravityY(1500);
@@ -226,6 +227,7 @@ class Player extends Phaser.GameObjects.Sprite {
             this.body.maxVelocity.x = this.MAXVX*1.25;
             this.body.setGravityY(70);
             this.resetOnGround = true;
+            this.jumping = true;
         }
     }
 }

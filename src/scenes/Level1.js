@@ -95,6 +95,12 @@ class Level1 extends Phaser.Scene {
             }
         });
 
+        this.door = this.add.rectangle(2735, 940, 50, 50, 0xFFFFFF).setOrigin(0,0);
+        this.physics.world.enable(this.door);
+        this.door.body.immovable = true;
+        this.door.body.allowGravity = false;
+        this.physics.add.overlap(this.player, this.door, this.goToNextScene.bind(this));
+
         // Add Status Text
         this.statusText = this.add.text(0, 0, 'Inventory: [] State: Normal').setOrigin(0, 0)
         // This makes Status Text stay in the same spot on screen, regardless of where camera goes
