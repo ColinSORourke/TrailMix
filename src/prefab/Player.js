@@ -159,6 +159,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.body.setVelocityY(0);
                 this.resetOnBonk = false;
                 this.mobile = true;
+                this.jumping = false;
                 break;
             case "superDash":
                 this.body.setGravityY(1500);
@@ -201,6 +202,7 @@ class Player extends Phaser.GameObjects.Sprite {
         if (this.body.touching.down){
             this.body.setVelocityY(-800)
             this.body.setGravityY(0)
+            this.jumping = true;
             this.mobile = false;
             this.resetOnBonk = true;
         }
