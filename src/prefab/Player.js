@@ -91,6 +91,9 @@ class Player extends Phaser.GameObjects.Sprite {
         if(Phaser.Input.Keyboard.UpDuration(cursors.up) || Phaser.Input.Keyboard.UpDuration(keySPACE)) {
 	    	this.jumping = true;
 	    }
+        if((!this.jumping)&&(Phaser.Input.Keyboard.JustDown(keySPACE) || Phaser.Input.Keyboard.JustDown(cursors.up))) {
+            this.scene.sound.play('sfx_jump');
+        }
 
         // POWERUP BUTTONS
         // Eat Trail Mix

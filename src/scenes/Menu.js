@@ -4,7 +4,11 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
-        this.load.atlas('Scout', './assets/ScoutAtlas.png', './assets/ScoutAtlas.json')
+      // Load char atlas
+      this.load.atlas('Scout', './assets/ScoutAtlas.png', './assets/ScoutAtlas.json')
+      // Load sfx
+      //this.load.audio('sfx_', './assets/sfx/.wav');
+      this.load.audio('sfx_jump', './assets/sfx/Jump.wav');
     }
 
     create() {
