@@ -54,6 +54,9 @@ class Level1 extends Phaser.Scene {
         this.physics.world.enable(this.nutsObj);
         this.nutsObj.body.immovable = true;
         this.physics.add.overlap(this.player, this.nutsObj, function(){
+            if(!player.nuts) {
+                scene.sound.play('sfx_nut');
+            }
             player.nuts = true;
             scene.updateText();
         });
@@ -65,6 +68,7 @@ class Level1 extends Phaser.Scene {
             if (player.inventory.length < 2 && !player.inventory.includes("raisin")){
                 player.inventory.push("raisin");
                 scene.updateText();
+                scene.sound.play('sfx_raisin');
             }
         });
 
@@ -75,6 +79,7 @@ class Level1 extends Phaser.Scene {
             if (player.inventory.length < 2 && !player.inventory.includes("chocolate")){
                 player.inventory.push("chocolate");
                 scene.updateText();
+                scene.sound.play('sfx_chocolate');
             }
         });
 
@@ -85,6 +90,7 @@ class Level1 extends Phaser.Scene {
             if (player.inventory.length < 2 && !player.inventory.includes("banana")){
                 player.inventory.push("banana");
                 scene.updateText();
+                scene.sound.play('sfx_banana');
             }
         });
 

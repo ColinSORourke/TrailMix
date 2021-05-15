@@ -91,6 +91,7 @@ class Player extends Phaser.GameObjects.Sprite {
         if(Phaser.Input.Keyboard.UpDuration(cursors.up) || Phaser.Input.Keyboard.UpDuration(keySPACE)) {
 	    	this.jumping = true;
 	    }
+        // Play jump sfx
         if((!this.jumping)&&(Phaser.Input.Keyboard.JustDown(keySPACE) || Phaser.Input.Keyboard.JustDown(cursors.up))) {
             this.scene.sound.play('sfx_jump');
         }
@@ -118,12 +119,27 @@ class Player extends Phaser.GameObjects.Sprite {
             // Not sure if there is a better way to do this
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
                 this.powerUpState = "superDash";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_raisin');
+                this.scene.sound.play('sfx_chocolate');
             }
             if (this.inventory.includes("banana") && this.inventory.includes("chocolate")){
                 this.powerUpState = "superJump";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_banana');
+                this.scene.sound.play('sfx_chocolate');
             }
             if (this.inventory.includes("banana") && this.inventory.includes("raisin")){
                 this.powerUpState = "glide";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_banana');
+                this.scene.sound.play('sfx_raisin');
             }
             this.nuts = false;
             this.inventory = [];
