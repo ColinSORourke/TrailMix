@@ -100,10 +100,7 @@ class Level1 extends Phaser.Scene {
         this.door.body.allowGravity = false;
         this.physics.add.overlap(this.player, this.door, this.goToNextScene.bind(this));
 
-        // Add Status Text
-        this.statusText = this.add.text(0, 0, 'Inventory: [] State: Normal').setOrigin(0, 0)
-        // This makes Status Text stay in the same spot on screen, regardless of where camera goes
-        this.statusText.setScrollFactor(0,0);
+        this.addUIElements();   
     }
 
     update() {
@@ -132,10 +129,10 @@ class Level1 extends Phaser.Scene {
     // Function to update Status text to reflect player status
     updateText(){
         if (this.player.nuts){
-            this.statusText.text = "Inventory: Nuts, " + this.player.inventory + " State: " + this.player.powerUpState
+            this.statusText.text = "Inventory: Nuts, " + this.player.inventory + "\nState: " + this.player.powerUpState
         }
         else {
-            this.statusText.text = "Inventory: " + this.player.inventory + " State: " + this.player.powerUpState
+            this.statusText.text = "Inventory: " + this.player.inventory + "\nState: " + this.player.powerUpState
         }
     }
 
@@ -165,5 +162,44 @@ class Level1 extends Phaser.Scene {
         groundTile.scaleY = 10;
         groundTile.body.immovable = true;
         this.ground.add(groundTile);
+    }
+
+    addUIElements() {
+        // UI Config
+        let UIConfig = {
+            fontFamily: 'Garamond',
+            fontSize: '28px',
+            color: '#006400',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5
+            },
+            fixedWidth: 0
+        }
+        // UI
+        this.UIBackground = this.add.rectangle(0, game.config.height- 80/*this.player.y+120*/, game.config.width, 100, 0xFF00FF).setOrigin(0, 0);
+        this.UIBackground.setScrollFactor(0);
+
+        // Add Status Text
+        this.statusText = this.add.text(0, game.config.height - 70, 'Inventory: [] \nState: Normal', UIConfig).setOrigin(0, 0);
+        // This makes Status Text stay in the same spot on screen, regardless of where camera goes
+        this.statusText.setScrollFactor(0,0);
+
+        // Add Journal/Menu Button
+        this.menuButton = this.add.text(game.config.width/2, game.config.height - 60, 'Journal/Menu', UIConfig).setOrigin(0.5);
+        this.menuButton.setScrollFactor(0,0);
+
+        this.menuButton.setInteractive();
+        this.menuButton.on('pointerdown', () => {
+            this.scene.start('menuScene');
+        });
+
+        // Add mini-map
+        this.minimap = this.cameras.add(game.config.width - 325, game.config.height - 70, 300, 60).setZoom(0.2).setName('mini');
+        this.minimap.setBackgroundColor(0x227B96);
+        this.minimap.scrollX = 1600;
+        this.minimap.scrollY = 300;
+        this.minimap.startFollow(this.player);
     }
 }

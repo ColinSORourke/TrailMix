@@ -47,5 +47,6 @@ class Menu extends Phaser.Scene {
     startButton.setInteractive();
     startButton.on('pointerdown', () => {
       this.scene.start('level1Scene');
-    });}
+    });
+  }
 }
