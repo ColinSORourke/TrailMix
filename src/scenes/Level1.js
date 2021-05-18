@@ -53,49 +53,13 @@ class Level1 extends Phaser.Scene {
         // Add Objects that give player trail mix
         // Once we have actual sprites for the ingredients, we can load these as the MixObj class (see MixObj.js)
 
-        this.nutsObj = this.add.rectangle(550, 2650, 10, 10, 0x928C6F).setOrigin(0,0);
-        this.physics.world.enable(this.nutsObj);
-        this.nutsObj.body.immovable = true;
-        this.physics.add.overlap(this.player, this.nutsObj, function(){
-            if(!player.nuts) {
-                scene.sound.play('sfx_nut');
-            }
-            player.nuts = true;
-            scene.updateText();
-        });
+        this.nutsObj = new MixObj(this, 550, 2650, 'Mix', 'nuts', player, true, 'sfx_nut');
 
-        this.raisinObj = this.add.rectangle(500, 2650, 10, 10, 0x4B3F72).setOrigin(0,0);
-        this.physics.world.enable(this.raisinObj);
-        this.raisinObj.body.immovable = true;
-        this.physics.add.overlap(this.player, this.raisinObj, function(){
-            if (player.inventory.length < 2 && !player.inventory.includes("raisin")){
-                player.inventory.push("raisin");
-                scene.updateText();
-                scene.sound.play('sfx_raisin');
-            }
-        });
+        this.raisinObj = new MixObj(this, 500, 2650, 'Mix', 'raisin', player, true, 'sfx_raisin');
 
-        this.chocObj = this.add.rectangle(450, 2650, 10, 10, 0x5A464C).setOrigin(0,0);
-        this.physics.world.enable(this.chocObj);
-        this.chocObj.body.immovable = true;
-        this.physics.add.overlap(this.player, this.chocObj, function(){
-            if (player.inventory.length < 2 && !player.inventory.includes("chocolate")){
-                player.inventory.push("chocolate");
-                scene.updateText();
-                scene.sound.play('sfx_chocolate');
-            }
-        });
-
-        this.bananObj = this.add.rectangle(400, 2650, 10, 10, 0xFFFACC).setOrigin(0,0);
-        this.physics.world.enable(this.bananObj);
-        this.bananObj.body.immovable = true;
-        this.physics.add.overlap(this.player, this.bananObj, function(){
-            if (player.inventory.length < 2 && !player.inventory.includes("banana")){
-                player.inventory.push("banana");
-                scene.updateText();
-                scene.sound.play('sfx_banana');
-            }
-        });
+        this.chocObj = new MixObj(this, 450, 2650, 'Mix', 'chocolate', player, true, 'sfx_chocolate');
+    
+        this.bananObj = new MixObj(this, 400, 2650, 'Mix', 'banana', player, true, 'sfx_banana');
 
         this.door = this.add.rectangle(2861, 2850, 50, 50, 0xFFFFFF).setOrigin(0,0);
         this.physics.world.enable(this.door);
@@ -113,19 +77,6 @@ class Level1 extends Phaser.Scene {
     goToNextScene() {
         if (cursors.down.isDown) {
             this.scene.start('menuScene');
-        }
-    }
-
-    // Give player ingredient function. Currently unused, but could be bound to my ingredient objects.
-    givePlayer(mix){
-        if (mix == "nuts"){
-            this.player.nuts = true;
-        }
-        else {
-            if (player.inventory.length < 2 && !player.inventory.includes(mix)){
-                player.inventory.push(mix);
-                scene.updateText();
-            }
         }
     }
 

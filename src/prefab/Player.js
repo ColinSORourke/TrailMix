@@ -224,11 +224,12 @@ class Player extends Phaser.GameObjects.Sprite {
     // Press D while on the ground to SuperJump, going up until you hit a ceiling
     superJump(){
         if (this.body.touching.down){
+            this.mobile = false;
             this.body.setVelocityX(0);
+            this.body.setAccelerationX(0);
             this.body.setVelocityY(-800);
             this.body.setGravityY(0);
             this.jumping = true;
-            this.mobile = false;
             this.resetOnBonk = true;
         }
     }
