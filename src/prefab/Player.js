@@ -39,30 +39,30 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     initializeAnims(){
-        let idleFrameNames = this.anims.generateFrameNames(key, { prefix: 'scout-idle-', end: 3, zeroPad: 2 });
-        let runFrameNames = this.anims.generateFrameNames(key, { prefix: 'scout-run-', end: 5, zeroPad: 2 });
-        let jumpFrameNames = this.anims.generateFrameNames(key, { prefix: 'scout-jump-', end: 3, zeroPad: 2 });
-        let fallFrameNames = this.anims.generateFrameNames(key, { prefix: 'scout-fall-', end: 1, zeroPad: 2 });
+        let idleFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-idle-', end: 3, zeroPad: 2 });
+        let runFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-run-', end: 5, zeroPad: 2 });
+        let jumpFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-jump-', end: 3, zeroPad: 2 });
+        let fallFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-fall-', end: 1, zeroPad: 2 });
 
-        scene.anims.create({
+        this.anims.create({
             key: 'scoutIdle',
             frames: idleFrameNames,
             frameRate: 6,
             repeat: -1
         });
-        scene.anims.create({
+        this.anims.create({
             key: 'scoutRun',
             frames: runFrameNames,
             frameRate: 6,
             repeat: -1
         });
-        scene.anims.create({
+        this.anims.create({
             key: 'scoutJump',
             frames: jumpFrameNames,
             frameRate: 6,
             repeat: -1
         });
-        scene.anims.create({
+        this.anims.create({
             key: 'scoutFall',
             frames: fallFrameNames,
             frameRate: 6,
@@ -129,15 +129,15 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         // JUMPING LOGIC - this more complicated jump gives us variable size jumps depending on quick taps/longer hold
-        if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(cursors.up, 450) ^ Phaser.Input.Keyboard.DownDuration(keySPACE, 450) ) && this.mobile) {
+        if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(keySPACE, 450) ) && this.mobile) {
             
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
-        if(Phaser.Input.Keyboard.UpDuration(cursors.up) || Phaser.Input.Keyboard.UpDuration(keySPACE)) {
+        if(Phaser.Input.Keyboard.UpDuration(keySPACE)) {
 	    	this.jumping = true;
 	    }
         // Play jump sfx
-        if((!this.jumping)&&(Phaser.Input.Keyboard.JustDown(keySPACE) || Phaser.Input.Keyboard.JustDown(cursors.up))) {
+        if((!this.jumping)&& (Phaser.Input.Keyboard.JustDown(keySPACE)) ) {
             this.scene.sound.play('sfx_jump');
         }
 
