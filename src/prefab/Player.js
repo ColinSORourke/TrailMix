@@ -53,14 +53,14 @@ class Player extends Phaser.GameObjects.Sprite {
         this.anims.create({
             key: 'scoutRun',
             frames: runFrameNames,
-            frameRate: 6,
+            frameRate: 8,
             repeat: -1
         });
         this.anims.create({
             key: 'scoutJump',
             frames: jumpFrameNames,
-            frameRate: 6,
-            repeat: -1
+            frameRate: 15,
+            repeat: 0
         });
         this.anims.create({
             key: 'scoutFall',
