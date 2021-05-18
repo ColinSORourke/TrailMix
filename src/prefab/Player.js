@@ -34,6 +34,8 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.respawnX = x;
         this.respawnY = y;
+
+        this.initializeAnims();
     }
 
     initializeAnims(){
