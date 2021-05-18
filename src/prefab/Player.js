@@ -85,7 +85,7 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         // JUMPING LOGIC - this more complicated jump gives us variable size jumps depending on quick taps/longer hold
-        if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(cursors.up, 300) || Phaser.Input.Keyboard.DownDuration(keySPACE, 300) )&& this.mobile) {
+        if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(cursors.up, 450) ^ Phaser.Input.Keyboard.DownDuration(keySPACE, 450) ) && this.mobile) {
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
         if(Phaser.Input.Keyboard.UpDuration(cursors.up) || Phaser.Input.Keyboard.UpDuration(keySPACE)) {
@@ -200,8 +200,9 @@ class Player extends Phaser.GameObjects.Sprite {
     // Press D while on the ground to SuperJump, going up until you hit a ceiling
     superJump(){
         if (this.body.touching.down){
-            this.body.setVelocityY(-800)
-            this.body.setGravityY(0)
+            this.body.setVelocityX(0);
+            this.body.setVelocityY(-800);
+            this.body.setGravityY(0);
             this.jumping = true;
             this.mobile = false;
             this.resetOnBonk = true;
