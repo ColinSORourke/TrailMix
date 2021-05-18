@@ -169,6 +169,8 @@ class Level1 extends Phaser.Scene {
 
     addUIElements() {
         // UI Config
+        let UIGroup = this.add.group();
+
         let UIConfig = {
             fontFamily: 'Garamond',
             fontSize: '28px',
@@ -181,28 +183,36 @@ class Level1 extends Phaser.Scene {
             fixedWidth: 0
         }
         // UI
-        this.UIBackground = this.add.rectangle(0, game.config.height- 80/*this.player.y+120*/, game.config.width, 100, 0xFF00FF).setOrigin(0, 0);
+        this.UIBackground = this.add.rectangle(0, 0/*this.player.y+120*/, game.config.width, 100, 0xFF00FF).setOrigin(0, 0);
         this.UIBackground.setScrollFactor(0);
+        UIGroup.add(this.UIBackground);
 
         // Add Status Text
-        this.statusText = this.add.text(0, game.config.height - 70, 'Inventory: [] \nState: Normal', UIConfig).setOrigin(0, 0);
+        this.statusText = this.add.text(0, 0, 'Inventory: [] \nState: Normal', UIConfig).setOrigin(0, 0);
         // This makes Status Text stay in the same spot on screen, regardless of where camera goes
         this.statusText.setScrollFactor(0,0);
+        UIGroup.add(this.statusText);
 
         // Add Journal/Menu Button
-        this.menuButton = this.add.text(game.config.width/2, game.config.height - 60, 'Journal/Menu', UIConfig).setOrigin(0.5);
+        this.menuButton = this.add.text(game.config.width/2, 30, 'Journal/Menu', UIConfig).setOrigin(0.5);
         this.menuButton.setScrollFactor(0,0);
 
         this.menuButton.setInteractive();
         this.menuButton.on('pointerdown', () => {
             this.scene.start('menuScene');
         });
+        UIGroup.add(this.menuButton);
 
         // Add mini-map
-        this.minimap = this.cameras.add(game.config.width - 325, game.config.height - 70, 300, 60).setZoom(0.2).setName('mini');
+        this.minimap = this.cameras.add(game.config.width - 325, 20, 300, 60).setZoom(0.2).setName('mini');
         this.minimap.setBackgroundColor(0x227B96);
+        this.minimap.setBounds(0, 0, 3000, 3000);
         this.minimap.scrollX = 1600;
         this.minimap.scrollY = 300;
         this.minimap.startFollow(this.player);
+        this.minimap.ignore(UIGroup);
+        UIGroup.add(this.minimap);
+
+
     }
 }
