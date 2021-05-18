@@ -26,6 +26,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // Related to Powerups / Movement
         this.powerUpState = "normal";
+        this.doingPower = false;
         this.resetOnGround = false;
         this.resetOnBonk = false;
         this.resetOnCollide = false;
@@ -35,7 +36,48 @@ class Player extends Phaser.GameObjects.Sprite {
         this.respawnY = y;
     }
 
+    initializeAnims(){
+        let idleFrameNames = this.anims.generateFrameNames(key, { prefix: 'scout-idle-', end: 3, zeroPad: 2 });
+        let runFrameNames = this.anims.generateFrameNames(key, { prefix: 'scout-run-', end: 5, zeroPad: 2 });
+        let jumpFrameNames = this.anims.generateFrameNames(key, { prefix: 'scout-jump-', end: 3, zeroPad: 2 });
+        let fallFrameNames = this.anims.generateFrameNames(key, { prefix: 'scout-fall-', end: 1, zeroPad: 2 });
+
+        scene.anims.create({
+            key: 'scoutIdle',
+            frames: idleFrameNames,
+            frameRate: 6,
+            repeat: -1
+        });
+        scene.anims.create({
+            key: 'scoutRun',
+            frames: runFrameNames,
+            frameRate: 6,
+            repeat: -1
+        });
+        scene.anims.create({
+            key: 'scoutJump',
+            frames: jumpFrameNames,
+            frameRate: 6,
+            repeat: -1
+        });
+        scene.anims.create({
+            key: 'scoutFall',
+            frames: fallFrameNames,
+            frameRate: 6,
+            repeat: -1
+        });
+        
+        this.animFSM = new StateMachine('idle', {
+            idle: new IdleState(),
+            run: new RunState(),
+            jump: new JumpState(),
+            fall: new FallState(),
+            power: new PowerState(),
+        }, [this]);
+    }
+
     update() {
+        this.animFSM.step();
         // check out of bounds
         if (this.x <= -5 || 3005 <= this.x || this.y <= -5 || 3005 <= this.y) {
             this.reset();
@@ -86,6 +128,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // JUMPING LOGIC - this more complicated jump gives us variable size jumps depending on quick taps/longer hold
         if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(cursors.up, 450) ^ Phaser.Input.Keyboard.DownDuration(keySPACE, 450) ) && this.mobile) {
+            
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
         if(Phaser.Input.Keyboard.UpDuration(cursors.up) || Phaser.Input.Keyboard.UpDuration(keySPACE)) {
@@ -167,8 +210,10 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Reset body to a default state
     reset(){
+        this.animFSM.transition('idle');
         this.body.setDragX(0);
         this.body.setAccelerationX(0);
+        this.doingPower = false;
         switch (this.powerUpState){
             case "none":
                 break;
@@ -214,6 +259,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.resetOnBonk = false;
         this.resetOnCollide = false;
         this.mobile = true;
+        scout.animFSM.transition('idle');
 
         this.x = this.respawnX;
         this.y = this.respawnY;
@@ -224,6 +270,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // Press D while on the ground to SuperJump, going up until you hit a ceiling
     superJump(){
         if (this.body.touching.down){
+            this.doingPower = true;
             this.mobile = false;
             this.body.setVelocityX(0);
             this.body.setAccelerationX(0);
@@ -236,6 +283,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Press D to superDash, moving quickly in the direction you're facing until you hit a wall
     superDash(){
+        this.doingPower = true;
         let direction = 800;
         if (this.flipX){
             direction = -800
@@ -251,6 +299,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // Press D while midair to begin gliding
     glide(){
         if (!this.body.touching.down){
+            this.doingPower = true;
             this.body.setVelocityY(0);
             this.body.maxVelocity.x = this.MAXVX*1.25;
             this.body.setGravityY(70);
@@ -262,5 +311,92 @@ class Player extends Phaser.GameObjects.Sprite {
     // DEBUG FUNCTIONS //
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
+    }
+}
+
+class IdleState extends State {
+    enter(scout) {
+        scout.anims.stop();
+        scout.anims.play('scoutIdle');
+    }
+
+    execute(scout) {
+        if (scout.doingPower){
+            scout.animFSM.transition('power');
+        }
+        else if (scout.body.velocity.y < 0){
+            scout.animFSM.transition('jump');
+        }
+        else if (scout.body.velocity.y > 0){
+            scout.animFSM.transition('fall');
+        }
+        else if (scout.body.velocity.x != 0){
+            scout.animFSM.transition('run');
+        } 
+    }
+}
+
+class RunState extends State {
+    enter(scout) {
+        scout.anims.stop();
+        scout.anims.play('scoutRun');
+    }
+
+    execute(scout) {
+        if (scout.doingPower){
+            scout.animFSM.transition('power');
+        }
+        else if (scout.body.velocity.y < 0){
+            scout.animFSM.transition('jump');
+        }
+        else if (scout.body.velocity.y > 0){
+            scout.animFSM.transition('fall');
+        }
+        else if (scout.body.velocity.x == 0){
+            scout.animFSM.transition('idle');
+        }
+    }
+}
+
+class JumpState extends State {
+    enter(scout) {
+        scout.anims.stop();
+        scout.anims.play('scoutJump');
+    }
+
+    execute(scout) {
+        if (scout.doingPower){
+            scout.animFSM.transition('power');
+        }
+        else if (scout.body.velocity.y > 0){
+            scout.animFSM.transition('fall');
+        }
+    }
+}
+
+class FallState extends State {
+    enter(scout) {
+        scout.anims.stop();
+        scout.anims.play('scoutFall');
+    }
+
+    execute(scout) {
+        if (scout.doingPower){
+            scout.animFSM.transition('power');
+        }
+        else if (scout.body.velocity.y == 0){
+            scout.animFSM.transition('idle');
+        }
+    }
+}
+
+class PowerState extends State{
+    enter(scout) {
+        scout.anims.stop();
+        scout.setFrame('scout-powerup-00')
+    }
+
+    execute(scout) {
+        // None
     }
 }

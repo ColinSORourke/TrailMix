@@ -26,7 +26,7 @@ class Level1 extends Phaser.Scene {
         this.makeLevel();
         
         // Player
-        this.player = new Player(this, 50, 2800, 'Scout', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
+        this.player = new Player(this, 50, 2800, 'Scout', 'scout-idle-00', MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
         // set player hitbox
         this.player.body.setSize(this.player.width/2.4, this.player.height-3);
         this.player.body.setOffset(14, 3);
