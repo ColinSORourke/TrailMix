@@ -91,6 +91,10 @@ class Player extends Phaser.GameObjects.Sprite {
         if(Phaser.Input.Keyboard.UpDuration(cursors.up) || Phaser.Input.Keyboard.UpDuration(keySPACE)) {
 	    	this.jumping = true;
 	    }
+        // Play jump sfx
+        if((!this.jumping)&&(Phaser.Input.Keyboard.JustDown(keySPACE) || Phaser.Input.Keyboard.JustDown(cursors.up))) {
+            this.scene.sound.play('sfx_jump');
+        }
 
         // POWERUP BUTTONS
         // Eat Trail Mix
@@ -102,6 +106,11 @@ class Player extends Phaser.GameObjects.Sprite {
         if (Phaser.Input.Keyboard.JustDown(keyD)){
             this.doPowerup();
         }
+
+        // Debug: get player's position
+        if (Phaser.Input.Keyboard.JustDown(cursors.down)){
+            this.debugGetLocation();
+        }
     }
 
     // Switch inventory to correct PowerupState
@@ -110,12 +119,27 @@ class Player extends Phaser.GameObjects.Sprite {
             // Not sure if there is a better way to do this
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
                 this.powerUpState = "superDash";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_raisin');
+                this.scene.sound.play('sfx_chocolate');
             }
             if (this.inventory.includes("banana") && this.inventory.includes("chocolate")){
                 this.powerUpState = "superJump";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_banana');
+                this.scene.sound.play('sfx_chocolate');
             }
             if (this.inventory.includes("banana") && this.inventory.includes("raisin")){
                 this.powerUpState = "glide";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_banana');
+                this.scene.sound.play('sfx_raisin');
             }
             this.nuts = false;
             this.inventory = [];
@@ -232,5 +256,10 @@ class Player extends Phaser.GameObjects.Sprite {
             this.resetOnGround = true;
             this.jumping = true;
         }
+    }
+
+    // DEBUG FUNCTIONS //
+    debugGetLocation() {
+        console.log("X: " + this.x + " | Y: " + this.y);
     }
 }

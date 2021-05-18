@@ -23,17 +23,13 @@ class Level1 extends Phaser.Scene {
         // make ground tiles group
         this.ground = this.add.group();
 
-        for (let floor = 0; floor < 10; ++floor) {
-            var x = (floor % 2) ? 500 : 0;
-            var y = 3000 - floor * 100;
-            let groundTile = this.physics.add.sprite(x, y, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
-            groundTile.scaleX = 35;
-            groundTile.body.immovable = true;
-            this.ground.add(groundTile);
-        }
+        this.makeLevel();
         
         // Player
-        this.player = new Player(this, 50, 2800, 'Scout', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);;
+        this.player = new Player(this, 50, 2800, 'Scout', 0, MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
+        // set player hitbox
+        this.player.body.setSize(this.player.width/2.4, this.player.height-3);
+        this.player.body.setOffset(14, 3);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -57,54 +53,57 @@ class Level1 extends Phaser.Scene {
         // Add Objects that give player trail mix
         // Once we have actual sprites for the ingredients, we can load these as the MixObj class (see MixObj.js)
 
-        this.nutsObj = this.add.rectangle(950, 1950, 10, 10, 0x928C6F).setOrigin(0,0);
+        this.nutsObj = this.add.rectangle(550, 2650, 10, 10, 0x928C6F).setOrigin(0,0);
         this.physics.world.enable(this.nutsObj);
         this.nutsObj.body.immovable = true;
         this.physics.add.overlap(this.player, this.nutsObj, function(){
+            if(!player.nuts) {
+                scene.sound.play('sfx_nut');
+            }
             player.nuts = true;
             scene.updateText();
         });
 
-        this.raisinObj = this.add.rectangle(1050, 1950, 10, 10, 0x4B3F72).setOrigin(0,0);
+        this.raisinObj = this.add.rectangle(500, 2650, 10, 10, 0x4B3F72).setOrigin(0,0);
         this.physics.world.enable(this.raisinObj);
         this.raisinObj.body.immovable = true;
         this.physics.add.overlap(this.player, this.raisinObj, function(){
             if (player.inventory.length < 2 && !player.inventory.includes("raisin")){
                 player.inventory.push("raisin");
                 scene.updateText();
+                scene.sound.play('sfx_raisin');
             }
         });
 
-        this.chocObj = this.add.rectangle(1150, 1950, 10, 10, 0x5A464C).setOrigin(0,0);
+        this.chocObj = this.add.rectangle(450, 2650, 10, 10, 0x5A464C).setOrigin(0,0);
         this.physics.world.enable(this.chocObj);
         this.chocObj.body.immovable = true;
         this.physics.add.overlap(this.player, this.chocObj, function(){
             if (player.inventory.length < 2 && !player.inventory.includes("chocolate")){
                 player.inventory.push("chocolate");
                 scene.updateText();
+                scene.sound.play('sfx_chocolate');
             }
         });
 
-        this.bananObj = this.add.rectangle(1250, 1950, 10, 10, 0xFFFACC).setOrigin(0,0);
+        this.bananObj = this.add.rectangle(400, 2650, 10, 10, 0xFFFACC).setOrigin(0,0);
         this.physics.world.enable(this.bananObj);
         this.bananObj.body.immovable = true;
         this.physics.add.overlap(this.player, this.bananObj, function(){
             if (player.inventory.length < 2 && !player.inventory.includes("banana")){
                 player.inventory.push("banana");
                 scene.updateText();
+                scene.sound.play('sfx_banana');
             }
         });
 
-        this.door = this.add.rectangle(2735, 940, 50, 50, 0xFFFFFF).setOrigin(0,0);
+        this.door = this.add.rectangle(2861, 2850, 50, 50, 0xFFFFFF).setOrigin(0,0);
         this.physics.world.enable(this.door);
         this.door.body.immovable = true;
         this.door.body.allowGravity = false;
         this.physics.add.overlap(this.player, this.door, this.goToNextScene.bind(this));
 
-        // Add Status Text
-        this.statusText = this.add.text(0, 0, 'Inventory: [] State: Normal').setOrigin(0, 0)
-        // This makes Status Text stay in the same spot on screen, regardless of where camera goes
-        this.statusText.setScrollFactor(0,0);
+        this.addUIElements();   
     }
 
     update() {
@@ -113,7 +112,7 @@ class Level1 extends Phaser.Scene {
 
     goToNextScene() {
         if (cursors.down.isDown) {
-            this.scene.start('level2Scene');
+            this.scene.start('menuScene');
         }
     }
 
@@ -133,10 +132,77 @@ class Level1 extends Phaser.Scene {
     // Function to update Status text to reflect player status
     updateText(){
         if (this.player.nuts){
-            this.statusText.text = "Inventory: Nuts, " + this.player.inventory + " State: " + this.player.powerUpState
+            this.statusText.text = "Inventory: Nuts, " + this.player.inventory + "\nState: " + this.player.powerUpState
         }
         else {
-            this.statusText.text = "Inventory: " + this.player.inventory + " State: " + this.player.powerUpState
+            this.statusText.text = "Inventory: " + this.player.inventory + "\nState: " + this.player.powerUpState
         }
+    }
+
+    makeLevel() {
+        let groundTile = this.physics.add.sprite(0, 2900, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
+        groundTile.scaleX = 35;
+        groundTile.body.immovable = true;
+        this.ground.add(groundTile);
+
+        groundTile = this.physics.add.sprite(300, 2800, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
+        groundTile.scaleX = 30;
+        groundTile.body.immovable = true;
+        this.ground.add(groundTile);
+
+        groundTile = this.physics.add.sprite(0, 2700, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
+        groundTile.scaleX = 25;
+        groundTile.body.immovable = true;
+        this.ground.add(groundTile);
+
+        groundTile = this.physics.add.sprite(2500, 2900, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
+        groundTile.scaleX = 25;
+        groundTile.body.immovable = true;
+        this.ground.add(groundTile);
+
+        groundTile = this.physics.add.sprite(2950, 2500, 'platformer-atlas', 'block').setScale(SCALE).setOrigin(0);
+        groundTile.scaleX = 1;
+        groundTile.scaleY = 10;
+        groundTile.body.immovable = true;
+        this.ground.add(groundTile);
+    }
+
+    addUIElements() {
+        // UI Config
+        let UIConfig = {
+            fontFamily: 'Garamond',
+            fontSize: '28px',
+            color: '#006400',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5
+            },
+            fixedWidth: 0
+        }
+        // UI
+        this.UIBackground = this.add.rectangle(0, game.config.height- 80/*this.player.y+120*/, game.config.width, 100, 0xFF00FF).setOrigin(0, 0);
+        this.UIBackground.setScrollFactor(0);
+
+        // Add Status Text
+        this.statusText = this.add.text(0, game.config.height - 70, 'Inventory: [] \nState: Normal', UIConfig).setOrigin(0, 0);
+        // This makes Status Text stay in the same spot on screen, regardless of where camera goes
+        this.statusText.setScrollFactor(0,0);
+
+        // Add Journal/Menu Button
+        this.menuButton = this.add.text(game.config.width/2, game.config.height - 60, 'Journal/Menu', UIConfig).setOrigin(0.5);
+        this.menuButton.setScrollFactor(0,0);
+
+        this.menuButton.setInteractive();
+        this.menuButton.on('pointerdown', () => {
+            this.scene.start('menuScene');
+        });
+
+        // Add mini-map
+        this.minimap = this.cameras.add(game.config.width - 325, game.config.height - 70, 300, 60).setZoom(0.2).setName('mini');
+        this.minimap.setBackgroundColor(0x227B96);
+        this.minimap.scrollX = 1600;
+        this.minimap.scrollY = 300;
+        this.minimap.startFollow(this.player);
     }
 }
