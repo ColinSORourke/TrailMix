@@ -163,7 +163,9 @@ class Level1 extends Phaser.Scene {
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
         UIGroup.add(this.minimap);
+    }
 
-
+    loadingScreen() {
+        
     }
 }

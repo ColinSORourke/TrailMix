@@ -2,21 +2,7 @@ class Menu extends Phaser.Scene {
     constructor() {
       super("menuScene");
     }
-
-    preload() {
-      // Load char atlas
-      this.load.atlas('Scout', './assets/ScoutAtlas.png', './assets/ScoutAtlas.json')
-      this.load.atlas('Mix', './assets/Ingredients.png', './assets/Ingredients.json')
-      // Load sfx
-      //this.load.audio('sfx_', './assets/sfx/.wav');
-      this.load.audio('sfx_jump', './assets/sfx/Jump.wav');
-      this.load.audio('sfx_banana', './assets/sfx/Banana.wav');
-      this.load.audio('sfx_nut', './assets/sfx/Nut.wav');
-      this.load.audio('sfx_raisin', './assets/sfx/Raisin.wav');
-      this.load.audio('sfx_chocolate', './assets/sfx/Chocolate.wav');
-      this.load.audio('sfx_mixing', './assets/sfx/Mixing.wav');
-    }
-
+    
     create() {
         // Menu Config
       let menuConfig = {
