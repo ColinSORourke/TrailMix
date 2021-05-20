@@ -19,7 +19,7 @@ class Preload extends Phaser.Scene
         this.load.audio('sfx_mixing', './assets/sfx/Mixing.wav');
         
         
-        this.createProgressbar(game.config.width, game.config.height);
+        this.createProgressbar(game.config.width / 2, game.config.height / 2);
     }
 
     createProgressbar (x, y)

@@ -42,10 +42,10 @@ class Level1 extends Phaser.Scene {
 
         // set up main camera to follow the player
         this.cameras.main.setBounds(0, 0, 3000, 3000);
-        this.cameras.main.setDeadzone(400, 200);
-        this.cameras.main.setZoom(1);
+        this.cameras.main.setDeadzone(game.config.width / 5, game.config.height / 5);
+        this.cameras.main.setZoom(2);
         this.cameras.main.startFollow(this.player);
-        this.cameras.main.setFollowOffset( 0, 150);
+        this.cameras.main.setFollowOffset(0, 50);
 
         let player = this.player
         let scene = this;
@@ -124,7 +124,7 @@ class Level1 extends Phaser.Scene {
 
         let UIConfig = {
             fontFamily: 'Garamond',
-            fontSize: '28px',
+            fontSize: '20px',
             color: '#006400',
             align: 'right',
             padding: {
@@ -134,18 +134,18 @@ class Level1 extends Phaser.Scene {
             fixedWidth: 0
         }
         // UI
-        this.UIBackground = this.add.rectangle(0, 0/*this.player.y+120*/, game.config.width, 100, 0xFF00FF).setOrigin(0, 0);
+        this.UIBackground = this.add.rectangle(0, 0, game.config.width, 240, 0xFF00FF).setOrigin(0, 0);
         this.UIBackground.setScrollFactor(0);
         UIGroup.add(this.UIBackground);
 
         // Add Status Text
-        this.statusText = this.add.text(0, 0, 'Inventory: [] \nState: Normal', UIConfig).setOrigin(0, 0);
+        this.statusText = this.add.text(game.config.width/3, 215, 'Inventory: [] \nState: Normal', UIConfig).setOrigin(0.5);
         // This makes Status Text stay in the same spot on screen, regardless of where camera goes
         this.statusText.setScrollFactor(0,0);
         UIGroup.add(this.statusText);
 
         // Add Journal/Menu Button
-        this.menuButton = this.add.text(game.config.width/2, 30, 'Journal/Menu', UIConfig).setOrigin(0.5);
+        this.menuButton = this.add.text(game.config.width/2, 215, 'Journal/Menu', UIConfig).setOrigin(0.5);
         this.menuButton.setScrollFactor(0,0);
 
         this.menuButton.setInteractive();
@@ -163,9 +163,5 @@ class Level1 extends Phaser.Scene {
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
         UIGroup.add(this.minimap);
-    }
-
-    loadingScreen() {
-        
     }
 }
