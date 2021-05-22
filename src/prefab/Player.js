@@ -53,14 +53,14 @@ class Player extends Phaser.GameObjects.Sprite {
         this.anims.create({
             key: 'scoutRun',
             frames: runFrameNames,
-            frameRate: 6,
+            frameRate: 8,
             repeat: -1
         });
         this.anims.create({
             key: 'scoutJump',
             frames: jumpFrameNames,
-            frameRate: 6,
-            repeat: -1
+            frameRate: 15,
+            repeat: 0
         });
         this.anims.create({
             key: 'scoutFall',
@@ -131,7 +131,6 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // JUMPING LOGIC - this more complicated jump gives us variable size jumps depending on quick taps/longer hold
         if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(keySPACE, 450) ) && this.mobile) {
-            
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
         if(Phaser.Input.Keyboard.UpDuration(keySPACE)) {
@@ -189,6 +188,7 @@ class Player extends Phaser.GameObjects.Sprite {
             }
             this.nuts = false;
             this.inventory = [];
+            this.SCENE.inventoryGroup.clear(true);
             this.SCENE.updateText();
         }
     }
@@ -314,6 +314,10 @@ class Player extends Phaser.GameObjects.Sprite {
     // DEBUG FUNCTIONS //
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
+    }
+
+    getSize() {
+        return this.inventory.length;
     }
 }
 

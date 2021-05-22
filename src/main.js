@@ -1,19 +1,19 @@
 let config = {
     type: Phaser.WEBGL,
-    width: 1000,
-    height: 750,
+    width: 1024,
+    height: 768,
     pixelArt: true,
     physics: {
       default: 'arcade',
       arcade: {
-          debug: true,
+          debug: false,
           gravity: {
               x: 0,
               y: 0,
           }
       }
   },
-    scene: [Menu, Level1, Level2],
+    scene: [Preload, Menu, Level1, Level2],
   }
 
 let game = new Phaser.Game(config);

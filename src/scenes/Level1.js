@@ -42,10 +42,10 @@ class Level1 extends Phaser.Scene {
 
         // set up main camera to follow the player
         this.cameras.main.setBounds(0, 0, 3000, 3000);
-        this.cameras.main.setDeadzone(400, 200);
-        this.cameras.main.setZoom(1);
+        this.cameras.main.setDeadzone(game.config.width / 5, game.config.height / 5);
+        this.cameras.main.setZoom(2);
         this.cameras.main.startFollow(this.player);
-        this.cameras.main.setFollowOffset( 0, 150);
+        this.cameras.main.setFollowOffset(0, 50);
 
         let player = this.player
         let scene = this;
@@ -60,18 +60,36 @@ class Level1 extends Phaser.Scene {
         this.chocObj = new MixObj(this, 450, 2650, 'Mix', 'chocolate', player, true, 'sfx_chocolate');
     
         this.bananObj = new MixObj(this, 400, 2650, 'Mix', 'banana', player, true, 'sfx_banana');
-
+        
+        // Add door to the level that switch to another level
         this.door = this.add.rectangle(2861, 2850, 50, 50, 0xFFFFFF).setOrigin(0,0);
         this.physics.world.enable(this.door);
         this.door.body.immovable = true;
         this.door.body.allowGravity = false;
         this.physics.add.overlap(this.player, this.door, this.goToNextScene.bind(this));
 
-        this.addUIElements();   
+        // Add UI elements
+        this.addUIElements();
+
+        // Add and update Inventory Group and element
+        this.inventoryGroup = this.add.group();
+        this.updateText();
+
+        // Add Journal/Menu elements
+        this.journalMenuShow = false;
+        this.journalMenuGroup = this.add.group();
+        this.addJournalMenuElements();
     }
 
     update() {
-        this.player.update();
+        if (this.journalMenuShow) {
+            this.journalMenuGroup.setVisible(1);
+            this.journalMenuGroup.setActive(1);
+        } else {
+            this.journalMenuGroup.setVisible(0);
+            this.journalMenuGroup.setActive(0);
+            this.player.update();
+        }
     }
 
     goToNextScene() {
@@ -82,12 +100,18 @@ class Level1 extends Phaser.Scene {
 
     // Function to update Status text to reflect player status
     updateText(){
-        if (this.player.nuts){
-            this.statusText.text = "Inventory: Nuts, " + this.player.inventory + "\nState: " + this.player.powerUpState
+        // local sprite var
+        var inventorySprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
+        inventorySprite.alpha = (this.player.nuts) ? 1 : 0.5;
+        this.inventoryGroup.add(inventorySprite);
+        this.statusText.text = "State: " + this.player.powerUpState;
+
+        for (var index = 0; index < this.player.getSize(); ++index){
+            inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 16, 210, 'Mix', this.player.inventory[index]);
+            this.inventoryGroup.add(inventorySprite);
+            
         }
-        else {
-            this.statusText.text = "Inventory: " + this.player.inventory + "\nState: " + this.player.powerUpState
-        }
+        inventorySprite.setScrollFactor(0);
     }
 
     makeLevel() {
@@ -124,7 +148,7 @@ class Level1 extends Phaser.Scene {
 
         let UIConfig = {
             fontFamily: 'Garamond',
-            fontSize: '28px',
+            fontSize: '20px',
             color: '#006400',
             align: 'right',
             padding: {
@@ -133,24 +157,21 @@ class Level1 extends Phaser.Scene {
             },
             fixedWidth: 0
         }
-        // UI
-        this.UIBackground = this.add.rectangle(0, 0/*this.player.y+120*/, game.config.width, 100, 0xFF00FF).setOrigin(0, 0);
-        this.UIBackground.setScrollFactor(0);
-        UIGroup.add(this.UIBackground);
+        // UIBackground
+        UIGroup.add(this.add.rectangle(0, 0, game.config.width, 240, 0xFF00FF).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
 
         // Add Status Text
-        this.statusText = this.add.text(0, 0, 'Inventory: [] \nState: Normal', UIConfig).setOrigin(0, 0);
+        this.statusText = this.add.text(game.config.width/3, 230, 'State: Normal', UIConfig).setOrigin(0.5).setScrollFactor(0,0).setName('statusText');
         // This makes Status Text stay in the same spot on screen, regardless of where camera goes
-        this.statusText.setScrollFactor(0,0);
         UIGroup.add(this.statusText);
 
         // Add Journal/Menu Button
-        this.menuButton = this.add.text(game.config.width/2, 30, 'Journal/Menu', UIConfig).setOrigin(0.5);
+        this.menuButton = this.add.text(game.config.width/2, 215, 'Journal/Menu', UIConfig).setOrigin(0.5);
         this.menuButton.setScrollFactor(0,0);
 
         this.menuButton.setInteractive();
         this.menuButton.on('pointerdown', () => {
-            this.scene.start('menuScene');
+            this.switchActiveJournalMenu();
         });
         UIGroup.add(this.menuButton);
 
@@ -163,7 +184,28 @@ class Level1 extends Phaser.Scene {
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
         UIGroup.add(this.minimap);
+    }
 
+    addJournalMenuElements() {
+        // Add Background
+        var JMBackgroundWidth = 200, JMBackgroundLenght = 300;
+        var JMBackground = this.add.rectangle(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLenght/2 + 25, JMBackgroundWidth, JMBackgroundLenght, 0xFF0000).setOrigin(0, 0);
+        JMBackground.setScrollFactor(0);
+        this.journalMenuGroup.add(JMBackground);
 
+        // Add Menu text & button
+        var menuButton = this.add.text(game.config.width/2, game.config.height/2, 'Menu').setOrigin(0.5);
+        menuButton.setScrollFactor(0,0);
+
+        menuButton.setInteractive();
+        menuButton.on('pointerdown', () => {
+            this.cameras.remove(this.minimap);
+            //this.scene.start('menuScene');
+        });
+        this.journalMenuGroup.add(menuButton);
+    }
+
+    switchActiveJournalMenu() {
+        this.journalMenuShow = (this.journalMenuShow) ? false : true;
     }
 }
