@@ -67,7 +67,9 @@ class Level1 extends Phaser.Scene {
         this.door.body.allowGravity = false;
         this.physics.add.overlap(this.player, this.door, this.goToNextScene.bind(this));
 
-        this.addUIElements();   
+        this.addUIElements();
+        this.inventoryGroup = this.add.group();
+        this.updateText();
     }
 
     update() {
@@ -82,12 +84,18 @@ class Level1 extends Phaser.Scene {
 
     // Function to update Status text to reflect player status
     updateText(){
-        if (this.player.nuts){
-            this.statusText.text = "Inventory: Nuts, " + this.player.inventory + "\nState: " + this.player.powerUpState
+        // local sprite var
+        var inventorySprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
+        inventorySprite.alpha = (this.player.nuts) ? 1 : 0.5;
+        this.inventoryGroup.add(inventorySprite);
+        this.statusText.text = "State: " + this.player.powerUpState;
+
+        for (var index = 0; index < this.player.getSize(); ++index){
+            inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 16, 210, 'Mix', this.player.inventory[index]);
+            this.inventoryGroup.add(inventorySprite);
+            
         }
-        else {
-            this.statusText.text = "Inventory: " + this.player.inventory + "\nState: " + this.player.powerUpState
-        }
+        inventorySprite.setScrollFactor(0);
     }
 
     makeLevel() {
@@ -139,7 +147,7 @@ class Level1 extends Phaser.Scene {
         UIGroup.add(this.UIBackground);
 
         // Add Status Text
-        this.statusText = this.add.text(game.config.width/3, 215, 'Inventory: [] \nState: Normal', UIConfig).setOrigin(0.5);
+        this.statusText = this.add.text(game.config.width/3, 230, 'State: Normal', UIConfig).setOrigin(0.5);
         // This makes Status Text stay in the same spot on screen, regardless of where camera goes
         this.statusText.setScrollFactor(0,0);
         UIGroup.add(this.statusText);
