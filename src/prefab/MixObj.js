@@ -11,16 +11,22 @@ class MixObj extends Phaser.GameObjects.Sprite {
         let self = this;
 
         scene.physics.add.overlap(player, this, function(){
-            player.nuts = (mix == 'nuts' || player.nuts) ? true : false;
-            console.log(player.nuts);
-            if (mix != 'nuts' && player.inventory.length < 2 && !player.inventory.includes(mix)){
-                player.inventory.push(mix);
+            if ((mix == 'nuts' && !player.nuts)){
+                player.nuts = true;
+                scene.sound.play(sound);
+                scene.updateText();
                 if (!infinite){
                     self.destroy();
                 }
             }
-            scene.sound.play(sound);
-            scene.updateText();
+            if (mix != 'nuts' && player.inventory.length < 2 && !player.inventory.includes(mix)){
+                player.inventory.push(mix);
+                scene.sound.play(sound);
+                scene.updateText();
+                if (!infinite){
+                    self.destroy();
+                }
+            }
         });
 
         // Note from Dennis: It's not really an effective way of doing this job

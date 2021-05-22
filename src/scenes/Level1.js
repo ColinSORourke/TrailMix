@@ -73,23 +73,16 @@ class Level1 extends Phaser.Scene {
 
         // Add and update Inventory Group and element
         this.inventoryGroup = this.add.group();
-        this.updateText();
+        this.nutsSprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
+        this.nutsSprite.alpha = 0.5;
+        this.nutsSprite.setScrollFactor(0);
 
-        // Add Journal/Menu elements
-        this.journalMenuShow = false;
-        this.journalMenuGroup = this.add.group();
-        this.addJournalMenuElements();
+
+        this.updateText();
     }
 
     update() {
-        if (this.journalMenuShow) {
-            this.journalMenuGroup.setVisible(1);
-            this.journalMenuGroup.setActive(1);
-        } else {
-            this.journalMenuGroup.setVisible(0);
-            this.journalMenuGroup.setActive(0);
-            this.player.update();
-        }
+        this.player.update();
     }
 
     goToNextScene() {
@@ -101,17 +94,15 @@ class Level1 extends Phaser.Scene {
     // Function to update Status text to reflect player status
     updateText(){
         // local sprite var
-        var inventorySprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
-        inventorySprite.alpha = (this.player.nuts) ? 1 : 0.5;
-        this.inventoryGroup.add(inventorySprite);
+        this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.5;
         this.statusText.text = "State: " + this.player.powerUpState;
 
         for (var index = 0; index < this.player.getSize(); ++index){
-            inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 16, 210, 'Mix', this.player.inventory[index]);
+            let inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 16, 210, 'Mix', this.player.inventory[index]);
+            inventorySprite.setScrollFactor(0);
             this.inventoryGroup.add(inventorySprite);
-            
         }
-        inventorySprite.setScrollFactor(0);
+        
     }
 
     makeLevel() {
@@ -183,29 +174,11 @@ class Level1 extends Phaser.Scene {
         this.minimap.scrollY = 300;
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
-        UIGroup.add(this.minimap);
-    }
-
-    addJournalMenuElements() {
-        // Add Background
-        var JMBackgroundWidth = 200, JMBackgroundLenght = 300;
-        var JMBackground = this.add.rectangle(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLenght/2 + 25, JMBackgroundWidth, JMBackgroundLenght, 0xFF0000).setOrigin(0, 0);
-        JMBackground.setScrollFactor(0);
-        this.journalMenuGroup.add(JMBackground);
-
-        // Add Menu text & button
-        var menuButton = this.add.text(game.config.width/2, game.config.height/2, 'Menu').setOrigin(0.5);
-        menuButton.setScrollFactor(0,0);
-
-        menuButton.setInteractive();
-        menuButton.on('pointerdown', () => {
-            this.cameras.remove(this.minimap);
-            //this.scene.start('menuScene');
-        });
-        this.journalMenuGroup.add(menuButton);
+        //UIGroup.add(this.minimap);
     }
 
     switchActiveJournalMenu() {
-        this.journalMenuShow = (this.journalMenuShow) ? false : true;
+        this.scene.pause();
+        this.scene.launch('pauseScene', { srcScene: "level1Scene"});
     }
 }

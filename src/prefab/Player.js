@@ -114,6 +114,7 @@ class Player extends Phaser.GameObjects.Sprite {
             this.jumping = true;
         }
         // Ground Collision
+        // (NOTE: Even though the player passes through ingredients, these still count as touching down, making jump logic through ingredients weird - FIX THIS)
         if (this.body.touching.down){
             if (this.resetOnGround){
                 this.reset();
@@ -211,10 +212,21 @@ class Player extends Phaser.GameObjects.Sprite {
         }
     }
 
+    pause(){
+        this.mobile = false;
+        this.setStatic(true);
+    }
+
+    unpause(){
+        this.mobile = true;
+        this.setStatic(false);
+    }
+
     // Reset body to a default state
     reset(){
         this.animFSM.transition('idle');
         this.body.setDragX(0);
+        this.body.setVelocityX(0);
         this.body.setAccelerationX(0);
         this.doingPower = false;
         switch (this.powerUpState){
