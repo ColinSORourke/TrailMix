@@ -88,6 +88,7 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         // MOVING LEFT/RIGHT LOGIC
+        // (NOTE: Because Drag does not get applied unless the player stops moving, the player turning feels kinda slippery - FIX THIS)
         if (this.mobile){
             if(cursors.left.isDown) {
                 this.body.setDragX(0);
