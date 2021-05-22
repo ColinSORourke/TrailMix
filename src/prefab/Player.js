@@ -131,7 +131,7 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         // JUMPING LOGIC - this more complicated jump gives us variable size jumps depending on quick taps/longer hold
-        if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(keySPACE, 450) ) && this.mobile) {
+        if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(keySPACE, 300) ) && this.mobile) {
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
         if(Phaser.Input.Keyboard.UpDuration(keySPACE)) {
