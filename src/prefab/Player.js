@@ -12,8 +12,11 @@ class Player extends Phaser.GameObjects.Sprite {
         this.ACCELERATION = acceleration;
         this.DRAG = drag;    
         this.JUMP_VELOCITY = jump_velocity;
-        this.body.setGravityY(1500);
+        this.body.setGravityY(1250);
 
+        // set player hitbox
+        this.body.setSize(this.width/2.4, this.height-3);
+        this.body.setOffset(14, 3);
 
         this.SCENE = scene;        
 
@@ -53,13 +56,13 @@ class Player extends Phaser.GameObjects.Sprite {
         this.anims.create({
             key: 'scoutRun',
             frames: runFrameNames,
-            frameRate: 8,
+            frameRate: 6,
             repeat: -1
         });
         this.anims.create({
             key: 'scoutJump',
             frames: jumpFrameNames,
-            frameRate: 15,
+            frameRate: 12,
             repeat: 0
         });
         this.anims.create({
@@ -81,7 +84,7 @@ class Player extends Phaser.GameObjects.Sprite {
     update() {
         this.animFSM.step();
         // check out of bounds
-        if (this.x <= -5 || 3005 <= this.x || this.y <= -5 || 3005 <= this.y) {
+        if (this.x <= -5 || 1920 <= this.x || 640 <= this.y) {
             this.reset();
             this.x = this.respawnX;
             this.y = this.respawnY;
@@ -91,10 +94,16 @@ class Player extends Phaser.GameObjects.Sprite {
         // (NOTE: Because Drag does not get applied unless the player stops moving, the player turning feels kinda slippery - FIX THIS)
         if (this.mobile){
             if(cursors.left.isDown) {
+                if (this.body.velocity.x > 0){
+                    this.body.setVelocityX(0);
+                }
                 this.body.setDragX(0);
                 this.body.setAccelerationX(-this.ACCELERATION);
                 this.setFlip(true, false);         
             } else if(cursors.right.isDown) {
+                if (this.body.velocity.x < 0){
+                    this.body.setVelocityX(0);
+                }
                 this.body.setDragX(0);
                 this.body.setAccelerationX(this.ACCELERATION);
                 this.resetFlip();          
@@ -107,7 +116,7 @@ class Player extends Phaser.GameObjects.Sprite {
         
         // Some Collision checking
         // Ceiling Collision
-        if (this.body.touching.up){
+        if (this.body.blocked.up){
             if (this.resetOnBonk){
                 this.reset();
             }
@@ -115,30 +124,34 @@ class Player extends Phaser.GameObjects.Sprite {
         }
         // Ground Collision
         // (NOTE: Even though the player passes through ingredients, these still count as touching down, making jump logic through ingredients weird - FIX THIS)
-        if (this.body.touching.down){
+        if (this.body.blocked.down){
             if (this.resetOnGround){
                 this.reset();
             }
-            if (this.jumping){
+            if (this.jumping && !keySPACE.isDown){
                 this.jumping = false;
+            }
+            if (this.body.maxVelocity.x != this.MAXVX && !this.doingPower){
+                this.body.maxVelocity.x = this.MAXVX;
             }
         }
         // Side collision
-        if (this.body.touching.left || this.body.touching.right){
+        if (this.body.blocked.left || this.body.blocked.right){
             if (this.resetOnCollide){
                 this.reset();
             }
         }
 
         // JUMPING LOGIC - this more complicated jump gives us variable size jumps depending on quick taps/longer hold
-        if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(keySPACE, 300) ) && this.mobile) {
+        if(!this.jumping && ( Phaser.Input.Keyboard.DownDuration(keySPACE, 320) ) && this.mobile) {
             this.body.setVelocityY(this.JUMP_VELOCITY);
         }
         if(Phaser.Input.Keyboard.UpDuration(keySPACE)) {
 	    	this.jumping = true;
 	    }
         // Play jump sfx
-        if((!this.jumping)&& (Phaser.Input.Keyboard.JustDown(keySPACE)) ) {
+        if((!this.jumping) && (Phaser.Input.Keyboard.JustDown(keySPACE)) ) {
+            this.body.maxVelocity.x *= 0.75;
             this.scene.sound.play('sfx_jump');
         }
 
@@ -167,7 +180,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.powerUpState = "superDash";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
-                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_raisin');
                 this.scene.sound.play('sfx_chocolate');
             }
@@ -175,7 +188,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.powerUpState = "superJump";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
-                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_banana');
                 this.scene.sound.play('sfx_chocolate');
             }
@@ -183,7 +196,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.powerUpState = "glide";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
-                this.scene.sound.play('sfx_nut');
+                this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_banana');
                 this.scene.sound.play('sfx_raisin');
             }
@@ -284,7 +297,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // POWERUPS GO HERE
     // Press D while on the ground to SuperJump, going up until you hit a ceiling
     superJump(){
-        if (this.body.touching.down){
+        if (this.body.blocked.down){
             this.doingPower = true;
             this.mobile = false;
             this.body.setVelocityX(0);
@@ -298,10 +311,11 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Press D to superDash, moving quickly in the direction you're facing until you hit a wall
     superDash(){
+        this.body.maxVelocity.x = 300;
         this.doingPower = true;
-        let direction = 800;
+        let direction = 300;
         if (this.flipX){
-            direction = -800
+            direction = -300
         }
         this.body.setVelocityX(direction)
         this.body.setVelocityY(0);
@@ -313,7 +327,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Press D while midair to begin gliding
     glide(){
-        if (!this.body.touching.down){
+        if (!this.body.blocked.down){
             this.doingPower = true;
             this.body.setVelocityY(0);
             this.body.maxVelocity.x = this.MAXVX*1.25;
@@ -326,6 +340,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // DEBUG FUNCTIONS //
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
+        console.log(this.body.blocked.up)
     }
 
     getSize() {
@@ -387,7 +402,7 @@ class JumpState extends State {
         if (scout.doingPower){
             scout.animFSM.transition('power');
         }
-        else if (scout.body.velocity.y > 0){
+        else if (scout.body.velocity.y >= 0){
             scout.animFSM.transition('fall');
         }
     }

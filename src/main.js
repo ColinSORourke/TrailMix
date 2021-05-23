@@ -2,18 +2,20 @@ let config = {
     type: Phaser.WEBGL,
     width: 1024,
     height: 768,
-    pixelArt: true,
+    render: {
+      pixelArt: true,
+    },
     physics: {
       default: 'arcade',
       arcade: {
-          debug: false,
+          debug: true,
           gravity: {
               x: 0,
               y: 0,
           }
       }
   },
-    scene: [Preload, Menu, Level1, Level2, Pause],
+    scene: [Preload, Menu, PlayTile, Level1, Level2, Pause],
   }
 
 let game = new Phaser.Game(config);
@@ -24,11 +26,11 @@ let cursors;
 
 // global variables and function
 // variables and settings
-ACCELERATION = 800;
-MAX_X_VEL = 300;   // pixels/second
-MAX_Y_VEL = 5000;
+ACCELERATION = 500;
+MAX_X_VEL = 200;   // pixels/second
+MAX_Y_VEL = 800;
 DRAG = 1600;    // DRAG < ACCELERATION = icy slide
-JUMP_VELOCITY = -350;
+JUMP_VELOCITY = -250;
 
 const SCALE = 0.5;
 const tileSize = 35;

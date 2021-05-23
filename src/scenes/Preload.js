@@ -13,11 +13,13 @@ class Preload extends Phaser.Scene
         //this.load.audio('sfx_', './assets/sfx/.wav');
         this.load.audio('sfx_jump', './assets/sfx/Jump.wav');
         this.load.audio('sfx_banana', './assets/sfx/Banana.wav');
-        this.load.audio('sfx_nut', './assets/sfx/Nut.wav');
+        this.load.audio('sfx_nuts', './assets/sfx/Nut.wav');
         this.load.audio('sfx_raisin', './assets/sfx/Raisin.wav');
         this.load.audio('sfx_chocolate', './assets/sfx/Chocolate.wav');
         this.load.audio('sfx_mixing', './assets/sfx/Mixing.wav');
+        this.load.image('tileset', './assets/TilesetV2.png');
         
+        this.load.tilemapTiledJSON('TiledTestJSON', './assets/levels/TiledTest.json');
         
         this.createProgressbar(game.config.width / 2, game.config.height / 2);
     }

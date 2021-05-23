@@ -33,7 +33,7 @@ class Menu extends Phaser.Scene {
     // Start Button
     startButton.setInteractive();
     startButton.on('pointerdown', () => {
-      this.scene.start('level1Scene');
+      this.scene.start('playTileScene', "TiledTestJSON");
     });
   }
 }
