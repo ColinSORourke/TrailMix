@@ -19,7 +19,7 @@ class Preload extends Phaser.Scene
         this.load.audio('sfx_mixing', './assets/sfx/Mixing.wav');
         this.load.image('tileset', './assets/TilesetV3.png');
         
-        this.load.tilemapTiledJSON('TiledTestJSON', './assets/levels/TiledTest.json');
+        this.load.tilemapTiledJSON('TiledTestJSON', './assets/levels/SampleLevel.json');
         
         this.createProgressbar(game.config.width / 2, game.config.height / 2);
     }

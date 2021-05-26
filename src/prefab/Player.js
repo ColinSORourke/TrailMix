@@ -87,7 +87,7 @@ class Player extends Phaser.GameObjects.Sprite {
     update() {
         this.animFSM.step();
         // check out of bounds
-        if (this.x <= -5 || 1920 <= this.x || 640 <= this.y) {
+        if (this.x <= -5 || this.scene.xBounds <= this.x || this.scene.yBounds <= this.y) {
             this.reset();
             this.x = this.respawnX;
             this.y = this.respawnY;
@@ -274,6 +274,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.animFSM.transition('idle');
         this.body.setDragX(0);
         this.body.setVelocityX(0);
+        this.body.setVelocityY(0);
         this.body.setAccelerationX(0);
         this.doingPower = false;
         switch (this.powerUpState){
