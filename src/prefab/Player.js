@@ -184,6 +184,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.powerUpState == "treewalk"){
                 this.scene.collideTrees(true);
             }
+            this.reset();
 
             // Not sure if there is a better way to do this
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
@@ -380,7 +381,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // DEBUG FUNCTIONS //
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
-        console.log(this.body.blocked.up)
+        console.log(this.body.blocked.down)
     }
 
     getSize() {
