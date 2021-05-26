@@ -13,13 +13,22 @@ class PlayTile extends Phaser.Scene {
         this.xBounds = map.widthInPixels;
         this.yBounds = map.heightInPixels;
 
-        const tileset = map.addTilesetImage('TilesetV2', 'tileset');
+        const tileset = map.addTilesetImage('TilesetV3', 'tileset');
 
         const bgLayer = map.createLayer('Background', tileset, 0, 0);
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
+        this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
+        this.treeLayer = map.createLayer('TreeLayer', tileset, 0, 0);
 
         terrainLayer.setCollisionByProperty({
             collides: true
+        });
+
+        this.cloudLayer.setCollisionByProperty({
+            condCollides: true
+        });
+        this.treeLayer.setCollisionByProperty({
+            condCollides: true
         });
 
         // Create and place Player at spawn
@@ -28,6 +37,7 @@ class PlayTile extends Phaser.Scene {
         let player = this.player;
         // Make player collide with Terrain
         this.physics.add.collider(this.player, terrainLayer);
+        this.collideTrees(true);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -40,7 +50,8 @@ class PlayTile extends Phaser.Scene {
         console.log(this.mixObjs);
         for (let i = 0; i < this.mixObjs.length; i++){
             let mix = this.mixObjs[i];
-            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
+            // new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
+            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_nuts');
         }
 
         // set bg color
@@ -70,6 +81,22 @@ class PlayTile extends Phaser.Scene {
 
     update() {
         this.player.update();
+    }
+
+    collideClouds(boolean){
+        if (boolean){
+            this.cloudCollider = this.physics.add.collider(this.player, this.cloudLayer);
+        } else {
+            this.physics.world.removeCollider(this.cloudCollider);
+        }
+    }
+
+    collideTrees(boolean){
+        if (boolean){
+            this.treeCollider = this.physics.add.collider(this.player, this.treeLayer);
+        } else {
+            this.physics.world.removeCollider(this.treeCollider);
+        }
     }
 
     // Function to update Status UI to reflect player status

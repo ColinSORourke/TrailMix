@@ -17,7 +17,7 @@ class Preload extends Phaser.Scene
         this.load.audio('sfx_raisin', './assets/sfx/Raisin.wav');
         this.load.audio('sfx_chocolate', './assets/sfx/Chocolate.wav');
         this.load.audio('sfx_mixing', './assets/sfx/Mixing.wav');
-        this.load.image('tileset', './assets/TilesetV2.png');
+        this.load.image('tileset', './assets/TilesetV3.png');
         
         this.load.tilemapTiledJSON('TiledTestJSON', './assets/levels/TiledTest.json');
         

@@ -35,6 +35,9 @@ class Player extends Phaser.GameObjects.Sprite {
         this.resetOnCollide = false;
         this.mobile = true;
 
+        this.portX = x;
+        this.portY = y;
+
         this.respawnX = x;
         this.respawnY = y;
 
@@ -175,6 +178,13 @@ class Player extends Phaser.GameObjects.Sprite {
     // Switch inventory to correct PowerupState
     eatMix(){
         if (this.nuts && this.inventory.length == 2){
+            if (this.powerUpState == "cloudwalk"){
+                this.scene.collideClouds(false);
+            }
+            if (this.powerUpState == "treewalk"){
+                this.scene.collideTrees(true);
+            }
+
             // Not sure if there is a better way to do this
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
                 this.powerUpState = "superDash";
@@ -200,6 +210,25 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.sound.play('sfx_banana');
                 this.scene.sound.play('sfx_raisin');
             }
+            if (this.inventory.includes("cranberry") && this.inventory.includes("raisin")){
+                this.powerUpState = "teleport";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.portX = this.x;
+                this.portY = this.y;
+            }
+            if (this.inventory.includes("cranberry") && this.inventory.includes("banana")){
+                this.powerUpState = "cloudwalk";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.scene.collideClouds(true);
+            }
+            if (this.inventory.includes("cranberry") && this.inventory.includes("chocolate")){
+                this.powerUpState = "treewalk";
+                // Play sfx
+                this.scene.sound.play('sfx_mixing');
+                this.scene.collideTrees(false);
+            }
             this.nuts = false;
             this.inventory = [];
             this.SCENE.inventoryGroup.clear(true);
@@ -221,6 +250,11 @@ class Player extends Phaser.GameObjects.Sprite {
                 break;
             case "superDash":
                 this.superDash();
+                break;
+            case "teleport":
+                this.teleport();
+                break;
+            case "cloudwalk":
                 break;
         }
     }
@@ -337,6 +371,11 @@ class Player extends Phaser.GameObjects.Sprite {
         }
     }
 
+    teleport(){
+        this.x = this.portX;
+        this.y = this.portY;
+    }
+
     // DEBUG FUNCTIONS //
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
@@ -411,6 +450,7 @@ class JumpState extends State {
 class FallState extends State {
     enter(scout) {
         scout.anims.stop();
+        scout.jumping = true;
         scout.anims.play('scoutFall');
     }
 
