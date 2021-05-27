@@ -42,11 +42,13 @@ class PlayTile extends Phaser.Scene {
             collides: true,
         });
 
-        this.physics.chec
-
-        this.cloudLayer.setCollisionByProperty({
-            condCollides: true
+        setCondCollideDirs(this.cloudLayer, {
+            left: false,
+            right: false,
+            up: true,
+            down: false
         });
+        
         this.treeLayer.setCollisionByProperty({
             condCollides: true
         });
@@ -56,10 +58,10 @@ class PlayTile extends Phaser.Scene {
         this.player = new Player(this, p1Spawn.x, p1Spawn.y, 'Scout', 'scout-idle-00', MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
         var player = this.player;
         // Make player collide with Terrain
-        this.physics.add.collider(this.player, terrainLayer, function() {
-            player.body.checkCollision.up = false;
-        });
+        this.physics.add.collider(this.player, terrainLayer);
         this.collideTrees(true);
+
+        console.log("changing collision");
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -69,7 +71,6 @@ class PlayTile extends Phaser.Scene {
 
         // Go through object layer for Ingredient Objects
         this.mixObjs = map.filterObjects("Spawns", obj => obj.type === "mixObj");
-        console.log(this.mixObjs);
         for (let i = 0; i < this.mixObjs.length; i++){
             let mix = this.mixObjs[i];
             // new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
@@ -109,8 +110,10 @@ class PlayTile extends Phaser.Scene {
     }
 
     collideClouds(boolean){
+        let player = this.player;
         if (boolean){
             this.cloudCollider = this.physics.add.collider(this.player, this.cloudLayer);
+            console.log(this.cloudLayer);
         } else {
             this.physics.world.removeCollider(this.cloudCollider);
         }
@@ -193,4 +196,20 @@ class PlayTile extends Phaser.Scene {
         this.scene.pause();
         this.scene.launch('pauseScene', { srcScene: "playTileScene"});
     }
+}
+
+// FOUND AT https://thoughts.amphibian.com/2015/11/single-direction-collision-for-your.html ````````````````````
+function setCondCollideDirs(mapLayer, dirs) {
+    console.log(mapLayer)
+    var d = mapLayer.layer.data;
+     
+    for (var i = 0; i < d.length; i++) {
+        for (var j = 0; j < d[i].length; j++) {
+            var t = d[i][j];
+            if (t.properties["condCollides"]) {
+                t.setCollision(dirs["left"], dirs["right"], dirs["up"], dirs["down"], false);
+            }
+        }
+    }
+ 
 }
