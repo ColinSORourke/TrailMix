@@ -18,17 +18,17 @@ class Menu extends Phaser.Scene {
     }
 
     // Intructions
-    this.add.text(game.config.width/2, game.config.height/2, "F: Mix the ingredients", menuConfig).setOrigin(0.5);
-    this.add.text(game.config.width/2, game.config.height/2 + 50, "D: Use the power", menuConfig).setOrigin(0.5);
+    this.add.bitmapText(game.config.width/2, game.config.height/2 - 200, 'gem', 'F: Mix the ingredients', 64).setOrigin(0.5);
+    this.add.bitmapText(game.config.width/2, game.config.height/2 - 100, 'gem', 'D: Use the power', 64).setOrigin(0.5);
 
 
     // Play
-    menuConfig.fontSize = "128px";
-    let startButton = this.add.text(game.config.width/2, game.config.height/2 + 150, 'PLAY', menuConfig).setOrigin(0.5);
+    //menuConfig.fontSize = "128px";
+    let startButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 150, 'gem', 'PLAY', 128).setOrigin(0.5);
 
     // How to win this 'build'
-    menuConfig.fontSize = "28px";
-    this.add.text(game.config.width/2, game.config.height/2 + 250, "You need to cross the massive gap to win", menuConfig).setOrigin(0.5);
+    //menuConfig.fontSize = "28px";
+    this.add.bitmapText(game.config.width/2, game.config.height/2 + 250, 'gem', "You need to cross the massive gap to win", 28).setOrigin(0.5);
 
     // Start Button
     startButton.setInteractive();

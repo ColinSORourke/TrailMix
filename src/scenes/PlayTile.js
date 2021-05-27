@@ -57,15 +57,15 @@ class PlayTile extends Phaser.Scene {
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
 
-        // draw grid lines for jump height reference
-        let graphics = this.add.graphics();
-        graphics.lineStyle(2, 0xFFFFFF, 0.1);
-        for(let y = map.heightInPixels; y >= 0; y -= 16) {
-            graphics.lineBetween(0, y, map.widthInPixels, y);
-        }
-        for(let x = map.widthInPixels; x >= 0; x -= 16) {
-            graphics.lineBetween(x, 0, x, map.heightInPixels);
-        }
+        // // draw grid lines for jump height reference
+        // let graphics = this.add.graphics();
+        // graphics.lineStyle(2, 0xFFFFFF, 0.1);
+        // for(let y = map.heightInPixels; y >= 0; y -= 16) {
+        //     graphics.lineBetween(0, y, map.widthInPixels, y);
+        // }
+        // for(let x = map.widthInPixels; x >= 0; x -= 16) {
+        //     graphics.lineBetween(x, 0, x, map.heightInPixels);
+        // }
 
         // set up main camera to follow the player
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -103,7 +103,7 @@ class PlayTile extends Phaser.Scene {
     updateText(){
         // Update Nuts Alphas + State Text
         this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.5;
-        this.statusText.text = "State: " + this.player.powerUpState;
+        this.statusText.text = "powerup: " + this.player.powerUpState;
 
         // Add appropriate ingredient sprites UI
         for (var index = 0; index < this.player.getSize(); ++index){
@@ -130,14 +130,14 @@ class PlayTile extends Phaser.Scene {
         }
 
         // UIBackground Box
-        UIGroup.add(this.add.rectangle(0, 0, game.config.width, 240, 0xFF00FF).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
+        UIGroup.add(this.add.rectangle(0, 0, game.config.width, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
 
         // Add Status Text
-        this.statusText = this.add.text(game.config.width/3, 230, 'State: Normal', UIConfig).setOrigin(0.5).setScrollFactor(0,0).setName('statusText');
+        this.statusText = this.add.bitmapText(game.config.width/4+10, 230, 'gem', 'state: normal', 20).setOrigin(0, 0.5).setScrollFactor(0,0).setName('statusText');
         UIGroup.add(this.statusText);
 
         // Add Journal/Menu Button
-        this.menuButton = this.add.text(game.config.width/2, 215, 'Journal/Menu', UIConfig).setOrigin(0.5).setScrollFactor(0,0);
+        this.menuButton = this.add.bitmapText(game.config.width/2, 215, 'gem', 'MENU', 20).setOrigin(0.5).setScrollFactor(0,0);
         // Give Menu Button purpose
         this.menuButton.setInteractive();
         this.menuButton.on('pointerdown', () => {
