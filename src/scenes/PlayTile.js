@@ -127,7 +127,7 @@ class PlayTile extends Phaser.Scene {
     // Function to update Status UI to reflect player status
     updateText(){
         // Update Nuts Alphas + State Text
-        this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.5;
+        this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.3;
         this.statusText.text = "powerup: " + this.player.powerUpState;
 
         // Add appropriate ingredient sprites UI
@@ -172,8 +172,12 @@ class PlayTile extends Phaser.Scene {
 
         // Add 3x grey box
         for (var i = 0; i <= 2; ++i) {
-            
-            UIGroup.add(this.add.rectangle(game.config.width/4 + 45 + 32*i, 198, 23, 23, 0x808080).setOrigin(0.5, 0).setStrokeStyle(1.5, 0xFFFFFF).setScrollFactor(0).setName('UIBackground'));
+            if (i==0){
+                UIGroup.add(this.add.rectangle(game.config.width/4 + 45 + 32*i, 198, 23, 23, 0x808080).setOrigin(0.5, 0).setStrokeStyle(2, 0xffcc00).setScrollFactor(0).setName('UIBackground'));
+            }
+            if (i>0){
+                UIGroup.add(this.add.rectangle(game.config.width/4 + 45 + 32*i, 198, 23, 23, 0x808080).setOrigin(0.5, 0).setStrokeStyle(2, 0xFFFFFF).setScrollFactor(0).setName('UIBackground'));
+            }
         }
 
         // Add mini-map camera
