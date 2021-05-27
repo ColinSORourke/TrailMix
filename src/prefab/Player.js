@@ -194,6 +194,10 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_raisin');
                 this.scene.sound.play('sfx_chocolate');
+
+                if (!known.get("superDash")) {
+                    known.set("superDash", ["raisin", "chocolate"]);
+                }
             }
             if (this.inventory.includes("banana") && this.inventory.includes("chocolate")){
                 this.powerUpState = "superJump";
@@ -202,6 +206,10 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_banana');
                 this.scene.sound.play('sfx_chocolate');
+
+                if (!known.get("superJump")) {
+                    known.set("superJump", ["banana", "chocolate"]);
+                }
             }
             if (this.inventory.includes("banana") && this.inventory.includes("raisin")){
                 this.powerUpState = "glide";
@@ -210,6 +218,10 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_banana');
                 this.scene.sound.play('sfx_raisin');
+
+                if (!known.get("glide")) {
+                    known.set("glide", ["banana", "raisin"]);
+                }
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("raisin")){
                 this.powerUpState = "teleport";
@@ -217,18 +229,30 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.sound.play('sfx_mixing');
                 this.portX = this.x;
                 this.portY = this.y;
+
+                if (!known.get("teleport")) {
+                    known.set("teleport", ["cranberry", "raisin"]);
+                }
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("banana")){
                 this.powerUpState = "cloudwalk";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
                 this.scene.collideClouds(true);
+
+                if (!known.get("cloudwalk")) {
+                    known.set("cloudwalk", ["cranberry", "banana"]);
+                }
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("chocolate")){
                 this.powerUpState = "treewalk";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
                 this.scene.collideTrees(false);
+
+                if (!known.get("treewalk")) {
+                    known.set("treewalk", ["cranberry", "chocolate"]);
+                }
             }
             this.nuts = false;
             this.inventory = [];

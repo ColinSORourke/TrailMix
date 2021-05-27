@@ -55,7 +55,7 @@ class PlayTile extends Phaser.Scene {
         // Create and place Player at spawn
         const p1Spawn = map.findObject("Spawns", obj => obj.name === "playerSpawn");
         this.player = new Player(this, p1Spawn.x, p1Spawn.y, 'Scout', 'scout-idle-00', MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
-        let player = this.player;
+        var player = this.player;
         // Make player collide with Terrain
         this.physics.add.collider(this.player, terrainLayer);
         this.collideTrees(true);

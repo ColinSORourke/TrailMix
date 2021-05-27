@@ -34,3 +34,7 @@ JUMP_VELOCITY = -250;
 
 const SCALE = 0.5;
 const tileSize = 35;
+
+// Player's known ingredients | Note: proper format for this map
+// this.known.set(key: 'Name of powerup', value: ['Name of first Ingredient', 'Name of second Ingredients']);
+let known = new Map();
