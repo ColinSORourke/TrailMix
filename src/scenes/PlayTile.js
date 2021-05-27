@@ -8,6 +8,27 @@ class PlayTile extends Phaser.Scene {
     }
 
     create() {
+        this.BGGroup = this.add.group();
+        this.BackgroundBase = this.add.tileSprite(0, 0, 1024, 768, "BackgroundBase").setOrigin(0,0.25).setScrollFactor(0);
+        this.BGGroup.add(this.BackgroundBase);
+        this.Mountains = this.add.tileSprite(0, 0, 1024, 768, "Mountains").setOrigin(0,0.25).setScrollFactor(0);
+        this.BGGroup.add(this.Mountains);
+        this.CloudsBack = this.add.tileSprite(0, 0, 1024, 768, "CloudsBack").setOrigin(0,0.25).setScrollFactor(0);
+        this.BGGroup.add(this.CloudsBack);
+        this.CloudsMid = this.add.tileSprite(0, 0, 1024, 768, "CloudsMid").setOrigin(0,0.25).setScrollFactor(0);
+        this.BGGroup.add(this.CloudsMid);
+        this.CloudsFront = this.add.tileSprite(0, 0, 1024, 768, "CloudsFront").setOrigin(0,0.25).setScrollFactor(0);
+        this.BGGroup.add(this.CloudsFront);
+        this.TreesBack = this.add.tileSprite(0, 0, 1024, 768, "TreesBack").setOrigin(-0.1,0.1).setScrollFactor(0.2);
+        this.BGGroup.add(this.TreesBack);
+        this.TreesMid = this.add.tileSprite(0, 0, 1024, 768, "TreesMid").setOrigin(-0.1,0).setScrollFactor(0.4);
+        this.BGGroup.add(this.TreesMid);
+        this.TreesFront = this.add.tileSprite(0, 0, 1024, 768, "TreesFront").setOrigin(-0.1,0.1).setScrollFactor(0.6);
+        this.BGGroup.add(this.TreesFront);
+
+
+        
+
         // Basic Tilemap stuff
         const map = this.add.tilemap(this.level);
         this.xBounds = map.widthInPixels;
@@ -81,6 +102,9 @@ class PlayTile extends Phaser.Scene {
 
     update() {
         this.player.update();
+        this.CloudsBack.tilePositionX -= 0.003;
+        this.CloudsMid.tilePositionX += 0.005;
+        this.CloudsFront.tilePositionX -= 0.007;
     }
 
     collideClouds(boolean){
@@ -147,12 +171,13 @@ class PlayTile extends Phaser.Scene {
 
         // Add mini-map camera
         this.minimap = this.cameras.add(game.config.width - 325, 20, 300, 60).setZoom(0.2).setName('mini');
-        this.minimap.setBackgroundColor(0x227B96);
+        this.minimap.setBackgroundColor(0xcc99cc);
         this.minimap.setBounds(0, 0, this.xBounds, this.yBounds);
         this.minimap.scrollX = 1600;
         this.minimap.scrollY = 300;
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
+        this.minimap.ignore(this.BGGroup);
         
         // Add opage Nuts Sprite to inventory display
         this.nutsSprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');

@@ -21,6 +21,17 @@ class Preload extends Phaser.Scene
 
         // Load font
         this.load.bitmapFont('gem', './assets/gem.png', './assets/gem.xml');
+
+        // Load background images
+        this.load.image("BackgroundBase", "./assets/BGLayers/BackgroundBase.png");
+        this.load.image("Mountains", "./assets/BGLayers/Mountains.png");
+        this.load.image("CloudsBack", "./assets/BGLayers/CloudsBack.png");
+        this.load.image("CloudsMid", "./assets/BGLayers/CloudsMid.png");
+        this.load.image("CloudsFront", "./assets/BGLayers/CloudsFront.png");
+
+        this.load.image("TreesBack", "./assets/BGLayers/TreesBack.png");
+        this.load.image("TreesMid", "./assets/BGLayers/TreesMid.png");
+        this.load.image("TreesFront", "./assets/BGLayers/TreesFront.png");
         
         this.load.tilemapTiledJSON('TiledTestJSON', './assets/levels/SampleLevel.json');
         
