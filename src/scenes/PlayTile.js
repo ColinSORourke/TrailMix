@@ -61,8 +61,6 @@ class PlayTile extends Phaser.Scene {
         this.physics.add.collider(this.player, terrainLayer);
         this.collideTrees(true);
 
-        console.log("changing collision");
-
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -208,11 +206,8 @@ class PlayTile extends Phaser.Scene {
     }
 }
 
-// FOUND AT https://thoughts.amphibian.com/2015/11/single-direction-collision-for-your.html ````````````````````
 function setCondCollideDirs(mapLayer, dirs) {
-    console.log(mapLayer)
     var d = mapLayer.layer.data;
-     
     for (var i = 0; i < d.length; i++) {
         for (var j = 0; j < d[i].length; j++) {
             var t = d[i][j];
