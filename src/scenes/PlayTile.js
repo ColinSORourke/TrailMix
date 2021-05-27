@@ -132,7 +132,7 @@ class PlayTile extends Phaser.Scene {
 
         // Add appropriate ingredient sprites UI
         for (var index = 0; index < this.player.getSize(); ++index){
-            let inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 16, 210, 'Mix', this.player.inventory[index]);
+            let inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 32, 210, 'Mix', this.player.inventory[index]);
             inventorySprite.setScrollFactor(0);
             this.inventoryGroup.add(inventorySprite);
         }
@@ -169,6 +169,11 @@ class PlayTile extends Phaser.Scene {
             this.pause();
         });
         UIGroup.add(this.menuButton);
+
+        // Add 3x grey box
+        for (var i = 0; i <= 2; ++i) {
+            UIGroup.add(this.add.rectangle(game.config.width/4 + 35 + 32*i, 200, 20, 20, 0x808080).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
+        }
 
         // Add mini-map camera
         this.minimap = this.cameras.add(game.config.width - 325, 20, 300, 60).setZoom(0.2).setName('mini');
