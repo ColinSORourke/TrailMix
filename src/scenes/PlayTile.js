@@ -172,7 +172,8 @@ class PlayTile extends Phaser.Scene {
 
         // Add 3x grey box
         for (var i = 0; i <= 2; ++i) {
-            UIGroup.add(this.add.rectangle(game.config.width/4 + 35 + 32*i, 200, 20, 20, 0x808080).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
+            
+            UIGroup.add(this.add.rectangle(game.config.width/4 + 45 + 32*i, 198, 23, 23, 0x808080).setOrigin(0.5, 0).setStrokeStyle(1.5, 0xFFFFFF).setScrollFactor(0).setName('UIBackground'));
         }
 
         // Add mini-map camera
