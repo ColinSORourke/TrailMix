@@ -26,9 +26,6 @@ class PlayTile extends Phaser.Scene {
         this.TreesFront = this.add.tileSprite(0, 0, 1024, 768, "TreesFront").setOrigin(-0.1,0.1).setScrollFactor(0.6);
         this.BGGroup.add(this.TreesFront);
 
-
-        
-
         // Basic Tilemap stuff
         const map = this.add.tilemap(this.level);
         this.xBounds = map.widthInPixels;
@@ -42,8 +39,10 @@ class PlayTile extends Phaser.Scene {
         this.treeLayer = map.createLayer('TreeLayer', tileset, 0, 0);
 
         terrainLayer.setCollisionByProperty({
-            collides: true
+            collides: true,
         });
+
+        this.physics.chec
 
         this.cloudLayer.setCollisionByProperty({
             condCollides: true
@@ -57,7 +56,9 @@ class PlayTile extends Phaser.Scene {
         this.player = new Player(this, p1Spawn.x, p1Spawn.y, 'Scout', 'scout-idle-00', MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
         var player = this.player;
         // Make player collide with Terrain
-        this.physics.add.collider(this.player, terrainLayer);
+        this.physics.add.collider(this.player, terrainLayer, function() {
+            player.body.checkCollision.up = false;
+        });
         this.collideTrees(true);
 
         // set up Phaser-provided cursor key input
