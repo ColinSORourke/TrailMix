@@ -130,12 +130,12 @@ class PlayTile extends Phaser.Scene {
     // Function to update Status UI to reflect player status
     updateText(){
         // Update Nuts Alphas + State Text
-        this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.5;
+        this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.3;
         this.statusText.text = "powerup: " + this.player.powerUpState;
 
         // Add appropriate ingredient sprites UI
         for (var index = 0; index < this.player.getSize(); ++index){
-            let inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 16, 210, 'Mix', this.player.inventory[index]);
+            let inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 32, 210, 'Mix', this.player.inventory[index]);
             inventorySprite.setScrollFactor(0);
             this.inventoryGroup.add(inventorySprite);
         }
@@ -172,6 +172,16 @@ class PlayTile extends Phaser.Scene {
             this.pause();
         });
         UIGroup.add(this.menuButton);
+
+        // Add 3x grey box
+        for (var i = 0; i <= 2; ++i) {
+            if (i==0){
+                UIGroup.add(this.add.rectangle(game.config.width/4 + 45 + 32*i, 198, 23, 23, 0x808080).setOrigin(0.5, 0).setStrokeStyle(2, 0xffcc00).setScrollFactor(0).setName('UIBackground'));
+            }
+            if (i>0){
+                UIGroup.add(this.add.rectangle(game.config.width/4 + 45 + 32*i, 198, 23, 23, 0x808080).setOrigin(0.5, 0).setStrokeStyle(2, 0xFFFFFF).setScrollFactor(0).setName('UIBackground'));
+            }
+        }
 
         // Add mini-map camera
         this.minimap = this.cameras.add(game.config.width - 325, 20, 300, 60).setZoom(0.2).setName('mini');
