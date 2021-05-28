@@ -191,7 +191,7 @@ class PlayTile extends Phaser.Scene {
         this.minimap.ignore(UIGroup);
         this.minimap.ignore(this.BGGroup);
         
-        // Add opage Nuts Sprite to inventory display
+        // Add opaque Nuts Sprite to inventory display
         this.nutsSprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
         this.nutsSprite.alpha = 0.5;
         this.nutsSprite.setScrollFactor(0);
@@ -201,15 +201,20 @@ class PlayTile extends Phaser.Scene {
 
     // Launch Pause Scene
     pause() {
+        this.player.jumping = true;
         this.scene.pause();
         this.scene.launch('pauseScene', { srcScene: "playTileScene"});
     }
 
+
+    // Restart the Scene
     restart(){
         this.scene.start('playTileScene', "TiledTestJSON");
     }
 }
 
+
+// Rough function to go through a tile layer and set the tiles with "condCollides: true" to only collide in a specific set of directions
 function setCondCollideDirs(mapLayer, dirs) {
     var d = mapLayer.layer.data;
     for (var i = 0; i < d.length; i++) {
