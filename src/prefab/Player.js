@@ -26,6 +26,7 @@ class Player extends Phaser.GameObjects.Sprite {
         // Trail Mix Bag
         this.nuts = false;
         this.inventory = [];
+        this.ingredientObjs = [];
 
         // Related to Powerups / Movement
         this.powerUpState = "normal";
@@ -169,6 +170,11 @@ class Player extends Phaser.GameObjects.Sprite {
             this.doPowerup();
         }
 
+        // discard ingredients 
+        if(Phaser.Input.Keyboard.JustDown(keyS)){
+            this.discardIngredients();
+        }
+
         // Debug: get player's position
         if (Phaser.Input.Keyboard.JustDown(cursors.down)){
             this.debugGetLocation();
@@ -268,6 +274,7 @@ class Player extends Phaser.GameObjects.Sprite {
             }
             this.nuts = false;
             this.inventory = [];
+            this.ingredientObjs = [];
             this.SCENE.inventoryGroup.clear(true);
             this.SCENE.updateText();
         }
@@ -363,6 +370,9 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.x = this.respawnX;
         this.y = this.respawnY;
+
+        this.portX = this.respawnX;
+        this.portY = this.respawnY;
     }
 
 
@@ -422,6 +432,18 @@ class Player extends Phaser.GameObjects.Sprite {
 
     getSize() {
         return this.inventory.length;
+    }
+
+    discardIngredients(){
+        for (let i = 0; i < this.ingredientObjs.length; i++){
+            let myObj = this.ingredientObjs[i];
+            new MixObj(this.scene, myObj.x, myObj.y, 'Mix', myObj.mix, this, false, 'sfx_nuts');
+        }
+        this.nuts = false;
+        this.inventory = [];
+        this.ingredientObjs = [];
+        this.SCENE.inventoryGroup.clear(true);
+        this.SCENE.updateText();
     }
 }
 

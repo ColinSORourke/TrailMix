@@ -66,13 +66,14 @@ class PlayTile extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
         // Go through object layer for Ingredient Objects
         this.mixObjs = map.filterObjects("Spawns", obj => obj.type === "mixObj");
         for (let i = 0; i < this.mixObjs.length; i++){
             let mix = this.mixObjs[i];
             // new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
-            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, true, 'sfx_nuts');
+            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_nuts');
         }
 
         // set bg color
@@ -108,7 +109,6 @@ class PlayTile extends Phaser.Scene {
     }
 
     collideClouds(boolean){
-        let player = this.player;
         if (boolean){
             this.cloudCollider = this.physics.add.collider(this.player, this.cloudLayer);
             console.log(this.cloudLayer);
@@ -203,6 +203,10 @@ class PlayTile extends Phaser.Scene {
     pause() {
         this.scene.pause();
         this.scene.launch('pauseScene', { srcScene: "playTileScene"});
+    }
+
+    restart(){
+        this.scene.start('playTileScene', "TiledTestJSON");
     }
 }
 

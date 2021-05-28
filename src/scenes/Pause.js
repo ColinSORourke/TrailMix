@@ -32,6 +32,14 @@ class Pause extends Phaser.Scene {
             this.scene.resume(this.pausedScene);
             this.scene.stop();
         });
+
+        var resetButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 125, 'gem', 'RESET', 32).setOrigin(0.5);
+
+        resetButton.setInteractive();
+        resetButton.on('pointerdown', () => {
+            this.scene.stop(this.pausedScene);
+            this.scene.start('playTileScene', "TiledTestJSON");
+        });
         // CENTER WINDOW END //
 
         // LEFT JOURNAL WINDOW START //
