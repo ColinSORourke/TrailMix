@@ -8,10 +8,11 @@ class PlayTile extends Phaser.Scene {
     }
 
     create() {
+        // Background graphics
         this.BGGroup = this.add.group();
         this.BackgroundBase = this.add.tileSprite(0, 0, 1024, 768, "BackgroundBase").setOrigin(0,0.25).setScrollFactor(0);
         this.BGGroup.add(this.BackgroundBase);
-        this.Mountains = this.add.tileSprite(0, 0, 1024, 768, "Mountains").setOrigin(0,0.25).setScrollFactor(0);
+        this.Mountains = this.add.tileSprite(0, -50, 1024, 768, "Mountains").setOrigin(0,0.25).setScrollFactor(0);
         this.BGGroup.add(this.Mountains);
         this.CloudsBack = this.add.tileSprite(0, 0, 1024, 768, "CloudsBack").setOrigin(0,0.25).setScrollFactor(0);
         this.BGGroup.add(this.CloudsBack);
@@ -33,11 +34,14 @@ class PlayTile extends Phaser.Scene {
 
         const tileset = map.addTilesetImage('TilesetV3', 'tileset');
 
+        // Create all relevant layers
         const bgLayer = map.createLayer('Background', tileset, 0, 0);
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
         this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
         this.treeLayer = map.createLayer('TreeLayer', tileset, 0, 0);
 
+
+        // Define how each layer will collide
         terrainLayer.setCollisionByProperty({
             collides: true,
         });
@@ -57,7 +61,8 @@ class PlayTile extends Phaser.Scene {
         const p1Spawn = map.findObject("Spawns", obj => obj.name === "playerSpawn");
         this.player = new Player(this, p1Spawn.x, p1Spawn.y, 'Scout', 'scout-idle-00', MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
         var player = this.player;
-        // Make player collide with Terrain
+
+        // Make player collide with Terrain & Trees
         this.physics.add.collider(this.player, terrainLayer);
         this.collideTrees(true);
 
@@ -79,15 +84,17 @@ class PlayTile extends Phaser.Scene {
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
 
-        // // draw grid lines for jump height reference
-        // let graphics = this.add.graphics();
-        // graphics.lineStyle(2, 0xFFFFFF, 0.1);
-        // for(let y = map.heightInPixels; y >= 0; y -= 16) {
-        //     graphics.lineBetween(0, y, map.widthInPixels, y);
-        // }
-        // for(let x = map.widthInPixels; x >= 0; x -= 16) {
-        //     graphics.lineBetween(x, 0, x, map.heightInPixels);
-        // }
+        // draw grid lines for jump height reference
+        /* 
+        let graphics = this.add.graphics();
+        graphics.lineStyle(2, 0xFFFFFF, 0.1);
+        for(let y = map.heightInPixels; y >= 0; y -= 16) {
+            graphics.lineBetween(0, y, map.widthInPixels, y);
+        }
+        for(let x = map.widthInPixels; x >= 0; x -= 16) {
+            graphics.lineBetween(x, 0, x, map.heightInPixels);
+        } 
+        */
 
         // set up main camera to follow the player
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -108,6 +115,7 @@ class PlayTile extends Phaser.Scene {
         this.CloudsFront.tilePositionX -= 0.007;
     }
 
+    // Creates or removes a collider for the Cloud Layer
     collideClouds(boolean){
         if (boolean){
             this.cloudCollider = this.physics.add.collider(this.player, this.cloudLayer);
@@ -117,6 +125,7 @@ class PlayTile extends Phaser.Scene {
         }
     }
 
+    // Creates or removes a collider for the tree layer
     collideTrees(boolean){
         if (boolean){
             this.treeCollider = this.physics.add.collider(this.player, this.treeLayer);
