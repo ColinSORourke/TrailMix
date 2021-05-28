@@ -72,7 +72,7 @@ class PlayTile extends Phaser.Scene {
         for (let i = 0; i < this.mixObjs.length; i++){
             let mix = this.mixObjs[i];
             // new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
-            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_nuts');
+            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, true, 'sfx_nuts');
         }
 
         // set bg color

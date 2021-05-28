@@ -184,6 +184,9 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.powerUpState == "treewalk"){
                 this.scene.collideTrees(true);
             }
+            if (this.powerUpState == "teleport"){
+                this.scene.particles.destroy();
+            }
             this.reset();
 
             // Not sure if there is a better way to do this
@@ -225,8 +228,17 @@ class Player extends Phaser.GameObjects.Sprite {
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("raisin")){
                 this.powerUpState = "teleport";
+                this.scene.particles = this.scene.add.particles('spark');
+                let particles = this.scene.particles;
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
+                this.scene.tpEmitter =  particles.createEmitter({
+                    x: this.x,
+                    y: this.y,
+                    speed: 25,
+                    lifespan: 250,
+                    blendMode: 'ADD'
+                });
                 this.portX = this.x;
                 this.portY = this.y;
 
