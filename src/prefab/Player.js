@@ -43,6 +43,10 @@ class Player extends Phaser.GameObjects.Sprite {
         this.respawnY = y;
 
         this.initializeAnims();
+
+        this.arrow = scene.add.sprite(this.x, this.y - 40, 'arrow');
+        console.log(this.arrow);
+        this.arrow.visible = false;
     }
 
     initializeAnims(){
@@ -86,6 +90,9 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     update() {
+        console.log(this.arrow);
+        this.arrow.x = this.x;
+        this.arrow.y = this.y - 40;
         this.animFSM.step();
         // check out of bounds
         if (this.x <= -5 || this.scene.xBounds <= this.x || this.scene.yBounds <= this.y || (this.y <= -5 && this.doingPower)) {
@@ -104,13 +111,15 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.body.setDragX(0);
                 this.body.setAccelerationX(-this.ACCELERATION);
                 this.setFlip(true, false);         
+                this.arrow.visible = false;
             } else if(cursors.right.isDown) {
                 if (this.body.velocity.x < 0){
                     this.body.setVelocityX(0);
                 }
                 this.body.setDragX(0);
                 this.body.setAccelerationX(this.ACCELERATION);
-                this.resetFlip();          
+                this.resetFlip();       
+                this.arrow.visible = false;   
             } else {
                 // set acceleration to 0 so DRAG will take over
                 this.body.setAccelerationX(0);
