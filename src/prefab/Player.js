@@ -196,7 +196,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.collideClouds(false);
             }
             if (this.powerUpState == "treewalk"){
-                this.scene.collideTrees(true);
+                this.scene.collideBush(true);
             }
             if (this.powerUpState == "teleport"){
                 this.scene.particles.destroy();
@@ -271,10 +271,10 @@ class Player extends Phaser.GameObjects.Sprite {
                 }
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("chocolate")){
-                this.powerUpState = "treewalk";
+                this.powerUpState = "bushwalk";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
-                this.scene.collideTrees(false);
+                this.scene.collideBush(false);
 
                 if (!known.get("treewalk")) {
                     known.set("treewalk", ["cranberry", "chocolate"]);
