@@ -195,13 +195,8 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.powerUpState == "Cloud Walk"){
                 this.scene.collideClouds(false);
             }
-<<<<<<< HEAD
-            if (this.powerUpState == "Tree Walk"){
-                this.scene.collideTrees(true);
-=======
-            if (this.powerUpState == "bushwalk"){
+            if (this.powerUpState == "Bush Walk"){
                 this.scene.collideBush(true);
->>>>>>> a268ff869a43bf05e648b24acad4c75416a9921f
             }
             if (this.powerUpState == "Teleport"){
                 this.scene.particles.destroy();
@@ -276,22 +271,13 @@ class Player extends Phaser.GameObjects.Sprite {
                 }
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("chocolate")){
-<<<<<<< HEAD
-                this.powerUpState = "Tree Walk";
-=======
-                this.powerUpState = "bushwalk";
->>>>>>> a268ff869a43bf05e648b24acad4c75416a9921f
+                this.powerUpState = "Bush Walk";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
                 this.scene.collideBush(false);
 
-<<<<<<< HEAD
-                if (!known.get("Tree Walk")) {
-                    known.set("Tree Walk", ["cranberry", "chocolate"]);
-=======
-                if (!known.get("bushwalk")) {
-                    known.set("bushwalk", ["cranberry", "chocolate"]);
->>>>>>> a268ff869a43bf05e648b24acad4c75416a9921f
+                if (!known.get("Bush Walk")) {
+                    known.set("Bush Walk", ["cranberry", "chocolate"]);
                 }
             }
             this.nuts = false;
