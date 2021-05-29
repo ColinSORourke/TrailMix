@@ -92,6 +92,12 @@ class PlayTile extends Phaser.Scene {
             // new SignObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, 'I AM NUTS');
         }
 
+        this.signObjs = map.filterObjects("Spawns", obj => obj.type === "signObj");
+        for (let i = 0; i < this.signObjs.length; i++){
+            let sign = this.signObjs[i];
+            new SignObj(this, sign.x, sign.y, 'Mix', 'raisin', player, sign.name);
+        }
+
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
 

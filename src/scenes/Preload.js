@@ -35,6 +35,7 @@ class Preload extends Phaser.Scene
         this.load.image("TreesMid", "./assets/BGLayers/TreesMid.png");
         this.load.image("TreesFront", "./assets/BGLayers/TreesFront.png");
         
+        // This loads level map
         this.load.tilemapTiledJSON('TiledTestJSON', './assets/levels/SampleLevel.json');
         
         this.createProgressbar(game.config.width / 2, game.config.height / 2);
