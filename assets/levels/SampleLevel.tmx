@@ -1010,6 +1010,6 @@
   <object id="26" name="cranberry" type="mixObj" gid="3" x="288" y="256" width="16" height="16"/>
   <object id="27" name="raisin" type="mixObj" gid="6" x="304" y="176" width="16" height="16"/>
   <object id="28" name="banana" type="mixObj" gid="1" x="592" y="256" width="16" height="16"/>
-  <object id="38" name="Howdy!" type="signObj" x="435" y="548" width="25" height="28"/>
+  <object id="38" name="Can I make this really really really really long? Like so long it might go off an edge of a screen? Seriously, extremely, very long?" type="signObj" x="436" y="547.75" width="24" height="28"/>
  </objectgroup>
 </map>

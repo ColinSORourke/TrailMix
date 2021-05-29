@@ -234,13 +234,13 @@
                 {
                  "height":28,
                  "id":38,
-                 "name":"Howdy!",
+                 "name":"Can I make this really really really really long? Like so long it might go off an edge of a screen? Seriously, extremely, very long?",
                  "rotation":0,
                  "type":"signObj",
                  "visible":true,
-                 "width":25,
-                 "x":435,
-                 "y":548
+                 "width":24,
+                 "x":436,
+                 "y":547.75
                 }],
          "opacity":1,
          "type":"objectgroup",
