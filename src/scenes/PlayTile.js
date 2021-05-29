@@ -155,7 +155,7 @@ class PlayTile extends Phaser.Scene {
     updateText(){
         // Update Nuts Alphas + State Text
         this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.3;
-        this.statusText.text = "powerup: " + this.player.powerUpState;
+        this.statusText.text = "Power: " + this.player.powerUpState;
 
         // Add appropriate ingredient sprites UI
         for (var index = 0; index < this.player.getSize(); ++index){
@@ -194,7 +194,7 @@ class PlayTile extends Phaser.Scene {
         UIGroup.add(graphics.fillStyle(0x000000, 1).fillRoundedRect(game.config.width - 400, 0, 240, 240, 8).setScrollFactor(0).setName('UI'));
 
         // Add Status Text
-        this.statusText = this.add.bitmapText(game.config.width/4+10, 230, 'gem', 'state: normal', 20).setOrigin(0, 0.5).setScrollFactor(0,0).setName('statusText');
+        this.statusText = this.add.bitmapText(game.config.width/4+5, 230, 'gem', 'state: normal', 18).setOrigin(0, 0.5).setScrollFactor(0,0).setName('statusText');
         UIGroup.add(this.statusText);
 
         // Add Journal/Menu Button
