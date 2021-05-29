@@ -44,16 +44,20 @@ class Pause extends Phaser.Scene {
 
         // LEFT JOURNAL WINDOW START //
         // Add Background
-        var JBackgroundWidth = 300, JBackgroundLength = 400;
-        var JBackground = this.add.rectangle(game.config.width/5 - JBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JBackgroundWidth, JBackgroundLength, 0xFF0000).setOrigin(0, 0);
+        var JBackgroundWidth = 300, JBackgroundLength = 600;
+        var JBackground = this.add.rectangle(game.config.width/5 - JBackgroundWidth/2, game.config.height/5 , JBackgroundWidth, JBackgroundLength, 0xFF0000).setOrigin(0, 0);
 
         // Add Journal Title
-        var JournalTitle = this.add.bitmapText(game.config.width/5, game.config.height/2-32, 'gem', 'JOURNAL', 32).setOrigin(0.5);
+        var JournalTitle = this.add.bitmapText(game.config.width/5, game.config.height/5 + 32, 'gem', 'JOURNAL', 38).setOrigin(0.5);
 
         // Add text to show for all player's known ingredients
-        var line = 0;
+        var line = 1;
         for (let [key, value] of known) {
-            this.add.bitmapText(game.config.width/5, game.config.height/2 + (25*line), 'gem', key + ' = ' + value[0] + ' + ' + value[1], 18).setOrigin(0.5);
+            let string = this.add.bitmapText(game.config.width/5, game.config.height/4 + 58 * line, 'gem', value[0] + ' + ' + value[1] + ' = ' + key, 18).setOrigin(0.5);
+            let bounds = string.getTextBounds(true);
+            let ingre1 = this.add.sprite(bounds.global.x + (bounds.global.width/5), bounds.global.y - 12, 'Mix', value[0]).setScale(2.5);
+            let ingre2 = this.add.sprite(bounds.global.x + (bounds.global.width/2), bounds.global.y - 12, 'Mix', value[1]).setScale(2.5);
+
             ++line;
         }
 
