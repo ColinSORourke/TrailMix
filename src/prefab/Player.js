@@ -195,7 +195,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.powerUpState == "cloudwalk"){
                 this.scene.collideClouds(false);
             }
-            if (this.powerUpState == "treewalk"){
+            if (this.powerUpState == "bushwalk"){
                 this.scene.collideBush(true);
             }
             if (this.powerUpState == "teleport"){

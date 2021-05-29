@@ -211,11 +211,9 @@ class PlayTile extends Phaser.Scene {
         }
 
         // Add mini-map camera
-        this.minimap = this.cameras.add(game.config.width - 275, 20, 250, 60).setZoom(0.25, 0.15).setName('mini');
+        this.minimap = this.cameras.add(game.config.width - 275, 20, 250, 60).setZoom(0.2, 0.2).setName('mini');
         this.minimap.setBackgroundColor(0xcc99cc);
         this.minimap.setBounds(0, 0, this.xBounds, this.yBounds);
-        this.minimap.scrollX = 1600;
-        this.minimap.scrollY = 300;
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
         this.minimap.ignore(this.BGGroup);
