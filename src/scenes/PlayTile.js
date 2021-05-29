@@ -32,13 +32,15 @@ class PlayTile extends Phaser.Scene {
         this.xBounds = map.widthInPixels;
         this.yBounds = map.heightInPixels;
 
-        const tileset = map.addTilesetImage('TilesetV3', 'tileset');
+        const tileset = map.addTilesetImage('TilesetV4', 'tileset');
 
         // Create all relevant layers
         const bgLayer = map.createLayer('Background', tileset, 0, 0);
+        const pillarLayer = map.createLayer('PillarLayer', tileset, 0, 0);
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
         this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
-        this.treeLayer = map.createLayer('TreeLayer', tileset, 0, 0);
+        this.bushLayer = map.createLayer('BushLayer', tileset, 0, 0);
+        
 
 
         // Define how each layer will collide
@@ -53,8 +55,15 @@ class PlayTile extends Phaser.Scene {
             down: false
         });
         
-        this.treeLayer.setCollisionByProperty({
+        this.bushLayer.setCollisionByProperty({
             condCollides: true
+        });
+
+        setCondCollideDirs(pillarLayer, {
+            left: false,
+            right: false,
+            up: true,
+            down: false
         });
 
         // Create and place Player at spawn
@@ -64,7 +73,8 @@ class PlayTile extends Phaser.Scene {
 
         // Make player collide with Terrain & Trees
         this.physics.add.collider(this.player, terrainLayer);
-        this.collideTrees(true);
+        this.physics.add.collider(this.player, pillarLayer);
+        this.collideBush(true);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -98,7 +108,7 @@ class PlayTile extends Phaser.Scene {
         */
 
         // set up main camera to follow the player
-        this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        this.cameras.main.setBounds(0, -200, map.widthInPixels, map.heightInPixels + 200);
         this.cameras.main.setDeadzone(game.config.width / 5, game.config.height / 5);
         this.cameras.main.setZoom(2);
         this.cameras.main.startFollow(this.player);
@@ -127,11 +137,11 @@ class PlayTile extends Phaser.Scene {
     }
 
     // Creates or removes a collider for the tree layer
-    collideTrees(boolean){
+    collideBush(boolean){
         if (boolean){
-            this.treeCollider = this.physics.add.collider(this.player, this.treeLayer);
+            this.bushCollider = this.physics.add.collider(this.player, this.bushLayer);
         } else {
-            this.physics.world.removeCollider(this.treeCollider);
+            this.physics.world.removeCollider(this.bushCollider);
         }
     }
 
@@ -201,11 +211,9 @@ class PlayTile extends Phaser.Scene {
         }
 
         // Add mini-map camera
-        this.minimap = this.cameras.add(game.config.width - 275, 20, 250, 60).setZoom(0.25, 0.15).setName('mini');
+        this.minimap = this.cameras.add(game.config.width - 275, 20, 250, 60).setZoom(0.2, 0.2).setName('mini');
         this.minimap.setBackgroundColor(0xcc99cc);
         this.minimap.setBounds(0, 0, this.xBounds, this.yBounds);
-        this.minimap.scrollX = 1600;
-        this.minimap.scrollY = 300;
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
         this.minimap.ignore(this.BGGroup);
