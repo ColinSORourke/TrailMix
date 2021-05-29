@@ -192,56 +192,56 @@ class Player extends Phaser.GameObjects.Sprite {
     // Switch inventory to correct PowerupState
     eatMix(){
         if (this.nuts && this.inventory.length == 2){
-            if (this.powerUpState == "cloudwalk"){
+            if (this.powerUpState == "Cloud Walk"){
                 this.scene.collideClouds(false);
             }
-            if (this.powerUpState == "treewalk"){
+            if (this.powerUpState == "Tree Walk"){
                 this.scene.collideTrees(true);
             }
-            if (this.powerUpState == "teleport"){
+            if (this.powerUpState == "Teleport"){
                 this.scene.particles.destroy();
             }
             this.reset();
 
             // Not sure if there is a better way to do this
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
-                this.powerUpState = "superDash";
+                this.powerUpState = "Super Dash";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
                 this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_raisin');
                 this.scene.sound.play('sfx_chocolate');
 
-                if (!known.get("superDash")) {
-                    known.set("superDash", ["raisin", "chocolate"]);
+                if (!known.get("Super Dash")) {
+                    known.set("Super Dash", ["raisin", "chocolate"]);
                 }
             }
             if (this.inventory.includes("banana") && this.inventory.includes("chocolate")){
-                this.powerUpState = "superJump";
+                this.powerUpState = "Super Jump";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
                 this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_banana');
                 this.scene.sound.play('sfx_chocolate');
 
-                if (!known.get("superJump")) {
-                    known.set("superJump", ["banana", "chocolate"]);
+                if (!known.get("Super Jump")) {
+                    known.set("Super Jump", ["banana", "chocolate"]);
                 }
             }
             if (this.inventory.includes("banana") && this.inventory.includes("raisin")){
-                this.powerUpState = "glide";
+                this.powerUpState = "Glide";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
                 this.scene.sound.play('sfx_nuts');
                 this.scene.sound.play('sfx_banana');
                 this.scene.sound.play('sfx_raisin');
 
-                if (!known.get("glide")) {
-                    known.set("glide", ["banana", "raisin"]);
+                if (!known.get("Glide")) {
+                    known.set("Glide", ["banana", "raisin"]);
                 }
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("raisin")){
-                this.powerUpState = "teleport";
+                this.powerUpState = "Teleport";
                 this.scene.particles = this.scene.add.particles('spark');
                 let particles = this.scene.particles;
                 // Play sfx
@@ -256,28 +256,28 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.portX = this.x;
                 this.portY = this.y;
 
-                if (!known.get("teleport")) {
-                    known.set("teleport", ["cranberry", "raisin"]);
+                if (!known.get("Teleport")) {
+                    known.set("Teleport", ["cranberry", "raisin"]);
                 }
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("banana")){
-                this.powerUpState = "cloudwalk";
+                this.powerUpState = "Cloud Walk";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
                 this.scene.collideClouds(true);
 
-                if (!known.get("cloudwalk")) {
-                    known.set("cloudwalk", ["cranberry", "banana"]);
+                if (!known.get("Cloud Walk")) {
+                    known.set("Cloud Walk", ["cranberry", "banana"]);
                 }
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("chocolate")){
-                this.powerUpState = "treewalk";
+                this.powerUpState = "Tree Walk";
                 // Play sfx
                 this.scene.sound.play('sfx_mixing');
                 this.scene.collideTrees(false);
 
-                if (!known.get("treewalk")) {
-                    known.set("treewalk", ["cranberry", "chocolate"]);
+                if (!known.get("Tree Walk")) {
+                    known.set("Tree Walk", ["cranberry", "chocolate"]);
                 }
             }
             this.nuts = false;
@@ -294,19 +294,19 @@ class Player extends Phaser.GameObjects.Sprite {
         switch (this.powerUpState){
             case "normal":
                 break;
-            case "superJump":
+            case "Super Jump":
                 this.superJump();
                 break;
-            case "glide":
+            case "Glide":
                 this.glide();
                 break;
-            case "superDash":
+            case "Super Dash":
                 this.superDash();
                 break;
-            case "teleport":
+            case "Teleport":
                 this.teleport();
                 break;
-            case "cloudwalk":
+            case "Cloud Walk":
                 break;
         }
     }
@@ -332,20 +332,20 @@ class Player extends Phaser.GameObjects.Sprite {
         switch (this.powerUpState){
             case "none":
                 break;
-            case "glide":
+            case "Glide":
                 this.body.setGravityY(1500);
                 this.body.maxVelocity.x = this.MAXVX;
                 this.resetOnGround = false;
                 this.jumping = false;
                 break;
-            case "superJump":
+            case "Super Jump":
                 this.body.setGravityY(1500);
                 this.body.setVelocityY(0);
                 this.resetOnBonk = false;
                 this.mobile = true;
                 this.jumping = false;
                 break;
-            case "superDash":
+            case "Super Dash":
                 this.body.setGravityY(1500);
                 this.body.setVelocityX(0);
                 this.resetOnCollide = false;
