@@ -276,8 +276,8 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.sound.play('sfx_mixing');
                 this.scene.collideBush(false);
 
-                if (!known.get("treewalk")) {
-                    known.set("treewalk", ["cranberry", "chocolate"]);
+                if (!known.get("bushwalk")) {
+                    known.set("bushwalk", ["cranberry", "chocolate"]);
                 }
             }
             this.nuts = false;
