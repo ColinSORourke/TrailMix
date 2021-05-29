@@ -166,7 +166,10 @@ class PlayTile extends Phaser.Scene {
         }
 
         // UIBackground Box
-        UIGroup.add(this.add.rectangle(0, 0, game.config.width, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
+        //UIGroup.add(this.add.rectangle(0, 0, game.config.width, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
+        UIGroup.add(this.add.rectangle(0, 0, 425, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UILeftC'));
+        UIGroup.add(this.add.rectangle(game.config.width/2-25, 0, 48, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UICenter'));
+        UIGroup.add(this.add.rectangle(game.config.width - 400, 0, 240, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UI'));
 
         // Add Status Text
         this.statusText = this.add.bitmapText(game.config.width/4+10, 230, 'gem', 'state: normal', 20).setOrigin(0, 0.5).setScrollFactor(0,0).setName('statusText');
@@ -192,7 +195,7 @@ class PlayTile extends Phaser.Scene {
         }
 
         // Add mini-map camera
-        this.minimap = this.cameras.add(game.config.width - 325, 20, 300, 60).setZoom(0.2).setName('mini');
+        this.minimap = this.cameras.add(game.config.width - 275, 20, 250, 60).setZoom(0.25, 0.15).setName('mini');
         this.minimap.setBackgroundColor(0xcc99cc);
         this.minimap.setBounds(0, 0, this.xBounds, this.yBounds);
         this.minimap.scrollX = 1600;
