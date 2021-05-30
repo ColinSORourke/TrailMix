@@ -6,6 +6,7 @@ class MixObj extends Phaser.GameObjects.Sprite {
         let mix = this.mix;
 
         scene.physics.world.enable(this);
+        let BG = scene.add.sprite(x, y, 'itemBG', 0);
         scene.add.existing(this);
         this.body.immovable = true;
     
@@ -18,6 +19,7 @@ class MixObj extends Phaser.GameObjects.Sprite {
                 scene.sound.play(sound);
                 scene.updateText();
                 if (!infinite){
+                    BG.destroy();
                     self.destroy();
                 }
             }
@@ -27,6 +29,7 @@ class MixObj extends Phaser.GameObjects.Sprite {
                 scene.sound.play(sound);
                 scene.updateText();
                 if (!infinite){
+                    BG.destroy();
                     self.destroy();
                 }
             }
