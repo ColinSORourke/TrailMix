@@ -11,6 +11,8 @@ class SignObj extends Phaser.GameObjects.Sprite {
             player.arrow.visible = true;
             if (Phaser.Input.Keyboard.JustDown(cursors.up)){
                 let myText = scene.add.bitmapText(game.config.width/2, game.config.height/2, 'gem', text, 20).setOrigin(0.5).setScrollFactor(0,0);
+                myText.maxWidth = game.config.width / 3;
+                
                 scene.tweens.add({
                     targets: myText,
                     alpha: 0,
