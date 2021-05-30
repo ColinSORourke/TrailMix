@@ -20,7 +20,7 @@ class SignObj extends Phaser.GameObjects.Sprite {
                 
                 
                 scene.tweens.add({
-                    targets: myText,
+                    targets: [myText, signBackground],
                     alpha: 0,
                     duration: 6000,
                     ease: 'Linear',
