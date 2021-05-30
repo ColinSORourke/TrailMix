@@ -14,7 +14,7 @@ class SignObj extends Phaser.GameObjects.Sprite {
                 scene.tweens.add({
                     targets: myText,
                     alpha: 0,
-                    duration: 3000,
+                    duration: 6000,
                     ease: 'Linear',
                     onComplete: function() {
                       myText.destroy();
