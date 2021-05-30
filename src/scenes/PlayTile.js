@@ -32,14 +32,21 @@ class PlayTile extends Phaser.Scene {
         this.xBounds = map.widthInPixels;
         this.yBounds = map.heightInPixels;
 
+        this.physics.world.checkCollision.left = true;
+        this.physics.world.checkCollision.right = true;
+        this.physics.world.checkCollision.up = false;
+        this.physics.world.checkCollision.down = false;
+        
+
         const tileset = map.addTilesetImage('TilesetV4', 'tileset');
 
         // Create all relevant layers
-        const bgLayer = map.createLayer('Background', tileset, 0, 0);
         const pillarLayer = map.createLayer('PillarLayer', tileset, 0, 0);
+        const bgLayer = map.createLayer('Background', tileset, 0, 0);
+        this.bushLayer = map.createLayer('BushLayer', tileset, 0, 0);
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
         this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
-        this.bushLayer = map.createLayer('BushLayer', tileset, 0, 0);
+        
         
 
 
@@ -70,6 +77,7 @@ class PlayTile extends Phaser.Scene {
         const p1Spawn = map.findObject("Spawns", obj => obj.name === "playerSpawn");
         this.player = new Player(this, p1Spawn.x, p1Spawn.y, 'Scout', 'scout-idle-00', MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
         var player = this.player;
+        this.player.body.setCollideWorldBounds();
 
         // Make player collide with Terrain & Trees
         this.physics.add.collider(this.player, terrainLayer);
@@ -217,7 +225,13 @@ class PlayTile extends Phaser.Scene {
         }
 
         // Add mini-map camera
-        this.minimap = this.cameras.add(game.config.width - 275, 20, 250, 60).setZoom(0.2, 0.2).setName('mini');
+
+        let camWidth = 250;
+        if ( this.xBounds / 5 < 250) {
+            camWidth = this.xBounds / 5
+        }
+
+        this.minimap = this.cameras.add(game.config.width - 275, 20, camWidth, 60).setZoom(0.2, 0.2).setName('mini');
         this.minimap.setBackgroundColor(0xcc99cc);
         this.minimap.setBounds(0, 0, this.xBounds, this.yBounds);
         this.minimap.startFollow(this.player);

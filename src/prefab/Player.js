@@ -20,7 +20,6 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.SCENE = scene;        
 
-        //this.setCollideWorldBounds(true);
         this.jumping = false;
         
         // Trail Mix Bag
@@ -96,10 +95,11 @@ class Player extends Phaser.GameObjects.Sprite {
         this.arrow.y = this.y - 40;
         this.animFSM.step();
         // check out of bounds
-        if (this.x <= -5 || this.scene.xBounds <= this.x || this.scene.yBounds <= this.y || (this.y <= -5 && this.doingPower)) {
+        if ((this.y <= -5 && this.doingPower)){
             this.reset();
-            this.x = this.respawnX;
-            this.y = this.respawnY;
+        }
+        if (this.scene.yBounds <= this.y) {
+            this.scene.restart();
         }
 
         // MOVING LEFT/RIGHT LOGIC

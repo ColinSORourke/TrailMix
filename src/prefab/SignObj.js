@@ -6,6 +6,7 @@ class SignObj extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
         this.body.immovable = true;
         this.setOrigin(0,0);
+        this.setDepth(-1);
 
         scene.physics.add.overlap(player, this, function(){
             player.arrow.visible = true;
