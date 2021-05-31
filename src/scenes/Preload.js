@@ -36,6 +36,11 @@ class Preload extends Phaser.Scene
         this.load.image("TreesBack", "./assets/BGLayers/TreesBack.png");
         this.load.image("TreesMid", "./assets/BGLayers/TreesMid.png");
         this.load.image("TreesFront", "./assets/BGLayers/TreesFront.png");
+
+        // Load menu assets
+        this.load.spritesheet('TitleScout', './assets/TitleScoutAnim.png', {frameWidth: 512, frameHeight: 384, startFrame: 0, endFrame: 1});
+        this.load.image('TitleBG', './assets/TitleBG.png');
+        this.load.image('TitleText', './assets/TitleText.png');
         
         // This loads level map
         this.load.tilemapTiledJSON('TiledTestJSON', './assets/levels/SampleLevel.json');
