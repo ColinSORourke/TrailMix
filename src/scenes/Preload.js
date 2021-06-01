@@ -58,6 +58,7 @@ class Preload extends Phaser.Scene
         
         // This loads level map
         this.load.tilemapTiledJSON('TiledTestJSON', './assets/levels/SampleLevel.json');
+        this.load.tilemapTiledJSON('levelKey', './assets/levels/LevelKey.json');
         
         this.createProgressbar(game.config.width / 2, game.config.height / 2);
     }

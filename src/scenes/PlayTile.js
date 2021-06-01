@@ -109,6 +109,18 @@ class PlayTile extends Phaser.Scene {
         var player = this.player;
         this.player.body.setCollideWorldBounds();
 
+        const nextLevel = map.findObject("Spawns", obj => obj.type === "nextLevel");
+        let camp = this.add.rectangle(nextLevel.x, nextLevel.y, nextLevel.width, nextLevel.height, 0xff6699).setOrigin(0,0);
+        camp.alpha = 0.001;
+        this.physics.add.existing(camp);
+        camp.body.immovable = true;
+        this.physics.add.overlap(this.player, camp, function(){
+            player.arrow.alpha = 1;
+            if (Phaser.Input.Keyboard.JustDown(cursors.up)){
+                this.scene.start('playTileScene', nextLevel.name);
+            }
+        }, null, this);
+
         // Make player collide with Terrain & Trees
         this.physics.add.collider(this.player, terrainLayer);
         this.physics.add.collider(this.player, pillarLayer);
