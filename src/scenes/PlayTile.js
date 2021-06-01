@@ -187,6 +187,7 @@ class PlayTile extends Phaser.Scene {
 
     addHazardRectangle(x, y, width, height){
         let hazard = this.add.rectangle(x, y, width, height, 0xff6699).setOrigin(0,0);
+        hazard.alpha = 0.001;
         this.physics.add.existing(hazard);
         this.physics.add.overlap(this.player, hazard, this.restart, null, this);
     }
@@ -249,12 +250,12 @@ class PlayTile extends Phaser.Scene {
             camWidth = this.xBounds / 5
         }
 
-        /* this.minimap = this.cameras.add(game.config.width - 275, 20, camWidth, 60).setZoom(0.2, 0.2).setName('mini');
+        this.minimap = this.cameras.add(game.config.width - 275, 20, camWidth, 60).setZoom(0.2, 0.2).setName('mini');
         this.minimap.setBackgroundColor(0xcc99cc);
         this.minimap.setBounds(0, 0, this.xBounds, this.yBounds);
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
-        this.minimap.ignore(this.BGGroup); */
+        this.minimap.ignore(this.BGGroup);
         
         // Add opaque Nuts Sprite to inventory display
         this.nutsSprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
