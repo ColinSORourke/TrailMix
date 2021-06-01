@@ -4,7 +4,11 @@ class Menu extends Phaser.Scene {
     }
     
     create() {
-
+      console.log(game.music);
+      if (!game.music){ 
+        game.music = this.sound.add('Music', this.musicConfig);
+      }
+      game.music.stop();
     // Background
     this.add.sprite(0, 0, 'TitleBG').setOrigin(0, 0).setScale(2);
 
@@ -30,6 +34,7 @@ class Menu extends Phaser.Scene {
     let startButton = this.add.rectangle(750, 230, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
     startButton.setInteractive();
     startButton.on('pointerdown', () => {
+      game.music.play();
       this.scene.start('playTileScene', "TiledTestJSON");
     });
 

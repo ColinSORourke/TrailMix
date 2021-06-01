@@ -450,7 +450,7 @@ class Player extends Phaser.GameObjects.Sprite {
     discardIngredients(){
         for (let i = 0; i < this.ingredientObjs.length; i++){
             let myObj = this.ingredientObjs[i];
-            new MixObj(this.scene, myObj.x, myObj.y, 'Mix', myObj.mix, this, false, 'sfx_nuts');
+            new MixObj(this.scene, myObj.x, myObj.y, 'Mix', myObj.mix, this, false, 'sfx_' + myObj.mix);
         }
         this.nuts = false;
         this.inventory = [];

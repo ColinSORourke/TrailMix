@@ -37,8 +37,6 @@ class PlayTile extends Phaser.Scene {
             loop: true,
             delay: 0
         };
-        this.music = this.sound.add('Music', this.musicConfig);
-        this.music.play();
 
         // Basic Tilemap stuff
         const map = this.add.tilemap(this.level);
