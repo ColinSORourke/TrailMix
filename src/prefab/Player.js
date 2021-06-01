@@ -56,7 +56,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.anims.create({
             key: 'scoutIdle',
             frames: idleFrameNames,
-            frameRate: 6,
+            frameRate: 5,
             repeat: -1
         });
         this.anims.create({
