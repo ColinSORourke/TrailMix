@@ -17,8 +17,11 @@ class Credits extends Phaser.Scene {
         this.add.bitmapText(game.config.width/2, game.config.height/2, 'gem', 'Artist:', 40).setOrigin(0.5);
         this.add.bitmapText(game.config.width/2, game.config.height/2 + 50, 'gem', 'Daniel Aughenbaugh', 28).setOrigin(0.5);
 
+        this.add.bitmapText(game.config.width/2, game.config.height/2 + 150, 'gem', 'Other Contributions:', 40).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2, game.config.height/2 + 200, 'gem', 'Ambient Forest and Wind Sounds by @BurghRecords on YouTube', 28).setOrigin(0.5);
+
         // Menu
-        let MenuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 150, 'gem', 'Back', 40).setOrigin(0.5);
+        let MenuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 300, 'gem', 'Back', 40).setOrigin(0.5);
 
         // Menu Button
         MenuButton.setInteractive();
