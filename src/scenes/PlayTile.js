@@ -326,6 +326,7 @@ class PlayTile extends Phaser.Scene {
 
     // Restart the Scene
     restart(){
+        this.sound.play('sfx_reset');
         console.log('restarting scene');
         this.scene.start('playTileScene', "TiledTestJSON");
     }

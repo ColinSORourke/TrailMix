@@ -59,6 +59,7 @@ class Player extends Phaser.GameObjects.Sprite {
         let runFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-run-', end: 5, zeroPad: 2 });
         let jumpFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-jump-', end: 3, zeroPad: 2 });
         let fallFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-fall-', end: 1, zeroPad: 2 });
+        let glideFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-glide-', end: 1, zeroPad: 2 })
 
         this.anims.create({
             key: 'scoutIdle',
@@ -84,6 +85,12 @@ class Player extends Phaser.GameObjects.Sprite {
             frameRate: 6,
             repeat: -1
         });
+        this.anims.create({
+            key: 'scoutGlide',
+            frames: glideFrameNames,
+            frameRate: 6,
+            repeat: -1
+        });
         
         this.animFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -91,6 +98,7 @@ class Player extends Phaser.GameObjects.Sprite {
             jump: new JumpState(),
             fall: new FallState(),
             power: new PowerState(),
+            glide: new GlideState(),
         }, [this]);
     }
 
@@ -158,7 +166,6 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.reset();
             }
             if (this.jumping && !keySPACE.isDown){
-                console.log("stopped jumping");
                 this.jumping = false;
             }
             if (this.body.maxVelocity.x != this.MAXVX && !this.doingPower){
@@ -509,6 +516,7 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     teleport(){
+        this.scene.sound.play('sfx_tele');
         this.x = this.portX;
         this.y = this.portY;
     }
@@ -600,7 +608,10 @@ class JumpState extends State {
     }
 
     execute(scout) {
-        if (scout.doingPower){
+        if (scout.powerUpState == "Glide" && scout.doingPower){
+            scout.animFSM.transition('glide');
+        }
+        else if (scout.doingPower){
             scout.animFSM.transition('power');
         }
         else if (scout.body.velocity.y >= 0){
@@ -617,7 +628,10 @@ class FallState extends State {
     }
 
     execute(scout) {
-        if (scout.doingPower){
+        if (scout.powerUpState == "Glide" && scout.doingPower){
+            scout.animFSM.transition('glide');
+        }
+        else if (scout.doingPower){
             scout.animFSM.transition('power');
         }
         else if (scout.body.velocity.y == 0){
@@ -634,5 +648,18 @@ class PowerState extends State{
 
     execute(scout) {
         // None
+    }
+}
+
+class GlideState extends State{
+    enter(scout) {
+        scout.anims.stop();
+        scout.anims.play('scoutGlide');
+    }
+
+    execute(scout) {
+        if (scout.body.velocity.y == 0){
+            scout.animFSM.transition('idle');
+        }
     }
 }

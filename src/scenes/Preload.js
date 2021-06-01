@@ -23,6 +23,11 @@ class Preload extends Phaser.Scene
         this.load.audio('sfx_cranberry', './assets/sfx/Cranberry.wav');
         this.load.audio('sfx_pretzel', './assets/sfx/Pretzel.wav');
         this.load.audio('sfx_mixing', './assets/sfx/Mixing.wav');
+        this.load.audio('sfx_reset', './assets/sfx/Death.wav');
+        this.load.audio('sfx_tele', './assets/sfx/Teleport.wav');
+
+
+
         this.load.image('tileset', './assets/TilesetV4.png');
 
         // Load font
