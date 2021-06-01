@@ -33,8 +33,8 @@ class PlayTile extends Phaser.Scene {
         this.emitter = this.particleManager.createEmitter({
             frame: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
             gravityY: 8,
-            maxVelocityY: 48,
-            lifespan: 15000,
+            maxVelocityY: 42,
+            lifespan: 17000,
             frequency: 180,
             rotate: {min: -30, max: 30},
             flip: {min: 0, max: 1},
@@ -111,8 +111,9 @@ class PlayTile extends Phaser.Scene {
 
         // Make player collide with Terrain & Trees
         this.physics.add.collider(this.player, terrainLayer);
-        console.log(this.player.arrow);
         this.physics.add.collider(this.player, pillarLayer);
+        this.physics.add.collider(this.player.crate, terrainLayer);
+        this.physics.add.collider(this.player.crate, pillarLayer);
         
 
         this.collideBush(true);
@@ -147,7 +148,7 @@ class PlayTile extends Phaser.Scene {
         this.breakObjs = map.filterObjects("Spawns", obj => obj.type === "breakObj");
         for (let i = 0; i < this.breakObjs.length; i++){
             let breakable = this.breakObjs[i];
-            let block = this.add.rectangle(breakable.x, breakable.y -16, 16, 16, 0xff6699).setOrigin(0,0);
+            let block = this.add.sprite(breakable.x, breakable.y -16, 'block', 0).setOrigin(0,0);
             this.physics.add.existing(block);
             block.body.immovable = true;
             this.physics.add.collider(this.player, block, function() {
@@ -155,6 +156,7 @@ class PlayTile extends Phaser.Scene {
                     block.destroy();
                 }
             }, null, this);
+            this.physics.add.collider(this.player, block);
         }
 
         // set bg color
@@ -196,9 +198,11 @@ class PlayTile extends Phaser.Scene {
     collideClouds(boolean){
         if (boolean){
             this.cloudCollider = this.physics.add.collider(this.player, this.cloudLayer);
+            this.cloudCrate = this.physics.add.collider(this.player.crate, this.cloudLayer);
             this.cloudLayer.alpha = 1;
         } else {
             this.physics.world.removeCollider(this.cloudCollider);
+            this.physics.world.removeCollider(this.cloudCrate);
             this.cloudLayer.collider.alpha = 0.6;
         }
     }
@@ -207,9 +211,11 @@ class PlayTile extends Phaser.Scene {
     collideBush(boolean){
         if (boolean){
             this.bushCollider = this.physics.add.collider(this.player, this.bushLayer);
+            this.bushCrate = this.physics.add.collider(this.player.crate, this.bushLayer);
             this.bushLayer.alpha = 1;
         } else {
             this.physics.world.removeCollider(this.bushCollider);
+            this.physics.world.removeCollider(this.bushCrate);
             this.bushLayer.alpha = 0.6;
         }
     }
@@ -232,7 +238,9 @@ class PlayTile extends Phaser.Scene {
         let hazard = this.add.rectangle(x, y, width, height, 0xff6699).setOrigin(0,0);
         hazard.alpha = 0.001;
         this.physics.add.existing(hazard);
+        hazard.body.immovable = true;
         this.physics.add.overlap(this.player, hazard, this.restart, null, this);
+        this.physics.add.collider(this.player.crate, hazard);
     }
 
     addUIElements() {

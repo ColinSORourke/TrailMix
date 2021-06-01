@@ -21,19 +21,26 @@ class Player extends Phaser.GameObjects.Sprite {
         this.SCENE = scene;        
 
         this.jumping = false;
-        
+
         // Trail Mix Bag
         this.nuts = false;
         this.inventory = [];
         this.ingredientObjs = [];
 
         // Related to Powerups / Movement
-        this.powerUpState = "normal";
+        this.powerUpState = "Crate";
         this.doingPower = false;
         this.resetOnGround = false;
         this.resetOnBonk = false;
         this.resetOnCollide = false;
         this.mobile = true;
+
+        this.crate = scene.add.sprite(x+50, y-12, 'crate', 0);
+        scene.physics.world.enable(this.crate);
+        this.crate.body.setGravityY(0);
+        this.crate.body.immovable = true;
+        scene.physics.add.collider(this, this.crate);
+        
 
         this.portX = x;
         this.portY = y;
@@ -145,11 +152,13 @@ class Player extends Phaser.GameObjects.Sprite {
 
         // Ground Collision
         // (NOTE: Even though the player passes through ingredients, these still count as touching down, making jump logic through ingredients weird - FIX THIS)
-        if (this.body.blocked.down){
+        if (this.body.blocked.down || this.body.touching.down){
+            
             if (this.resetOnGround){
                 this.reset();
             }
             if (this.jumping && !keySPACE.isDown){
+                console.log("stopped jumping");
                 this.jumping = false;
             }
             if (this.body.maxVelocity.x != this.MAXVX && !this.doingPower){
@@ -186,6 +195,25 @@ class Player extends Phaser.GameObjects.Sprite {
         if (Phaser.Input.Keyboard.JustDown(keyD)){
             this.doPowerup();
         }
+        if ( this.movingCrate && Phaser.Input.Keyboard.DownDuration(keyD, 1000)){
+            if (this.flipX){
+                this.crate.body.setVelocityX(-80);
+            } else {
+                this.crate.body.setVelocityX(80);
+            }
+        } else if (this.movingCrate){
+            this.crate.body.setGravityY(0);
+            this.movingCrate = false;
+            this.crate.body.immovable = true;
+            this.crate.body.setVelocityX(0);
+        }
+        if(Phaser.Input.Keyboard.UpDuration(keyD)) {
+	    	this.crate.body.setGravityY(0);
+            this.crate.body.setVelocityX(0);
+            this.movingCrate = false;
+            this.crate.body.immovable = true;
+	    }
+        
 
         // discard ingredients 
         if(Phaser.Input.Keyboard.JustDown(keyS)){
@@ -301,6 +329,13 @@ class Player extends Phaser.GameObjects.Sprite {
                     known.set("Breaker", ["pretzel", "cranberry"]);
                 }
             }
+            if (this.inventory.includes("pretzel") && this.inventory.includes("banana")){
+                this.powerUpState = "Crate";
+
+                if (!known.get("Crate")) {
+                    known.set("Crate", ["pretzel", "banana"]);
+                }
+            }
 
             // Play sfx
             this.scene.sound.play('sfx_mixing');
@@ -337,6 +372,9 @@ class Player extends Phaser.GameObjects.Sprite {
             case "Hang":
                 this.body.setGravityY(1500);
                 this.resetHang = false;
+                break;
+            case "Crate":
+                this.doCrate();
                 break;
             case "Cloud Walk":
                 break;
@@ -386,6 +424,9 @@ class Player extends Phaser.GameObjects.Sprite {
                 break;
             case "Hang":
                 this.body.setGravityY(1500);
+                break;
+            case "Crate":
+                this.movingCrate = false;
                 break;
         }
     }
@@ -472,10 +513,23 @@ class Player extends Phaser.GameObjects.Sprite {
         this.y = this.portY;
     }
 
+    doCrate(){
+        this.crate.body.setGravityY(1000);
+        this.movingCrate = true;
+        this.crate.body.immovable = false;
+        if (this.flipX){
+            this.crate.y = this.y - 16;
+            this.crate.x = this.x - 16;
+        } else {
+            this.crate.y = this.y - 16;
+            this.crate.x = this.x + 16;
+        }
+    }
+
     // DEBUG FUNCTIONS //
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
-        console.log(this.body.blocked.up);
+        console.log(this.body.touching.down);
     }
 
     getSize() {
