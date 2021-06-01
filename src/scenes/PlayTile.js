@@ -144,6 +144,19 @@ class PlayTile extends Phaser.Scene {
             this.addHazardRectangle(hazard.x, hazard.y, hazard.width, hazard.height);
         }
 
+        this.breakObjs = map.filterObjects("Spawns", obj => obj.type === "breakObj");
+        for (let i = 0; i < this.breakObjs.length; i++){
+            let breakable = this.breakObjs[i];
+            let block = this.add.rectangle(breakable.x, breakable.y -16, 16, 16, 0xff6699).setOrigin(0,0);
+            this.physics.add.existing(block);
+            block.body.immovable = true;
+            this.physics.add.collider(this.player, block, function() {
+                if (player.powerUpState == "Breaker"){
+                    block.destroy();
+                }
+            }, null, this);
+        }
+
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
 

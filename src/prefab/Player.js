@@ -294,6 +294,13 @@ class Player extends Phaser.GameObjects.Sprite {
                     known.set("Hang", ["pretzel", "chocolate"]);
                 }
             }
+            if (this.inventory.includes("pretzel") && this.inventory.includes("cranberry")){
+                this.powerUpState = "Breaker";
+
+                if (!known.get("Breaker")) {
+                    known.set("Breaker", ["pretzel", "cranberry"]);
+                }
+            }
 
             // Play sfx
             this.scene.sound.play('sfx_mixing');
