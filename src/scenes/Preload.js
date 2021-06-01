@@ -6,8 +6,9 @@ class Preload extends Phaser.Scene
 
     preload ()
     {
-        // Load music
+        // Load music and ambience
         this.load.audio("Music", "./assets/ScrogginSong.mp3");
+        this.load.audio("MenuAmbience", "./assets/MenuAmbience.mp3");
 
         // Load char atlas
         this.load.atlas('Scout', './assets/ScoutAtlas.png', './assets/ScoutAtlas.json')
