@@ -26,16 +26,18 @@ class Menu extends Phaser.Scene {
     let titleScout = this.add.sprite(512, 384, 'TitleScout').setScale(2);
     titleScout.play('ScoutAnim');
 
-    // Play
-    let startButton = this.add.rectangle(750, 230, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
-
-    // How to win this 'build'
-    //this.add.bitmapText(game.config.width/2, game.config.height/2 + 250, 'gem', "You need to cross the massive gap to win", 28).setOrigin(0.5);
-
     // Start Button
+    let startButton = this.add.rectangle(750, 230, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
     startButton.setInteractive();
     startButton.on('pointerdown', () => {
       this.scene.start('playTileScene', "TiledTestJSON");
+    });
+
+    // Credits Button
+    let creditsButton = this.add.rectangle(750, 410, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
+    creditsButton.setInteractive();
+    creditsButton.on('pointerdown', () => {
+      this.scene.start("creditsScene");
     });
 
   }

@@ -15,7 +15,7 @@ let config = {
           }
       }
   },
-    scene: [Preload, Menu, PlayTile, Pause],
+    scene: [Preload, Menu, PlayTile, Pause, Credits],
   }
 
 let game = new Phaser.Game(config);
