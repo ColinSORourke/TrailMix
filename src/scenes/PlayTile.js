@@ -44,8 +44,10 @@ class PlayTile extends Phaser.Scene {
         const pillarLayer = map.createLayer('PillarLayer', tileset, 0, 0);
         const bgLayer = map.createLayer('Background', tileset, 0, 0);
         this.bushLayer = map.createLayer('BushLayer', tileset, 0, 0);
+        const hazardLayer = map.createLayer('HazardLayer', tileset, 0, 0);
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
         this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
+        
         
         
 
@@ -82,7 +84,10 @@ class PlayTile extends Phaser.Scene {
         // Make player collide with Terrain & Trees
         this.physics.add.collider(this.player, terrainLayer);
         this.physics.add.collider(this.player, pillarLayer);
+        
+
         this.collideBush(true);
+        this.cloudLayer.alpha = 0.6;
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -95,15 +100,19 @@ class PlayTile extends Phaser.Scene {
         this.mixObjs = map.filterObjects("Spawns", obj => obj.type === "mixObj");
         for (let i = 0; i < this.mixObjs.length; i++){
             let mix = this.mixObjs[i];
-            // new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
-            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_nuts');
-            // new SignObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, 'I AM NUTS');
+            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
         }
 
         this.signObjs = map.filterObjects("Spawns", obj => obj.type === "signObj");
         for (let i = 0; i < this.signObjs.length; i++){
             let sign = this.signObjs[i];
             new SignObj(this, sign.x, sign.y, 'sign', null, player, sign.name);
+        }
+
+        this.hazardObjs = map.filterObjects("Spawns", obj => obj.type === "Hazard");
+        for (let i = 0; i < this.hazardObjs.length; i++){
+            let hazard = this.hazardObjs[i];
+            this.addHazardRectangle(hazard.x, hazard.y, hazard.width, hazard.height);
         }
 
         // set bg color
@@ -123,7 +132,7 @@ class PlayTile extends Phaser.Scene {
 
         // set up main camera to follow the player
         this.cameras.main.setBounds(0, -200, map.widthInPixels, map.heightInPixels + 200);
-        this.cameras.main.setDeadzone(game.config.width / 5, game.config.height / 5);
+        //this.cameras.main.setDeadzone(game.config.width / 5, game.config.height / 5);
         this.cameras.main.setZoom(2);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setFollowOffset(0, 50);
@@ -144,9 +153,10 @@ class PlayTile extends Phaser.Scene {
     collideClouds(boolean){
         if (boolean){
             this.cloudCollider = this.physics.add.collider(this.player, this.cloudLayer);
-            console.log(this.cloudLayer);
+            this.cloudLayer.alpha = 1;
         } else {
             this.physics.world.removeCollider(this.cloudCollider);
+            this.cloudLayer.collider.alpha = 0.6;
         }
     }
 
@@ -154,8 +164,10 @@ class PlayTile extends Phaser.Scene {
     collideBush(boolean){
         if (boolean){
             this.bushCollider = this.physics.add.collider(this.player, this.bushLayer);
+            this.bushLayer.alpha = 1;
         } else {
             this.physics.world.removeCollider(this.bushCollider);
+            this.bushLayer.alpha = 0.6;
         }
     }
 
@@ -171,6 +183,12 @@ class PlayTile extends Phaser.Scene {
             inventorySprite.setScrollFactor(0);
             this.inventoryGroup.add(inventorySprite);
         }
+    }
+
+    addHazardRectangle(x, y, width, height){
+        let hazard = this.add.rectangle(x, y, width, height, 0xff6699).setOrigin(0,0);
+        this.physics.add.existing(hazard);
+        this.physics.add.overlap(this.player, hazard, this.restart, null, this);
     }
 
     addUIElements() {
@@ -231,12 +249,12 @@ class PlayTile extends Phaser.Scene {
             camWidth = this.xBounds / 5
         }
 
-        this.minimap = this.cameras.add(game.config.width - 275, 20, camWidth, 60).setZoom(0.2, 0.2).setName('mini');
+        /* this.minimap = this.cameras.add(game.config.width - 275, 20, camWidth, 60).setZoom(0.2, 0.2).setName('mini');
         this.minimap.setBackgroundColor(0xcc99cc);
         this.minimap.setBounds(0, 0, this.xBounds, this.yBounds);
         this.minimap.startFollow(this.player);
         this.minimap.ignore(UIGroup);
-        this.minimap.ignore(this.BGGroup);
+        this.minimap.ignore(this.BGGroup); */
         
         // Add opaque Nuts Sprite to inventory display
         this.nutsSprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
@@ -256,6 +274,7 @@ class PlayTile extends Phaser.Scene {
 
     // Restart the Scene
     restart(){
+        console.log('restarting scene');
         this.scene.start('playTileScene', "TiledTestJSON");
     }
 }

@@ -16,6 +16,8 @@ class Preload extends Phaser.Scene
         this.load.audio('sfx_nuts', './assets/sfx/Nut.wav');
         this.load.audio('sfx_raisin', './assets/sfx/Raisin.wav');
         this.load.audio('sfx_chocolate', './assets/sfx/Chocolate.wav');
+        this.load.audio('sfx_cranberry', './assets/sfx/Cranberry.wav');
+        this.load.audio('sfx_pretzel', './assets/sfx/Pretzel.wav');
         this.load.audio('sfx_mixing', './assets/sfx/Mixing.wav');
         this.load.image('tileset', './assets/TilesetV4.png');
 

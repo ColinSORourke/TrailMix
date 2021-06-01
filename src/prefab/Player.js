@@ -206,11 +206,7 @@ class Player extends Phaser.GameObjects.Sprite {
             // Not sure if there is a better way to do this
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Super Dash";
-                // Play sfx
-                this.scene.sound.play('sfx_mixing');
-                this.scene.sound.play('sfx_nuts');
-                this.scene.sound.play('sfx_raisin');
-                this.scene.sound.play('sfx_chocolate');
+                
 
                 if (!known.get("Super Dash")) {
                     known.set("Super Dash", ["raisin", "chocolate"]);
@@ -218,11 +214,7 @@ class Player extends Phaser.GameObjects.Sprite {
             }
             if (this.inventory.includes("banana") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Super Jump";
-                // Play sfx
-                this.scene.sound.play('sfx_mixing');
-                this.scene.sound.play('sfx_nuts');
-                this.scene.sound.play('sfx_banana');
-                this.scene.sound.play('sfx_chocolate');
+                
 
                 if (!known.get("Super Jump")) {
                     known.set("Super Jump", ["banana", "chocolate"]);
@@ -230,11 +222,7 @@ class Player extends Phaser.GameObjects.Sprite {
             }
             if (this.inventory.includes("banana") && this.inventory.includes("raisin")){
                 this.powerUpState = "Glide";
-                // Play sfx
-                this.scene.sound.play('sfx_mixing');
-                this.scene.sound.play('sfx_nuts');
-                this.scene.sound.play('sfx_banana');
-                this.scene.sound.play('sfx_raisin');
+                
 
                 if (!known.get("Glide")) {
                     known.set("Glide", ["banana", "raisin"]);
@@ -244,8 +232,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.powerUpState = "Teleport";
                 this.scene.particles = this.scene.add.particles('spark');
                 let particles = this.scene.particles;
-                // Play sfx
-                this.scene.sound.play('sfx_mixing');
+
                 this.scene.tpEmitter =  particles.createEmitter({
                     x: this.x,
                     y: this.y,
@@ -262,8 +249,7 @@ class Player extends Phaser.GameObjects.Sprite {
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("banana")){
                 this.powerUpState = "Cloud Walk";
-                // Play sfx
-                this.scene.sound.play('sfx_mixing');
+
                 this.scene.collideClouds(true);
 
                 if (!known.get("Cloud Walk")) {
@@ -272,14 +258,20 @@ class Player extends Phaser.GameObjects.Sprite {
             }
             if (this.inventory.includes("cranberry") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Bush Walk";
-                // Play sfx
-                this.scene.sound.play('sfx_mixing');
+                
                 this.scene.collideBush(false);
 
                 if (!known.get("Bush Walk")) {
                     known.set("Bush Walk", ["cranberry", "chocolate"]);
                 }
             }
+
+            // Play sfx
+            this.scene.sound.play('sfx_mixing');
+            this.scene.sound.play('sfx_nuts');
+            this.scene.sound.play('sfx_' + this.inventory[0]);
+            this.scene.sound.play('sfx_' + this.inventory[1]);
+
             this.nuts = false;
             this.inventory = [];
             this.ingredientObjs = [];
