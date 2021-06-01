@@ -31,9 +31,9 @@ class PlayTile extends Phaser.Scene {
 
         this.particleManager = this.add.particles('leaf');
         this.emitter = this.particleManager.createEmitter({
-            gravityY: 15,
+            gravityY: 12,
             lifespan: 15000,
-            frequency: 1,
+            frequency: 100,
             angle: { min: -20, max: 20 },
             emitZone: { source: rect}
         });
