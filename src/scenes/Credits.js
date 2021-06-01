@@ -17,13 +17,13 @@ class Credits extends Phaser.Scene {
         this.add.bitmapText(game.config.width/2, game.config.height/2, 'gem', 'Artist:', 40).setOrigin(0.5);
         this.add.bitmapText(game.config.width/2, game.config.height/2 + 50, 'gem', 'Daniel Aughenbaugh', 28).setOrigin(0.5);
 
-        // Menu
+        // Menu 
         let MenuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 150, 'gem', 'Back', 40).setOrigin(0.5);
 
         // Menu Button
         MenuButton.setInteractive();
         MenuButton.on('pointerdown', () => {
         this.scene.start('menuScene');
-      });
+        });
     }
 }

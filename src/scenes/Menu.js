@@ -37,6 +37,13 @@ class Menu extends Phaser.Scene {
       this.scene.start('playTileScene', "TiledTestJSON");
     });
 
+    // Controls Button
+    let controlsButton = this.add.rectangle(750, 320, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
+    controlsButton.setInteractive();
+    controlsButton.on('pointerdown', () => {
+    this.scene.start('controlsScene');
+    });
+
     // Credits Button
     let creditsButton = this.add.rectangle(750, 410, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
     creditsButton.setInteractive();
