@@ -27,6 +27,19 @@ class PlayTile extends Phaser.Scene {
         this.TreesFront = this.add.tileSprite(0, 0, 1024, 768, "TreesFront").setOrigin(-0.1,0.1).setScrollFactor(0.6);
         this.BGGroup.add(this.TreesFront);
 
+        // Add music
+        this.musicConfig =  {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        };
+        this.music = this.sound.add('Music', this.musicConfig);
+        this.music.play();
+
         // Basic Tilemap stuff
         const map = this.add.tilemap(this.level);
         this.xBounds = map.widthInPixels;
