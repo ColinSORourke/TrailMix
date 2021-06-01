@@ -9,7 +9,7 @@ class SignObj extends Phaser.GameObjects.Sprite {
         this.setDepth(-1);
 
         scene.physics.add.overlap(player, this, function(){
-            player.arrow.visible = true;
+            player.arrow.alpha = 1;
             if (Phaser.Input.Keyboard.JustDown(cursors.up)){
                 let graphics = scene.add.graphics();
 

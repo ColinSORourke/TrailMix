@@ -43,8 +43,8 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.initializeAnims();
 
-        this.arrow = scene.add.sprite(this.x, this.y - 40, 'arrow');
-        this.arrow.visible = false;
+        this.arrow = scene.add.sprite(this.x, this.y - 36, 'arrow');
+        this.arrow.alpha = 0.001;
     }
 
     initializeAnims(){
@@ -89,10 +89,10 @@ class Player extends Phaser.GameObjects.Sprite {
 
     update() {
         if (this.body.touching.none && this.arrow.visible){
-            this.arrow.visible = false;
+            this.arrow.alpha = 0.001;
         }
         this.arrow.x = this.x;
-        this.arrow.y = this.y - 40;
+        this.arrow.y = this.y - 36;
         this.animFSM.step();
         // check out of bounds
         if ((this.y <= -5 && this.doingPower)){
@@ -129,11 +129,20 @@ class Player extends Phaser.GameObjects.Sprite {
         // Some Collision checking
         // Ceiling Collision
         if (this.body.blocked.up){
-            if (this.resetOnBonk){
+            if (this.powerUpState == "Hang"){
+                this.body.setGravityY(0);
+                this.resetHang = true;
+            }
+            else if (this.resetOnBonk){
                 this.reset();
             }
             this.jumping = true;
         }
+        if (this.resetHang && this.scene.map.getTileAtWorldXY(this.arrow.x, this.arrow.y, true, null, 'Terrain').index == -1){
+            this.body.setGravityY(1500);
+            this.resetHang = false;
+        }
+
         // Ground Collision
         // (NOTE: Even though the player passes through ingredients, these still count as touching down, making jump logic through ingredients weird - FIX THIS)
         if (this.body.blocked.down){
@@ -278,6 +287,13 @@ class Player extends Phaser.GameObjects.Sprite {
                     known.set("Shrink", ["pretzel", "raisin"]);
                 }
             }
+            if (this.inventory.includes("pretzel") && this.inventory.includes("chocolate")){
+                this.powerUpState = "Hang";
+
+                if (!known.get("Hang")) {
+                    known.set("Hang", ["pretzel", "chocolate"]);
+                }
+            }
 
             // Play sfx
             this.scene.sound.play('sfx_mixing');
@@ -311,8 +327,13 @@ class Player extends Phaser.GameObjects.Sprite {
             case "Teleport":
                 this.teleport();
                 break;
+            case "Hang":
+                this.body.setGravityY(1500);
+                this.resetHang = false;
+                break;
             case "Cloud Walk":
                 break;
+            
         }
     }
 
@@ -355,6 +376,9 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.body.setVelocityX(0);
                 this.resetOnCollide = false;
                 this.mobile = true;
+                break;
+            case "Hang":
+                this.body.setGravityY(1500);
                 break;
         }
     }
@@ -432,6 +456,10 @@ class Player extends Phaser.GameObjects.Sprite {
         }
     }
 
+    releaseHang(){
+        this.reset();
+    }
+
     teleport(){
         this.x = this.portX;
         this.y = this.portY;
@@ -440,7 +468,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // DEBUG FUNCTIONS //
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
-        console.log(this.body.blocked.down)
+        console.log(this.body.blocked.up);
     }
 
     getSize() {

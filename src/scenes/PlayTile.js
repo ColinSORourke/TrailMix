@@ -27,7 +27,7 @@ class PlayTile extends Phaser.Scene {
         this.TreesFront = this.add.tileSprite(0, 0, 1024, 768, "TreesFront").setOrigin(-0.1,0.1).setScrollFactor(0.6);
         this.BGGroup.add(this.TreesFront);
 
-        let rect = new Phaser.Geom.Rectangle(0, -30, game.config.width, 100);
+        let rect = new Phaser.Geom.Rectangle(0, -100, game.config.width, 170);
 
         this.particleManager = this.add.particles('leaf');
         this.emitter = this.particleManager.createEmitter({
@@ -56,6 +56,7 @@ class PlayTile extends Phaser.Scene {
 
         // Basic Tilemap stuff
         const map = this.add.tilemap(this.level);
+        this.map = map;
         this.xBounds = map.widthInPixels;
         this.yBounds = map.heightInPixels;
 
@@ -110,6 +111,7 @@ class PlayTile extends Phaser.Scene {
 
         // Make player collide with Terrain & Trees
         this.physics.add.collider(this.player, terrainLayer);
+        console.log(this.player.arrow);
         this.physics.add.collider(this.player, pillarLayer);
         
 
