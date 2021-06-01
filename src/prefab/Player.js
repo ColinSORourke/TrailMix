@@ -12,7 +12,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.ACCELERATION = acceleration;
         this.DRAG = drag;    
         this.JUMP_VELOCITY = jump_velocity;
-        this.body.setGravityY(1250);
+        this.body.setGravityY(1500);
 
         // set player hitbox
         this.body.setSize(this.width/2.4, this.height-3);
@@ -201,6 +201,10 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.powerUpState == "Teleport"){
                 this.scene.particles.destroy();
             }
+            if (this.powerUpState == "Shrink"){
+                this.setScale(1);
+                this.body.setGravityY(1500);
+            }
             this.reset();
 
             // Not sure if there is a better way to do this
@@ -263,6 +267,15 @@ class Player extends Phaser.GameObjects.Sprite {
 
                 if (!known.get("Bush Walk")) {
                     known.set("Bush Walk", ["cranberry", "chocolate"]);
+                }
+            }
+            if (this.inventory.includes("pretzel") && this.inventory.includes("raisin")){
+                this.powerUpState = "Shrink";
+
+                this.setScale(0.5);
+                this.body.setGravityY(1000);
+                if (!known.get("Shrink")) {
+                    known.set("Shrink", ["pretzel", "raisin"]);
                 }
             }
 

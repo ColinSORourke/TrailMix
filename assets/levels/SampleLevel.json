@@ -275,6 +275,30 @@
                  "width":25.6666666666667,
                  "x":66.8333166666666,
                  "y":418.833316666667
+                }, 
+                {
+                 "gid":2,
+                 "height":16,
+                 "id":41,
+                 "name":"pretzel",
+                 "rotation":0,
+                 "type":"mixObj",
+                 "visible":true,
+                 "width":16,
+                 "x":288,
+                 "y":368
+                }, 
+                {
+                 "gid":2,
+                 "height":16,
+                 "id":42,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":326,
+                 "y":448
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -283,7 +307,7 @@
          "y":0
         }],
  "nextlayerid":9,
- "nextobjectid":41,
+ "nextobjectid":43,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.6.0",
