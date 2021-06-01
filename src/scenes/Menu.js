@@ -4,7 +4,6 @@ class Menu extends Phaser.Scene {
     }
     
     create() {
-      console.log(game.music);
       if (!game.music){ 
         game.music = this.sound.add('Music', this.musicConfig);
       }

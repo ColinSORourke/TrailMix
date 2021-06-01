@@ -7,12 +7,12 @@ class AnimParticle extends Phaser.GameObjects.Particles.Particle
 
         let config = {
             key: 'float',
-            frames: this.anims.generateFrameNumbers('leaf'),
-            frameRate: 18,
-            repeat: -1
+            frames: emitter.manager.scene.anims.generateFrameNumbers('leaf'),
+            frameRate: 5,
+            repeat: -1, 
         };
 
-        anim = this.anims.create(config);
+        this.anim = emitter.manager.scene.anims.create(config);
         this.t = 0;
         this.i = 0;
     }
@@ -23,18 +23,18 @@ class AnimParticle extends Phaser.GameObjects.Particles.Particle
 
         this.t += delta;
 
-        if (this.t >= anim.msPerFrame)
+        if (this.t >= this.anim.msPerFrame)
         {
             this.i++;
 
-            if (this.i > 17)
+            if (this.i > 25)
             {
                 this.i = 0;
             }
 
-            this.frame = anim.frames[this.i].frame;
+            this.frame = this.anim.frames[this.i].frame;
 
-            this.t -= anim.msPerFrame;
+            this.t -= this.anim.msPerFrame;
         }
 
         return result;
