@@ -28,14 +28,14 @@ class Player extends Phaser.GameObjects.Sprite {
         this.ingredientObjs = [];
 
         // Related to Powerups / Movement
-        this.powerUpState = "Crate";
+        this.powerUpState = "Normal";
         this.doingPower = false;
         this.resetOnGround = false;
         this.resetOnBonk = false;
         this.resetOnCollide = false;
         this.mobile = true;
 
-        this.crate = scene.add.sprite(x+50, y-12, 'crate', 0);
+        this.crate = scene.add.sprite(-100, y-12, 'crate', 0);
         scene.physics.world.enable(this.crate);
         this.crate.body.setGravityY(0);
         this.crate.body.immovable = true;
