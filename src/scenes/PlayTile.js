@@ -27,6 +27,17 @@ class PlayTile extends Phaser.Scene {
         this.TreesFront = this.add.tileSprite(0, 0, 1024, 768, "TreesFront").setOrigin(-0.1,0.1).setScrollFactor(0.6);
         this.BGGroup.add(this.TreesFront);
 
+        let rect = new Phaser.Geom.Rectangle(0, -30, game.config.width, 100);
+
+        this.particleManager = this.add.particles('leaf');
+        this.emitter = this.particleManager.createEmitter({
+            gravityY: 0,
+            lifespan: 15000,
+            angle: { min: -20, max: 20 },
+            emitZone: { source: rect}
+        });
+
+
         // Add music
         this.musicConfig =  {
             mute: false,
@@ -149,8 +160,12 @@ class PlayTile extends Phaser.Scene {
         this.cameras.main.setFollowOffset(0, 50);
 
         // Add UI elements
+
         this.inventoryGroup = this.add.group();
         this.addUIElements();
+
+        
+        //this.emitter.flow(15000, 1, 0.1, -1);
     }
 
     update() {
