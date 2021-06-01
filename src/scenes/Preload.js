@@ -44,8 +44,8 @@ class Preload extends Phaser.Scene
         this.load.image('arrow', 'assets/UpArrow.png');
         this.load.image('sign', 'assets/SignPost.png');
         this.load.image('itemBG', 'assets/ItemBG.png');
-        this.load.image('block', 'assets/breakable.png');
-        this.load.image('crate', 'assets/placeable.png');
+        this.load.image('block', 'assets/Breakable.png');
+        this.load.image('crate', 'assets/Placeable.png');
 
         this.load.image("TreesBack", "./assets/BGLayers/TreesBack.png");
         this.load.image("TreesMid", "./assets/BGLayers/TreesMid.png");
