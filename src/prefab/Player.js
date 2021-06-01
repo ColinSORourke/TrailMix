@@ -517,6 +517,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     teleport(){
         this.scene.sound.play('sfx_tele');
+        this.body.setVelocityY(0);
         this.x = this.portX;
         this.y = this.portY;
     }
