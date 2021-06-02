@@ -7,7 +7,18 @@ class Controls extends Phaser.Scene {
     }
 
     create() {
-        this.add.bitmapText(game.config.width/2, game.config.height/3 - 150, 'gem', 'CONTROLS:', 48).setOrigin(0.5);
+        // Background
+        let graphics = this.add.graphics();
+        var BackgroundWidth = 600, BackgroundLength = 550;
+        graphics.fillStyle(0x000000, 1).fillRoundedRect(game.config.width/2 - BackgroundWidth/2, game.config.height/2 - BackgroundLength/2, BackgroundWidth, BackgroundLength, 8);
+
+        this.add.bitmapText(game.config.width/2, game.config.height/3 - 100, 'gem', 'CONTROLS:', 48).setOrigin(0.5);
+
+        // Add text for controls
+        let spaceing = 32;
+        this.add.bitmapText(game.config.width/2 - BackgroundWidth/3, game.config.height/3 , 'gem', 'Jump: SPACE', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 - BackgroundWidth/3, game.config.height/3 + spaceing , 'gem', 'EAT/MIX: F', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 - BackgroundWidth/3, game.config.height/3 + spaceing*2 , 'gem', 'POWERS: D', 32).setOrigin(0.5);
 
         // Menu 
         let MenuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 150, 'gem', 'Back', 40).setOrigin(0.5);
@@ -15,7 +26,13 @@ class Controls extends Phaser.Scene {
         // Menu Button
         MenuButton.setInteractive();
         MenuButton.on('pointerdown', () => {
-        this.scene.start('menuScene');
+            if(enterFromGame) {
+                enterFromGame = false;
+                this.scene.start('pauseScene');
+            } else {
+                this.scene.start('menuScene');
+            }
+            
         });
     }
 }
