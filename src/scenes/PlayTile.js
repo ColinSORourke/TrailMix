@@ -34,7 +34,7 @@ class PlayTile extends Phaser.Scene {
             frame: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
             gravityY: 8,
             maxVelocityY: 42,
-            lifespan: 17000,
+            lifespan: 20000,
             frequency: 180,
             rotate: {min: -30, max: 30},
             flip: {min: 0, max: 1},
