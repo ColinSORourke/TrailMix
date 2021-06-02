@@ -11,35 +11,48 @@ class Pause extends Phaser.Scene {
         
         console.log("pause created");
 
+        var spaceing = 64;
+        let graphics = this.add.graphics();
+        
         // CENTER WINDOW START //
         // Add Background
-        var JMBackgroundWidth = 200, JMBackgroundLength = 200;
-        var JMBackground = this.add.rectangle(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JMBackgroundWidth, JMBackgroundLength, 0x000000).setOrigin(0, 0);
+        var JMBackgroundWidth = 200, JMBackgroundLength = 275;
+        var JMBackground = graphics.fillStyle(0x000000, 1).fillRoundedRect(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JMBackgroundWidth, JMBackgroundLength, 8);
 
         // Add Menu text & button
-        var menuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - 25, 'gem', 'MENU', 32).setOrigin(0.5);
-
+        var menuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4, 'gem', 'MENU', 32).setOrigin(0.5);
         menuButton.setInteractive();
         menuButton.on('pointerdown', () => {
             this.scene.stop(this.pausedScene);
             this.scene.start('menuScene');
         });
 
-        var backButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 75, 'gem', 'BACK', 32).setOrigin(0.5);
+        // Add Reset text & button
+        var resetButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spaceing, 'gem', 'RESET', 32).setOrigin(0.5);
+        resetButton.setInteractive();
+        resetButton.on('pointerdown', () => {
+            this.scene.stop(this.pausedScene);
+            this.scene.start('playTileScene', "TiledTestJSON");
+        });
 
+        // Add Controls & button
+        var controlsButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spaceing*2, 'gem', 'SETTING', 32).setOrigin(0.5);
+        controlsButton.setInteractive();
+        controlsButton.on('pointerdown', () => {
+            //this.scene.stop(this.pausedScene);
+            enterFromGame = true;
+            this.scene.start('controlsScene', "TiledTestJSON");
+        });
+
+        // Add Back text & button
+        var backButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spaceing*3, 'gem', 'BACK', 32).setOrigin(0.5);
         backButton.setInteractive();
         backButton.on('pointerdown', () => {
             this.scene.resume(this.pausedScene);
             this.scene.stop();
         });
 
-        var resetButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 25, 'gem', 'RESET', 32).setOrigin(0.5);
-
-        resetButton.setInteractive();
-        resetButton.on('pointerdown', () => {
-            this.scene.stop(this.pausedScene);
-            this.scene.start('playTileScene', "TiledTestJSON");
-        });
+        
         // CENTER WINDOW END //
 
         // LEFT JOURNAL WINDOW START //

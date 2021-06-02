@@ -15,7 +15,7 @@ let config = {
           }
       }
   },
-    scene: [Preload, Menu, PlayTile, Pause, Credits],
+    scene: [Preload, Menu, PlayTile, Pause, Controls, Credits],
   }
 
 let game = new Phaser.Game(config);
@@ -38,3 +38,6 @@ const tileSize = 35;
 // Player's known ingredients | Note: proper format for this map
 // this.known.set(key: 'Name of powerup', value: ['Name of first Ingredient', 'Name of second Ingredients']);
 let known = new Map();
+
+// If player is entering the controls (setting) scene
+let enterFromGame = false;
