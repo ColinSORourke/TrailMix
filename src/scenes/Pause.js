@@ -58,8 +58,7 @@ class Pause extends Phaser.Scene {
 
         // LEFT JOURNAL WINDOW START //
         // Add Background
-        var JBackgroundWidth = 300, JBackgroundLength = 600;
-        var JBackground = this.add.sprite(game.config.width/5 - JMBackgroundWidth, game.config.height/5, "journal").setOrigin(0,0);
+        var JBackground = this.add.sprite(game.config.width/5 - 200, game.config.height/5, "journal").setOrigin(0,0);
         JBackground.setScale(2,1.9);
         //var JBackground = this.add.rectangle(game.config.width/5 - JBackgroundWidth/2, game.config.height/5, JBackgroundWidth, JBackgroundLength, 0xFF0000).setOrigin(0, 0);
 
@@ -68,13 +67,26 @@ class Pause extends Phaser.Scene {
         JournalTitle.tint = '0x000000';
 
         // Add text to show for all player's known ingredients
-        var line = 1;
+        var line = 1, once = true, pageCenter = game.config.width/5;
         for (let [key, value] of known) {
-            let string = this.add.bitmapText(game.config.width/5, game.config.height/4 + 58 * line, 'gem', value[0] + ' + ' + value[1] + ' = ' + key, 18).setOrigin(0.5);
+            if (line > 6 & once) {
+                once = false;
+                // Add Journal 2 BG
+                var SecJBackground = this.add.sprite(game.config.width*4/5 - 250, game.config.height/5, "journal").setOrigin(0,0);
+                SecJBackground.setScale(2,1.9);
+                // Add Journal 2 Title
+                var SecJournalTitle = this.add.bitmapText(game.config.width*4/5, game.config.height/5 + 22, 'gem', 'JOURNAL 2', 38).setOrigin(0.5);
+                SecJournalTitle.tint = '0x000000';
+                pageCenter = game.config.width*4/5;
+
+                line = 1;
+            }
+            let string = this.add.bitmapText(pageCenter + 16, game.config.height/4 + 63 * line, 'gem', value[0] + ' + ' + value[1] + ' = ' + key, 21).setOrigin(0.5);
             string.tint = '0x000000';
             let bounds = string.getTextBounds(true);
-            let ingre1 = this.add.sprite(bounds.global.x + (bounds.global.width/5), bounds.global.y - 12, 'Mix', value[0]).setScale(2.5);
-            let ingre2 = this.add.sprite(bounds.global.x + (bounds.global.width/2), bounds.global.y - 12, 'Mix', value[1]).setScale(2.5);
+            
+            let ingre1 = this.add.sprite(bounds.global.x + (bounds.global.width/5), bounds.global.y - 16, 'Mix', value[0]).setScale(2.5);
+            let ingre2 = this.add.sprite(bounds.global.x + (bounds.global.width/2), bounds.global.y - 16, 'Mix', value[1]).setScale(2.5);
 
             ++line;
         }
