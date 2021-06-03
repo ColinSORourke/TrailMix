@@ -78,12 +78,7 @@ class PlayTile extends Phaser.Scene {
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
         this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
         
-        bgLayer.setDepth(8);
-        pillarLayer.setDepth(9);
-        this.bushLayer.setDepth(10);
-        this.cloudLayer.setDepth(10);
-        hazardLayer.setDepth(11);
-        terrainLayer.setDepth(12);
+        
         
 
         
@@ -159,7 +154,7 @@ class PlayTile extends Phaser.Scene {
         for (let i = 0; i < this.signObjs.length; i++){
             let sign = this.signObjs[i];
             let myObj = new SignObj(this, sign.x, sign.y, 'sign', 0, player, sign.name);
-            myObj.setDepth(9);
+            myObj.setDepth(-1);
         }
 
         this.hazardObjs = map.filterObjects("Spawns", obj => obj.type === "Hazard");
@@ -181,11 +176,20 @@ class PlayTile extends Phaser.Scene {
             }, null, this);
             this.physics.add.collider(this.player, block);
             this.physics.add.collider(this.player.crate, block);
-            block.setDepth(10);
+            block.setDepth(2);
         }
 
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
+
+        bgLayer.setDepth(-2);
+        pillarLayer.setDepth(-1);
+        this.bushLayer.setDepth(0);
+        this.cloudLayer.setDepth(0);
+        this.player.setDepth(0);
+        hazardLayer.setDepth(1);
+        terrainLayer.setDepth(2);
+        
 
         // draw grid lines for jump height reference
         /* 

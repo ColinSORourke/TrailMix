@@ -189,7 +189,9 @@ class Player extends Phaser.GameObjects.Sprite {
 	    }
         // Play jump sfx
         if((!this.jumping) && (Phaser.Input.Keyboard.JustDown(keySPACE)) ) {
-            this.body.maxVelocity.x *= 0.75;
+            if (!this.powerUpState == "Shrink"){
+                this.body.maxVelocity.x *= 0.75;
+            }
             this.scene.sound.play('sfx_jump');
         }
 
