@@ -163,7 +163,7 @@ class Player extends Phaser.GameObjects.Sprite {
         // (NOTE: Even though the player passes through ingredients, these still count as touching down, making jump logic through ingredients weird - FIX THIS)
         if (this.body.blocked.down || this.body.touching.down){
             
-            if (this.resetOnGround){
+            if (this.resetOnGround && this.body.blocked.down){
                 this.reset();
             }
             if (this.jumping && !keySPACE.isDown){
@@ -189,7 +189,8 @@ class Player extends Phaser.GameObjects.Sprite {
 	    }
         // Play jump sfx
         if((!this.jumping) && (Phaser.Input.Keyboard.JustDown(keySPACE)) ) {
-            if (!this.powerUpState == "Shrink"){
+            if (this.powerUpState != "Shrink"){
+                console.log('Slowwing the players jump');
                 this.body.maxVelocity.x *= 0.75;
             }
             this.scene.sound.play('sfx_jump');
@@ -496,23 +497,25 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Press D to superDash, moving quickly in the direction you're facing until you hit a wall
     superDash(){
-        this.body.maxVelocity.x = 300;
-        this.doingPower = true;
-        let direction = 300;
-        if (this.flipX){
-            direction = -300
+        if (!this.doingPower){
+            this.body.maxVelocity.x = 300;
+            this.doingPower = true;
+            let direction = 300;
+            if (this.flipX){
+                direction = -300
+            }
+            this.body.setVelocityX(direction)
+            this.body.setVelocityY(0);
+            this.body.setDragX(0);
+            this.body.setGravityY(0)
+            this.mobile = false;
+            this.resetOnCollide = true;
         }
-        this.body.setVelocityX(direction)
-        this.body.setVelocityY(0);
-        this.body.setDragX(0);
-        this.body.setGravityY(0)
-        this.mobile = false;
-        this.resetOnCollide = true;
     }
 
     // Press D while midair to begin gliding
     glide(){
-        if (!this.body.blocked.down){
+        if (!this.body.blocked.down && !this.doingPower){
             this.doingPower = true;
             this.body.setVelocityY(0);
             this.body.maxVelocity.x = this.MAXVX*1.25;
@@ -550,6 +553,7 @@ class Player extends Phaser.GameObjects.Sprite {
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
         console.log(this.body.touching.down);
+        console.log(this.powerUpState);
     }
 
     getSize() {
