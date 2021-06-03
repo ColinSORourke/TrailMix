@@ -262,6 +262,7 @@ class PlayTile extends Phaser.Scene {
         for (var index = 0; index < this.player.getSize(); ++index){
             let inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 32, 210, 'Mix', this.player.inventory[index]);
             inventorySprite.setScrollFactor(0);
+            inventorySprite.setDepth(10);
             this.inventoryGroup.add(inventorySprite);
         }
     }
@@ -341,10 +342,13 @@ class PlayTile extends Phaser.Scene {
         this.minimap.ignore(this.BGGroup);
         
         // Add opaque Nuts Sprite to inventory display
+    
         this.nutsSprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
         this.nutsSprite.alpha = 0.5;
         this.nutsSprite.setScrollFactor(0);
+        UIGroup.add(this.nutsSprite);
 
+        UIGroup.setDepth(10);
         this.updateText();
     }
 
