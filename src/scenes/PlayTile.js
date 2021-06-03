@@ -147,7 +147,8 @@ class PlayTile extends Phaser.Scene {
         this.mixObjs = map.filterObjects("Spawns", obj => obj.type === "mixObj");
         for (let i = 0; i < this.mixObjs.length; i++){
             let mix = this.mixObjs[i];
-            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
+            let myObj = new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
+            myObj.setDepth(-1);
         }
 
         this.signObjs = map.filterObjects("Spawns", obj => obj.type === "signObj");
