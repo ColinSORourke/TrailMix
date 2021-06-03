@@ -34,6 +34,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.resetOnBonk = false;
         this.resetOnCollide = false;
         this.mobile = true;
+        this.passive = true;
 
         this.crate = scene.add.sprite(-100, y-12, 'crate', 0);
         scene.physics.world.enable(this.crate);
@@ -162,7 +163,7 @@ class Player extends Phaser.GameObjects.Sprite {
         // (NOTE: Even though the player passes through ingredients, these still count as touching down, making jump logic through ingredients weird - FIX THIS)
         if (this.body.blocked.down || this.body.touching.down){
             
-            if (this.resetOnGround){
+            if (this.resetOnGround && this.body.blocked.down){
                 this.reset();
             }
             if (this.jumping && !keySPACE.isDown){
@@ -188,7 +189,9 @@ class Player extends Phaser.GameObjects.Sprite {
 	    }
         // Play jump sfx
         if((!this.jumping) && (Phaser.Input.Keyboard.JustDown(keySPACE)) ) {
-            this.body.maxVelocity.x *= 0.75;
+            if (this.powerUpState != "Shrink"){
+                this.body.maxVelocity.x *= 0.75;
+            }
             this.scene.sound.play('sfx_jump');
         }
 
@@ -209,16 +212,16 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.crate.body.setVelocityX(80);
             }
         } else if (this.movingCrate){
-            this.crate.body.setGravityY(0);
-            this.movingCrate = false;
-            this.crate.body.immovable = true;
+            
             this.crate.body.setVelocityX(0);
         }
         if(Phaser.Input.Keyboard.UpDuration(keyD)) {
-	    	this.crate.body.setGravityY(0);
+	    	if ( this.crate.body.blocked.down ){
+                this.crate.body.setGravityY(0);
+                this.movingCrate = false;
+                this.crate.body.immovable = true;
+            }
             this.crate.body.setVelocityX(0);
-            this.movingCrate = false;
-            this.crate.body.immovable = true;
 	    }
         
 
@@ -255,7 +258,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Super Dash";
                 
-
+                this.passive = false;
                 if (!known.get("Super Dash")) {
                     known.set("Super Dash", ["raisin", "chocolate"]);
                 }
@@ -263,7 +266,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("banana") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Super Jump";
                 
-
+                this.passive = false;
                 if (!known.get("Super Jump")) {
                     known.set("Super Jump", ["banana", "chocolate"]);
                 }
@@ -271,7 +274,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("banana") && this.inventory.includes("raisin")){
                 this.powerUpState = "Glide";
                 
-
+                this.passive = false;
                 if (!known.get("Glide")) {
                     known.set("Glide", ["banana", "raisin"]);
                 }
@@ -281,6 +284,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.particles = this.scene.add.particles('spark');
                 let particles = this.scene.particles;
 
+                this.passive = false;
                 this.scene.tpEmitter =  particles.createEmitter({
                     x: this.x,
                     y: this.y,
@@ -298,6 +302,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("cranberry") && this.inventory.includes("banana")){
                 this.powerUpState = "Cloud Walk";
 
+                this.passive = true;
                 this.scene.collideClouds(true);
 
                 if (!known.get("Cloud Walk")) {
@@ -307,6 +312,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("cranberry") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Bush Walk";
                 
+                this.passive = true;
                 this.scene.collideBush(false);
 
                 if (!known.get("Bush Walk")) {
@@ -316,6 +322,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("pretzel") && this.inventory.includes("raisin")){
                 this.powerUpState = "Shrink";
 
+                this.passive = true;
                 this.setScale(0.5);
                 this.body.setGravityY(1000);
                 if (!known.get("Shrink")) {
@@ -325,6 +332,8 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("pretzel") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Hang";
 
+                this.passive = false;
+
                 if (!known.get("Hang")) {
                     known.set("Hang", ["pretzel", "chocolate"]);
                 }
@@ -332,6 +341,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("pretzel") && this.inventory.includes("cranberry")){
                 this.powerUpState = "Breaker";
 
+                this.passive = true;
                 if (!known.get("Breaker")) {
                     known.set("Breaker", ["pretzel", "cranberry"]);
                 }
@@ -339,6 +349,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("pretzel") && this.inventory.includes("banana")){
                 this.powerUpState = "Crate";
 
+                this.passive = false;
                 if (!known.get("Crate")) {
                     known.set("Crate", ["pretzel", "banana"]);
                 }
@@ -485,23 +496,25 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Press D to superDash, moving quickly in the direction you're facing until you hit a wall
     superDash(){
-        this.body.maxVelocity.x = 300;
-        this.doingPower = true;
-        let direction = 300;
-        if (this.flipX){
-            direction = -300
+        if (!this.doingPower){
+            this.body.maxVelocity.x = 300;
+            this.doingPower = true;
+            let direction = 300;
+            if (this.flipX){
+                direction = -300
+            }
+            this.body.setVelocityX(direction)
+            this.body.setVelocityY(0);
+            this.body.setDragX(0);
+            this.body.setGravityY(0)
+            this.mobile = false;
+            this.resetOnCollide = true;
         }
-        this.body.setVelocityX(direction)
-        this.body.setVelocityY(0);
-        this.body.setDragX(0);
-        this.body.setGravityY(0)
-        this.mobile = false;
-        this.resetOnCollide = true;
     }
 
     // Press D while midair to begin gliding
     glide(){
-        if (!this.body.blocked.down){
+        if (!this.body.blocked.down && !this.doingPower){
             this.doingPower = true;
             this.body.setVelocityY(0);
             this.body.maxVelocity.x = this.MAXVX*1.25;
@@ -517,7 +530,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     teleport(){
         this.scene.sound.play('sfx_tele');
-        this.body.setVelocityY(0);
+        this.body.setVelocityY(-100);
         this.x = this.portX;
         this.y = this.portY;
     }
@@ -539,6 +552,7 @@ class Player extends Phaser.GameObjects.Sprite {
     debugGetLocation() {
         console.log("X: " + this.x + " | Y: " + this.y);
         console.log(this.body.touching.down);
+        console.log(this.powerUpState);
     }
 
     getSize() {
@@ -548,7 +562,8 @@ class Player extends Phaser.GameObjects.Sprite {
     discardIngredients(){
         for (let i = 0; i < this.ingredientObjs.length; i++){
             let myObj = this.ingredientObjs[i];
-            new MixObj(this.scene, myObj.x, myObj.y, 'Mix', myObj.mix, this, false, 'sfx_' + myObj.mix);
+            let newObj = new MixObj(this.scene, myObj.x, myObj.y, 'Mix', myObj.mix, this, false, 'sfx_' + myObj.mix);
+            newObj.setDepth(-1);
         }
         this.nuts = false;
         this.inventory = [];

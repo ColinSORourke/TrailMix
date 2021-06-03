@@ -5,6 +5,7 @@ class Pause extends Phaser.Scene {
     
     init(data){
         this.pausedScene = data.srcScene;
+        this.pausedLevel = data.level;
     }
 
     create(){
@@ -32,7 +33,7 @@ class Pause extends Phaser.Scene {
         resetButton.setInteractive();
         resetButton.on('pointerdown', () => {
             this.scene.stop(this.pausedScene);
-            this.scene.start('playTileScene', "TiledTestJSON");
+            this.scene.start('playTileScene', this.pausedLevel);
         });
 
         // Add Controls & button
@@ -41,7 +42,7 @@ class Pause extends Phaser.Scene {
         controlsButton.on('pointerdown', () => {
             //this.scene.stop(this.pausedScene);
             enterFromGame = true;
-            this.scene.start('controlsScene', "TiledTestJSON");
+            this.scene.start('controlsScene');
         });
 
         // Add Back text & button

@@ -6,7 +6,7 @@ class MixObj extends Phaser.GameObjects.Sprite {
         let mix = this.mix;
 
         scene.physics.world.enable(this);
-        let BG = scene.add.sprite(x, y, 'itemBG', 0);
+        let BG = scene.add.sprite(x, y, 'itemBG', 0).setDepth(-1);
         scene.add.existing(this);
         this.body.immovable = true;
     

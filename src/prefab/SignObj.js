@@ -6,7 +6,6 @@ class SignObj extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
         this.body.immovable = true;
         this.setOrigin(0,0);
-        this.setDepth(-1);
 
         scene.physics.add.overlap(player, this, function(){
             player.arrow.alpha = 1;
@@ -17,12 +16,12 @@ class SignObj extends Phaser.GameObjects.Sprite {
                 let myText = scene.add.bitmapText(game.config.width/2, game.config.height/2, 'gem', text, 20).setOrigin(0.5).setScrollFactor(0,0);
                 myText.maxWidth = game.config.width / 3;
                 let bounds = myText.getTextBounds(true);
-                myText.setDepth(10);
+                myText.setDepth(20);
 
                 // Add Background
                 let SBGW = bounds.global.width + 50, SBGH = bounds.global.height + 50;
                 let signBackground = graphics.fillStyle(0x964B00, 1).fillRoundedRect(game.config.width/2 - SBGW/2, game.config.height/2 - SBGH/2, SBGW, SBGH, 8).setScrollFactor(0).setName('Sign');
-                signBackground.setDepth(9);
+                signBackground.setDepth(19);
 
                 // Delay Call then 'destory' the sign
                 scene.time.delayedCall(1500, () => {

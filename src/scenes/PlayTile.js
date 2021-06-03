@@ -27,6 +27,8 @@ class PlayTile extends Phaser.Scene {
         this.TreesFront = this.add.tileSprite(0, 0, 1024, 768, "TreesFront").setOrigin(-0.1,0.1).setScrollFactor(0.6);
         this.BGGroup.add(this.TreesFront);
 
+        this.BGGroup.setDepth(-10);
+
         let rect = new Phaser.Geom.Rectangle(0, -100, game.config.width, 170);
 
         this.particleManager = this.add.particles('leaf');
@@ -64,6 +66,7 @@ class PlayTile extends Phaser.Scene {
         this.physics.world.checkCollision.right = true;
         this.physics.world.checkCollision.up = false;
         this.physics.world.checkCollision.down = false;
+        this.physics.world.bounds.width = map.widthInPixels;
         
 
         const tileset = map.addTilesetImage('TilesetV4', 'tileset');
@@ -75,10 +78,6 @@ class PlayTile extends Phaser.Scene {
         const hazardLayer = map.createLayer('HazardLayer', tileset, 0, 0);
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
         this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
-        
-        
-        
-
 
         // Define how each layer will collide
         terrainLayer.setCollisionByProperty({
@@ -106,6 +105,7 @@ class PlayTile extends Phaser.Scene {
         // Create and place Player at spawn
         const p1Spawn = map.findObject("Spawns", obj => obj.name === "playerSpawn");
         this.player = new Player(this, p1Spawn.x, p1Spawn.y, 'Scout', 'scout-idle-00', MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
+        this.player.setDepth(10);
         var player = this.player;
         this.player.body.setCollideWorldBounds();
 
@@ -142,13 +142,15 @@ class PlayTile extends Phaser.Scene {
         this.mixObjs = map.filterObjects("Spawns", obj => obj.type === "mixObj");
         for (let i = 0; i < this.mixObjs.length; i++){
             let mix = this.mixObjs[i];
-            new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
+            let myObj = new MixObj(this, mix.x + 8, mix.y - 8, 'Mix', mix.name, player, false, 'sfx_' + mix.name);
+            myObj.setDepth(-1);
         }
 
         this.signObjs = map.filterObjects("Spawns", obj => obj.type === "signObj");
         for (let i = 0; i < this.signObjs.length; i++){
             let sign = this.signObjs[i];
-            new SignObj(this, sign.x, sign.y, 'sign', null, player, sign.name);
+            let myObj = new SignObj(this, sign.x, sign.y, 'sign', 0, player, sign.name);
+            myObj.setDepth(-1);
         }
 
         this.hazardObjs = map.filterObjects("Spawns", obj => obj.type === "Hazard");
@@ -169,10 +171,21 @@ class PlayTile extends Phaser.Scene {
                 }
             }, null, this);
             this.physics.add.collider(this.player, block);
+            this.physics.add.collider(this.player.crate, block);
+            block.setDepth(2);
         }
 
         // set bg color
         this.cameras.main.setBackgroundColor('#227B96');
+
+        bgLayer.setDepth(-2);
+        pillarLayer.setDepth(-1);
+        this.bushLayer.setDepth(0);
+        this.cloudLayer.setDepth(0);
+        this.player.setDepth(0);
+        hazardLayer.setDepth(1);
+        terrainLayer.setDepth(2);
+        
 
         // draw grid lines for jump height reference
         /* 
@@ -237,11 +250,15 @@ class PlayTile extends Phaser.Scene {
         // Update Nuts Alphas + State Text
         this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.3;
         this.statusText.text = "Power: " + this.player.powerUpState;
+        if (!this.player.passive){
+            this.statusText.text += "(D)";
+        }
 
         // Add appropriate ingredient sprites UI
         for (var index = 0; index < this.player.getSize(); ++index){
             let inventorySprite = this.add.sprite(game.config.width/3 - 40 + (index+1) * 32, 210, 'Mix', this.player.inventory[index]);
             inventorySprite.setScrollFactor(0);
+            inventorySprite.setDepth(10);
             this.inventoryGroup.add(inventorySprite);
         }
     }
@@ -321,10 +338,13 @@ class PlayTile extends Phaser.Scene {
         this.minimap.ignore(this.BGGroup);
         
         // Add opaque Nuts Sprite to inventory display
+    
         this.nutsSprite = this.add.sprite(game.config.width/3 - 40, 210, 'Mix', 'nuts');
         this.nutsSprite.alpha = 0.5;
         this.nutsSprite.setScrollFactor(0);
+        UIGroup.add(this.nutsSprite);
 
+        UIGroup.setDepth(10);
         this.updateText();
     }
 
@@ -332,7 +352,7 @@ class PlayTile extends Phaser.Scene {
     pause() {
         this.player.jumping = true;
         this.scene.pause();
-        this.scene.launch('pauseScene', { srcScene: "playTileScene"});
+        this.scene.launch('pauseScene', { srcScene: "playTileScene", srcLevel: this.level});
     }
 
 
@@ -340,7 +360,7 @@ class PlayTile extends Phaser.Scene {
     restart(){
         this.sound.play('sfx_reset');
         console.log('restarting scene');
-        this.scene.start('playTileScene', "TiledTestJSON");
+        this.scene.start('playTileScene', this.level);
     }
 }
 
