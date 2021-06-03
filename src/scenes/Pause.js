@@ -18,7 +18,8 @@ class Pause extends Phaser.Scene {
         // CENTER WINDOW START //
         // Add Background
         var JMBackgroundWidth = 200, JMBackgroundLength = 275;
-        var JMBackground = graphics.fillStyle(0x000000, 1).fillRoundedRect(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JMBackgroundWidth, JMBackgroundLength, 8);
+        var JMBackground = graphics.fillStyle(0xBFAFA6, 1).fillRoundedRect(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JMBackgroundWidth, JMBackgroundLength, 8);
+        let BGBorder = graphics.lineStyle(6, 0xAA968A, 1).strokeRoundedRect(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JMBackgroundWidth, JMBackgroundLength, 8).setScrollFactor(0);
 
         // Add Menu text & button
         var menuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4, 'gem', 'MENU', 32).setOrigin(0.5);

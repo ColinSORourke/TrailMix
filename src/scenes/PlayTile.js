@@ -292,14 +292,17 @@ class PlayTile extends Phaser.Scene {
 
         // UIBackground Box
         //UIGroup.add(this.add.rectangle(0, 0, game.config.width, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
-        UIGroup.add(graphics.fillStyle(0x000000, 1).fillRoundedRect(0, 0, 425, 240, 8).setScrollFactor(0).setName('UILeftC'));
+
+        let UILeftC = graphics.fillStyle(0xBFAFA6, 1).fillRoundedRect(0, 0, 425, 240, 8).setScrollFactor(0).setName('UILeftC');
+        UIGroup.add(UILeftC);
+        UIGroup.add(graphics.lineStyle(2, 0xAA968A, 1).strokeRoundedRect(0, 0, 425, 240, 8).setScrollFactor(0).setName('UILeftCstroke'));
 
         
-        UIGroup.add(graphics.fillStyle(0x000000, 1).fillRoundedRect(game.config.width/2-25, 0, 48, 240, 8).setScrollFactor(0));
-
+        UIGroup.add(graphics.fillStyle(0xBFAFA6, 1).fillRoundedRect(game.config.width/2-25, 0, 48, 240, 8).setScrollFactor(0));
+        UIGroup.add(graphics.lineStyle(2, 0xAA968A, 1).strokeRoundedRect(game.config.width/2-25, 0, 48, 240, 8).setScrollFactor(0));
         //UIGroup.add(this.add.rectangle(game.config.width/2-25, 0, 48, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UICenter'));
-        UIGroup.add(graphics.fillStyle(0x000000, 1).fillRoundedRect(game.config.width - 400, 0, 240, 240, 8).setScrollFactor(0).setName('UI'));
-
+        UIGroup.add(graphics.fillStyle(0xBFAFA6, 1).fillRoundedRect(game.config.width - 400, 0, 240, 240, 8).setScrollFactor(0).setName('UI'));
+        UIGroup.add(graphics.lineStyle(2, 0xAA968A, 1).strokeRoundedRect(game.config.width - 400, 0, 240, 240, 8).setScrollFactor(0));
         // Add Status Text
         this.statusText = this.add.bitmapText(game.config.width/4+5, 230, 'gem', 'state: normal', 18).setOrigin(0, 0.5).setScrollFactor(0,0).setName('statusText');
         UIGroup.add(this.statusText);
