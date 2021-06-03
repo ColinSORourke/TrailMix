@@ -1004,6 +1004,6 @@
   <object id="18" name="Welcome to a mysterious forest! You might want to make your way back to your tent" type="signObj" x="292" y="308" width="24" height="28"/>
   <object id="21" name="Ooh, Nuts. Grab those and two other ingredients to make a Magic Trail Mix" type="signObj" x="212.667" y="276" width="24" height="28"/>
   <object id="22" name="Press (F) to eat your Magic Mix. This one teleports you back to where you ate it when you press (D)!" type="signObj" x="180" y="132.333" width="24" height="28"/>
-  <object id="23" name="The Magic Mix here will let you walk on clouds. But you might need a way out of this pit... (You can reset from the menu button at the top)" type="signObj" x="35.3333" y="308" width="24" height="28"/>
+  <object id="23" name="The Magic Mix here will let you walk on clouds. But you might need a way out of this pit... (You can reset by pressing (R))" type="signObj" x="35.3333" y="308" width="24" height="28"/>
  </objectgroup>
 </map>

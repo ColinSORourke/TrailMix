@@ -137,6 +137,7 @@ class PlayTile extends Phaser.Scene {
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // Go through object layer for Ingredient Objects
         this.mixObjs = map.filterObjects("Spawns", obj => obj.type === "mixObj");
@@ -217,6 +218,10 @@ class PlayTile extends Phaser.Scene {
         this.CloudsBack.tilePositionX -= 0.003;
         this.CloudsMid.tilePositionX += 0.005;
         this.CloudsFront.tilePositionX -= 0.007;
+
+        if ( Phaser.Input.Keyboard.JustDown(keyR)){
+            this.restart();
+        }
     }
 
     // Creates or removes a collider for the Cloud Layer

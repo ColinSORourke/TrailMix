@@ -21,7 +21,7 @@ let config = {
 let game = new Phaser.Game(config);
 
 // reserve keyboard variables
-let keyA, keyD, keyLEFT, keyRIGHT, keyW, keyS, keyUP, keyDown, keySPACE, keyF;
+let keyA, keyD, keyLEFT, keyRIGHT, keyW, keyS, keyUP, keyDown, keySPACE, keyF, keyR;
 let cursors;
 
 // global variables and function

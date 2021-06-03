@@ -201,7 +201,7 @@
                  "type":"signObj",
                  "visible":true,
                  "width":24,
-                 "x":212.666666666667,
+                 "x":212.667,
                  "y":276
                 }, 
                 {
@@ -213,17 +213,17 @@
                  "visible":true,
                  "width":24,
                  "x":180,
-                 "y":132.333333333333
+                 "y":132.333
                 }, 
                 {
                  "height":28,
                  "id":23,
-                 "name":"The Magic Mix here will let you walk on clouds. But you might need a way out of this pit... (You can reset from the menu button at the top)",
+                 "name":"The Magic Mix here will let you walk on clouds. But you might need a way out of this pit... (You can reset by pressing (R))",
                  "rotation":0,
                  "type":"signObj",
                  "visible":true,
                  "width":24,
-                 "x":35.3333333333333,
+                 "x":35.3333,
                  "y":308
                 }],
          "opacity":1,

@@ -16,10 +16,13 @@ class Controls extends Phaser.Scene {
 
         // Add text for controls
         let spaceing = 32;
-        this.add.bitmapText(game.config.width/2 - BackgroundWidth/3, game.config.height/3 , 'gem', 'Jump: SPACE', 32).setOrigin(0.5);
-        this.add.bitmapText(game.config.width/2 - BackgroundWidth/3, game.config.height/3 + spaceing , 'gem', 'EAT/MIX: F', 32).setOrigin(0.5);
-        this.add.bitmapText(game.config.width/2 - BackgroundWidth/3, game.config.height/3 + spaceing*2 , 'gem', 'POWERS: D', 32).setOrigin(0.5);
-        this.add.bitmapText(game.config.width/2 - BackgroundWidth/3, game.config.height/3 + spaceing*3 , 'gem', 'Discard: S', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 , game.config.height/3 - spaceing , 'gem', 'Left and Right arrows to move', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 , game.config.height/3 , 'gem', 'Jump: SPACE', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 , game.config.height/3 + spaceing , 'gem', 'EAT/MIX: F', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 , game.config.height/3 + spaceing*2 , 'gem', 'POWERS: D', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 , game.config.height/3 + spaceing*3 , 'gem', 'Discard: S', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 , game.config.height/3 + spaceing*4 , 'gem', 'Up Arrow to Interact', 32).setOrigin(0.5);
+        this.add.bitmapText(game.config.width/2 , game.config.height/3 + spaceing*5 , 'gem', 'Reset Level: R', 32).setOrigin(0.5);
 
         // Menu 
         let MenuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 + 150, 'gem', 'Back', 40).setOrigin(0.5);
