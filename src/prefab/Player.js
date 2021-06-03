@@ -190,7 +190,6 @@ class Player extends Phaser.GameObjects.Sprite {
         // Play jump sfx
         if((!this.jumping) && (Phaser.Input.Keyboard.JustDown(keySPACE)) ) {
             if (this.powerUpState != "Shrink"){
-                console.log('Slowwing the players jump');
                 this.body.maxVelocity.x *= 0.75;
             }
             this.scene.sound.play('sfx_jump');

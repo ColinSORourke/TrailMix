@@ -66,6 +66,7 @@ class PlayTile extends Phaser.Scene {
         this.physics.world.checkCollision.right = true;
         this.physics.world.checkCollision.up = false;
         this.physics.world.checkCollision.down = false;
+        this.physics.world.bounds.width = map.widthInPixels;
         
 
         const tileset = map.addTilesetImage('TilesetV4', 'tileset');
@@ -77,12 +78,6 @@ class PlayTile extends Phaser.Scene {
         const hazardLayer = map.createLayer('HazardLayer', tileset, 0, 0);
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
         this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
-        
-        
-        
-
-        
-
 
         // Define how each layer will collide
         terrainLayer.setCollisionByProperty({
