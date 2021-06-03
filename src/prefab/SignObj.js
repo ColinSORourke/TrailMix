@@ -21,7 +21,7 @@ class SignObj extends Phaser.GameObjects.Sprite {
                 // Add Background
                 let SBGW = bounds.global.width + 50, SBGH = bounds.global.height + 50;
                 let signBackground = graphics.fillStyle(0x964B00, 1).fillRoundedRect(game.config.width/2 - SBGW/2, game.config.height/2 - SBGH/2, SBGW, SBGH, 8).setScrollFactor(0).setName('Sign');
-                signBackground.setDepth(19);
+                signBackground.setDepth(20);
 
                 // Delay Call then 'destory' the sign
                 scene.time.delayedCall(1500, () => {
