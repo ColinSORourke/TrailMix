@@ -18,7 +18,7 @@ class Pause extends Phaser.Scene {
         // CENTER WINDOW START //
         // Add Background
         var JMBackgroundWidth = 200, JMBackgroundLength = 275;
-        var JMBackground = graphics.fillStyle(0xb5651d, 1).fillRoundedRect(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JMBackgroundWidth, JMBackgroundLength, 8);
+        var JMBackground = graphics.fillStyle(0x000000, 1).fillRoundedRect(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JMBackgroundWidth, JMBackgroundLength, 8);
 
         // Add Menu text & button
         var menuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4, 'gem', 'MENU', 32).setOrigin(0.5);
@@ -65,7 +65,7 @@ class Pause extends Phaser.Scene {
 
         // Add Journal Title
         var JournalTitle = this.add.bitmapText(game.config.width/5, game.config.height/5 + 22, 'gem', 'JOURNAL', 38).setOrigin(0.5);
-        JournalTitle.tint = '0x654321';
+        JournalTitle.tint = '0x000000';
 
         // Add text to show for all player's known ingredients
         var line = 1;
