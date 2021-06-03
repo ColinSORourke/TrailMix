@@ -30,7 +30,7 @@ ACCELERATION = 500;
 MAX_X_VEL = 200;   // pixels/second
 MAX_Y_VEL = 800;
 DRAG = 1600;    // DRAG < ACCELERATION = icy slide
-JUMP_VELOCITY = -300;
+JUMP_VELOCITY = -250;
 
 const SCALE = 0.5;
 const tileSize = 35;
