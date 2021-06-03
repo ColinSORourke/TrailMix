@@ -34,6 +34,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.resetOnBonk = false;
         this.resetOnCollide = false;
         this.mobile = true;
+        this.passive = true;
 
         this.crate = scene.add.sprite(-100, y-12, 'crate', 0);
         scene.physics.world.enable(this.crate);
@@ -255,7 +256,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("raisin") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Super Dash";
                 
-
+                this.passive = false;
                 if (!known.get("Super Dash")) {
                     known.set("Super Dash", ["raisin", "chocolate"]);
                 }
@@ -263,7 +264,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("banana") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Super Jump";
                 
-
+                this.passive = false;
                 if (!known.get("Super Jump")) {
                     known.set("Super Jump", ["banana", "chocolate"]);
                 }
@@ -271,7 +272,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("banana") && this.inventory.includes("raisin")){
                 this.powerUpState = "Glide";
                 
-
+                this.passive = false;
                 if (!known.get("Glide")) {
                     known.set("Glide", ["banana", "raisin"]);
                 }
@@ -281,6 +282,7 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.scene.particles = this.scene.add.particles('spark');
                 let particles = this.scene.particles;
 
+                this.passive = false;
                 this.scene.tpEmitter =  particles.createEmitter({
                     x: this.x,
                     y: this.y,
@@ -298,6 +300,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("cranberry") && this.inventory.includes("banana")){
                 this.powerUpState = "Cloud Walk";
 
+                this.passive = true;
                 this.scene.collideClouds(true);
 
                 if (!known.get("Cloud Walk")) {
@@ -307,6 +310,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("cranberry") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Bush Walk";
                 
+                this.passive = true;
                 this.scene.collideBush(false);
 
                 if (!known.get("Bush Walk")) {
@@ -316,6 +320,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("pretzel") && this.inventory.includes("raisin")){
                 this.powerUpState = "Shrink";
 
+                this.passive = true;
                 this.setScale(0.5);
                 this.body.setGravityY(1000);
                 if (!known.get("Shrink")) {
@@ -325,6 +330,8 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("pretzel") && this.inventory.includes("chocolate")){
                 this.powerUpState = "Hang";
 
+                this.passive = false;
+
                 if (!known.get("Hang")) {
                     known.set("Hang", ["pretzel", "chocolate"]);
                 }
@@ -332,6 +339,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("pretzel") && this.inventory.includes("cranberry")){
                 this.powerUpState = "Breaker";
 
+                this.passive = true;
                 if (!known.get("Breaker")) {
                     known.set("Breaker", ["pretzel", "cranberry"]);
                 }
@@ -339,6 +347,7 @@ class Player extends Phaser.GameObjects.Sprite {
             if (this.inventory.includes("pretzel") && this.inventory.includes("banana")){
                 this.powerUpState = "Crate";
 
+                this.passive = false;
                 if (!known.get("Crate")) {
                     known.set("Crate", ["pretzel", "banana"]);
                 }
@@ -517,7 +526,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     teleport(){
         this.scene.sound.play('sfx_tele');
-        this.body.setVelocityY(0);
+        this.body.setVelocityY(-100);
         this.x = this.portX;
         this.y = this.portY;
     }

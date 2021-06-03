@@ -27,6 +27,8 @@ class PlayTile extends Phaser.Scene {
         this.TreesFront = this.add.tileSprite(0, 0, 1024, 768, "TreesFront").setOrigin(-0.1,0.1).setScrollFactor(0.6);
         this.BGGroup.add(this.TreesFront);
 
+        this.BGGroup.setDepth(-10);
+
         let rect = new Phaser.Geom.Rectangle(0, -100, game.config.width, 170);
 
         this.particleManager = this.add.particles('leaf');
@@ -76,7 +78,14 @@ class PlayTile extends Phaser.Scene {
         const terrainLayer = map.createLayer('Terrain', tileset, 0, 0);
         this.cloudLayer = map.createLayer('CloudLayer', tileset, 0, 0);
         
+        bgLayer.setDepth(8);
+        pillarLayer.setDepth(9);
+        this.bushLayer.setDepth(10);
+        this.cloudLayer.setDepth(10);
+        hazardLayer.setDepth(11);
+        terrainLayer.setDepth(12);
         
+
         
 
 
@@ -106,6 +115,7 @@ class PlayTile extends Phaser.Scene {
         // Create and place Player at spawn
         const p1Spawn = map.findObject("Spawns", obj => obj.name === "playerSpawn");
         this.player = new Player(this, p1Spawn.x, p1Spawn.y, 'Scout', 'scout-idle-00', MAX_X_VEL, MAX_Y_VEL, ACCELERATION, DRAG, JUMP_VELOCITY).setOrigin(0.5, 1);
+        this.player.setDepth(10);
         var player = this.player;
         this.player.body.setCollideWorldBounds();
 
@@ -148,7 +158,8 @@ class PlayTile extends Phaser.Scene {
         this.signObjs = map.filterObjects("Spawns", obj => obj.type === "signObj");
         for (let i = 0; i < this.signObjs.length; i++){
             let sign = this.signObjs[i];
-            new SignObj(this, sign.x, sign.y, 'sign', null, player, sign.name);
+            let myObj = new SignObj(this, sign.x, sign.y, 'sign', 0, player, sign.name);
+            myObj.setDepth(9);
         }
 
         this.hazardObjs = map.filterObjects("Spawns", obj => obj.type === "Hazard");
@@ -169,6 +180,8 @@ class PlayTile extends Phaser.Scene {
                 }
             }, null, this);
             this.physics.add.collider(this.player, block);
+            this.physics.add.collider(this.player.crate, block);
+            block.setDepth(10);
         }
 
         // set bg color
@@ -237,6 +250,9 @@ class PlayTile extends Phaser.Scene {
         // Update Nuts Alphas + State Text
         this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.3;
         this.statusText.text = "Power: " + this.player.powerUpState;
+        if (!this.player.passive){
+            this.statusText.text += "(D)";
+        }
 
         // Add appropriate ingredient sprites UI
         for (var index = 0; index < this.player.getSize(); ++index){
@@ -332,7 +348,7 @@ class PlayTile extends Phaser.Scene {
     pause() {
         this.player.jumping = true;
         this.scene.pause();
-        this.scene.launch('pauseScene', { srcScene: "playTileScene"});
+        this.scene.launch('pauseScene', { srcScene: "playTileScene", srcLevel: this.level});
     }
 
 
@@ -340,7 +356,7 @@ class PlayTile extends Phaser.Scene {
     restart(){
         this.sound.play('sfx_reset');
         console.log('restarting scene');
-        this.scene.start('playTileScene', "TiledTestJSON");
+        this.scene.start('playTileScene', this.level);
     }
 }
 
