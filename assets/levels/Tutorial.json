@@ -207,7 +207,7 @@
                 {
                  "height":28,
                  "id":22,
-                 "name":"Press F to eat your Magic Mix. This one teleports you to where you ate it when you press D!",
+                 "name":"Press (F) to eat your Magic Mix. This one teleports you back to where you ate it when you press (D)!",
                  "rotation":0,
                  "type":"signObj",
                  "visible":true,
