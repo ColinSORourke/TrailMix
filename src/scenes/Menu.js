@@ -37,7 +37,7 @@ class Menu extends Phaser.Scene {
     startButton.on('pointerdown', () => {
       game.menuAmbience.stop();
       game.music.play();
-      this.scene.start('playTileScene', "levelKey");
+      this.scene.start('playTileScene', "tutorial");
     });
 
     // Controls Button
