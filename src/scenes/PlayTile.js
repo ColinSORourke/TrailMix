@@ -44,18 +44,6 @@ class PlayTile extends Phaser.Scene {
             particleClass: AnimParticle
         });
 
-
-        // Add music
-        this.musicConfig =  {
-            mute: false,
-            volume: 1,
-            rate: 1,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-        };
-
         // Basic Tilemap stuff
         const map = this.add.tilemap(this.level);
         this.map = map;
