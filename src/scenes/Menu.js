@@ -4,6 +4,17 @@ class Menu extends Phaser.Scene {
     }
     
     create() {
+      // Add music
+      this.musicConfig =  {
+        mute: false,
+        volume: 1,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: true,
+        delay: 0
+      };
+
       if (!game.music){ 
         game.music = this.sound.add('Music', this.musicConfig);
         game.menuAmbience = this.sound.add("MenuAmbience", this.musicConfig);
