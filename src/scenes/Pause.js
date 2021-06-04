@@ -73,13 +73,12 @@ class Pause extends Phaser.Scene {
             if (line > 6 & once) {
                 once = false;
                 // Add Journal 2 BG
-                var SecJBackground = this.add.sprite(game.config.width*4/5 - 250, game.config.height/5, "journal").setOrigin(0,0);
+                var SecJBackground = this.add.sprite(game.config.width*4/5 - 225, game.config.height/5, "journal").setOrigin(0,0);
                 SecJBackground.setScale(2,1.9);
                 // Add Journal 2 Title
                 var SecJournalTitle = this.add.bitmapText(game.config.width*4/5, game.config.height/5 + 22, 'gem', 'JOURNAL 2', 38).setOrigin(0.5);
                 SecJournalTitle.tint = '0x000000';
-                pageCenter = game.config.width*4/5;
-
+                pageCenter = game.config.width*4/5 - 16;
                 line = 1;
             }
             let string = this.add.bitmapText(pageCenter + 16, game.config.height/4 + 63 * line, 'gem', value[0] + ' + ' + value[1] + ' = ' + key, 21).setOrigin(0.5);
