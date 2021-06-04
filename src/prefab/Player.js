@@ -60,7 +60,9 @@ class Player extends Phaser.GameObjects.Sprite {
         let runFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-run-', end: 5, zeroPad: 2 });
         let jumpFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-jump-', end: 3, zeroPad: 2 });
         let fallFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-fall-', end: 1, zeroPad: 2 });
-        let glideFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-glide-', end: 1, zeroPad: 2 })
+        let glideFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-glide-', end: 1, zeroPad: 2 });
+        let hangIdleFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-hang-idle-', end: 1, zeroPad: 2 });
+        let hangMoveFrameNames = this.anims.generateFrameNames('Scout', { prefix: 'scout-hang-', end: 5, zeroPad: 2 });
 
         this.anims.create({
             key: 'scoutIdle',
@@ -92,6 +94,18 @@ class Player extends Phaser.GameObjects.Sprite {
             frameRate: 6,
             repeat: -1
         });
+        this.anims.create({
+            key: 'scoutHangIdle',
+            frames: hangIdleFrameNames,
+            frameRate: 5,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'scoutHang',
+            frames: hangMoveFrameNames,
+            frameRate: 6,
+            repeat: -1
+        });
         
         this.animFSM = new StateMachine('idle', {
             idle: new IdleState(),
@@ -100,6 +114,8 @@ class Player extends Phaser.GameObjects.Sprite {
             fall: new FallState(),
             power: new PowerState(),
             glide: new GlideState(),
+            hangIdle: new hangIdleState(),
+            hang: new hangState(),
         }, [this]);
     }
 
@@ -630,8 +646,11 @@ class JumpState extends State {
         else if (scout.doingPower){
             scout.animFSM.transition('power');
         }
-        else if (scout.body.velocity.y >= 0){
+        else if (scout.body.velocity.y > 0){
             scout.animFSM.transition('fall');
+        }
+        if (scout.body.blocked.up && scout.powerUpState == "Hang"){
+            scout.animFSM.transition('hangIdle');
         }
     }
 }
@@ -679,3 +698,36 @@ class GlideState extends State{
         }
     }
 }
+
+class hangIdleState extends State {
+    enter(scout) {
+        scout.anims.stop();
+        scout.anims.play('scoutHangIdle');
+    }
+
+    execute(scout) {
+        if (scout.body.velocity.x != 0){
+            scout.animFSM.transition('hang');
+        }
+        if (scout.body.velocity.y > 0){
+            scout.animFSM.transition('fall');
+        }
+    }
+}
+
+class hangState extends State {
+    enter(scout) {
+        scout.anims.stop();
+        scout.anims.play('scoutHang');
+    }
+
+    execute(scout) {
+        if (scout.body.velocity.x == 0){
+            scout.animFSM.transition('hangIdle');
+        }
+        if (scout.body.velocity.y > 0){
+            scout.animFSM.transition('fall');
+        }
+    }
+}
+
