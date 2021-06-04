@@ -176,10 +176,9 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         // Ground Collision
-        // (NOTE: Even though the player passes through ingredients, these still count as touching down, making jump logic through ingredients weird - FIX THIS)
-        if (this.body.blocked.down || this.body.touching.down){
+        if (this.body.blocked.down){
             
-            if (this.resetOnGround && this.body.blocked.down){
+            if (this.resetOnGround){
                 this.reset();
             }
             if (this.jumping && !keySPACE.isDown){
@@ -645,12 +644,12 @@ class JumpState extends State {
         }
         else if (scout.doingPower){
             scout.animFSM.transition('power');
-        }
-        else if (scout.body.velocity.y > 0){
-            scout.animFSM.transition('fall');
-        }
-        if (scout.body.blocked.up && scout.powerUpState == "Hang"){
+        } 
+        else if (scout.body.blocked.up && scout.powerUpState == "Hang"){
             scout.animFSM.transition('hangIdle');
+        }
+        else if (scout.body.velocity.y >= 0){
+            scout.animFSM.transition('fall');
         }
     }
 }
