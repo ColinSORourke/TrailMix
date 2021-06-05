@@ -8,6 +8,12 @@ class PlayTile extends Phaser.Scene {
     }
 
     create() {
+        // Basic Tilemap stuff
+        const map = this.add.tilemap(this.level);
+        this.map = map;
+        this.xBounds = map.widthInPixels;
+        this.yBounds = map.heightInPixels;
+
         // Background graphics
         this.BGGroup = this.add.group();
         this.BackgroundBase = this.add.tileSprite(0, 0, 1024, 768, "BackgroundBase").setOrigin(0,0.25).setScrollFactor(0);
@@ -22,34 +28,12 @@ class PlayTile extends Phaser.Scene {
         this.BGGroup.add(this.CloudsFront);
         this.TreesBack = this.add.tileSprite(0, 0, 1024, 768, "TreesBack").setOrigin(-0.1,0.1).setScrollFactor(0.2);
         this.BGGroup.add(this.TreesBack);
-        this.TreesMid = this.add.tileSprite(0, 0, 1024, 768, "TreesMid").setOrigin(-0.1,0).setScrollFactor(0.4);
+        this.TreesMid = this.add.tileSprite(0, 0, 1024, 768, "TreesMid").setOrigin(-0.1,0.1).setScrollFactor(0.4);
         this.BGGroup.add(this.TreesMid);
-        this.TreesFront = this.add.tileSprite(0, 0, 1024, 768, "TreesFront").setOrigin(-0.1,0.1).setScrollFactor(0.6);
+        this.TreesFront = this.add.tileSprite(0, 0, 1024, 698, "TreesFront").setOrigin(0,0.1).setScrollFactor(0.6);
         this.BGGroup.add(this.TreesFront);
 
         this.BGGroup.setDepth(-10);
-
-        let rect = new Phaser.Geom.Rectangle(0, -100, game.config.width, 170);
-
-        this.particleManager = this.add.particles('leaf');
-        this.emitter = this.particleManager.createEmitter({
-            frame: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
-            gravityY: 8,
-            maxVelocityY: 42,
-            lifespan: 20000,
-            frequency: 180,
-            rotate: {min: -30, max: 30},
-            flip: {min: 0, max: 1},
-            emitZone: { source: rect},
-            particleClass: AnimParticle
-        });
-
-        // Basic Tilemap stuff
-        const map = this.add.tilemap(this.level);
-        this.map = map;
-        this.xBounds = map.widthInPixels;
-        this.yBounds = map.heightInPixels;
-
         this.physics.world.checkCollision.left = true;
         this.physics.world.checkCollision.right = true;
         this.physics.world.checkCollision.up = false;
@@ -190,10 +174,11 @@ class PlayTile extends Phaser.Scene {
 
         // set up main camera to follow the player
         this.cameras.main.setBounds(0, -200, map.widthInPixels, map.heightInPixels + 200);
-        //this.cameras.main.setDeadzone(game.config.width / 5, game.config.height / 5);
         this.cameras.main.setZoom(2);
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setFollowOffset(0, 50);
+
+        this.firstUpdate = true;
 
         // Add UI elements
 
@@ -203,6 +188,33 @@ class PlayTile extends Phaser.Scene {
 
     update() {
         this.player.update();
+
+        if (this.firstUpdate){
+            console.log(this.cameras.main.scrollY);
+            this.TreesBack.y = this.cameras.main.scrollY * 0.2;
+            this.TreesMid.y = this.cameras.main.scrollY * 0.4;
+            this.TreesFront.y = this.cameras.main.scrollY * 0.6;
+
+            let rect = new Phaser.Geom.Rectangle(0, this.TreesFront.y + 30, game.config.width, 90);
+
+            this.particleManager = this.add.particles('leaf');
+            this.emitter = this.particleManager.createEmitter({
+                frame: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+                gravityY: 8,
+                maxVelocityY: 42,
+                lifespan: 20000,
+                frequency: 180,
+                rotate: {min: -30, max: 30},
+                flip: {min: 0, max: 1},
+                emitZone: { source: rect},
+                particleClass: AnimParticle
+            });
+            this.emitter.setScrollFactor(0.6);
+            this.particleManager.setDepth(-10);
+            this.firstUpdate = false;
+
+        }
+
         this.CloudsBack.tilePositionX -= 0.003;
         this.CloudsMid.tilePositionX += 0.005;
         this.CloudsFront.tilePositionX -= 0.007;
