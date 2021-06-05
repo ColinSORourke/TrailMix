@@ -221,7 +221,7 @@ class PlayTile extends Phaser.Scene {
         } else {
             this.physics.world.removeCollider(this.cloudCollider);
             this.physics.world.removeCollider(this.cloudCrate);
-            this.cloudLayer.collider.alpha = 0.6;
+            this.cloudLayer.alpha = 0.6;
         }
     }
 
