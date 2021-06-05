@@ -1043,7 +1043,7 @@
    <point/>
   </object>
   <object id="6" type="Hazard" x="682.333" y="471.667" width="140" height="40"/>
-  <object id="15" name="levelKey" type="nextLevel" x="912" y="416" width="32.1022" height="32.4474"/>
+  <object id="15" name="levelTwo" type="nextLevel" x="912" y="416" width="32.1022" height="32.4474"/>
   <object id="23" type="breakObj" gid="81" x="64" y="304" width="16" height="16"/>
   <object id="24" type="breakObj" gid="81" x="48" y="304" width="16" height="16"/>
   <object id="25" type="breakObj" gid="81" x="32" y="304" width="16" height="16"/>

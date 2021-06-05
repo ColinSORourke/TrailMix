@@ -227,11 +227,17 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.crate.body.setVelocityX(80);
             }
         } else if (this.movingCrate){
-            
             this.crate.body.setVelocityX(0);
+            if ( this.crate.body.blocked.down ){
+                console.log('reset crate');
+                this.crate.body.setGravityY(0);
+                this.movingCrate = false;
+                this.crate.body.immovable = true;
+            }
         }
         if(Phaser.Input.Keyboard.UpDuration(keyD)) {
 	    	if ( this.crate.body.blocked.down ){
+                console.log('reset crate');
                 this.crate.body.setGravityY(0);
                 this.movingCrate = false;
                 this.crate.body.immovable = true;
