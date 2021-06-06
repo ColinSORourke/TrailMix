@@ -89,6 +89,7 @@ class PlayTile extends Phaser.Scene {
         this.physics.add.overlap(this.player, camp, function(){
             player.arrow.alpha = 1;
             if (Phaser.Input.Keyboard.JustDown(cursors.up)){
+                this.sound.play('sfx_levelcomplete');
                 this.scene.start('playTileScene', nextLevel.name);
             }
         }, null, this);
@@ -140,6 +141,7 @@ class PlayTile extends Phaser.Scene {
             block.body.immovable = true;
             this.physics.add.collider(this.player, block, function() {
                 if (player.powerUpState == "Breaker"){
+                    this.sound.play('sfx_blockbreak');
                     block.destroy();
                 }
             }, null, this);
