@@ -46,6 +46,7 @@ class Menu extends Phaser.Scene {
     let startButton = this.add.rectangle(750, 230, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
     startButton.setInteractive();
     startButton.on('pointerdown', () => {
+      this.sound.play('sfx_select');
       game.menuAmbience.stop();
       game.music.play();
       this.scene.start('playTileScene', "beginnerlevel");
@@ -55,13 +56,15 @@ class Menu extends Phaser.Scene {
     let controlsButton = this.add.rectangle(750, 320, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
     controlsButton.setInteractive();
     controlsButton.on('pointerdown', () => {
-    this.scene.start('controlsScene');
+      this.sound.play('sfx_select');
+      this.scene.start('controlsScene');
     });
 
     // Credits Button
     let creditsButton = this.add.rectangle(750, 410, 300, 90, 0x808080).setOrigin(0, 0).setAlpha(0.0001);
     creditsButton.setInteractive();
     creditsButton.on('pointerdown', () => {
+      this.sound.play('sfx_select');
       this.scene.start("creditsScene");
     });
 

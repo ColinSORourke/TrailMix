@@ -26,7 +26,8 @@ class Credits extends Phaser.Scene {
         // Menu Button
         MenuButton.setInteractive();
         MenuButton.on('pointerdown', () => {
-        this.scene.start('menuScene');
+          this.sound.play('sfx_select');
+          this.scene.start('menuScene');
         });
     }
 }

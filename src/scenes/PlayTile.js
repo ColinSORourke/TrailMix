@@ -319,6 +319,7 @@ class PlayTile extends Phaser.Scene {
         // Give Menu Button purpose
         this.menuButton.setInteractive();
         this.menuButton.on('pointerdown', () => {
+            this.sound.play('sfx_select');
             this.pause();
         });
         UIGroup.add(this.menuButton);

@@ -12,7 +12,7 @@ class Pause extends Phaser.Scene {
         
         console.log("pause created");
 
-        var spaceing = 64;
+        var spacing = 64;
         let graphics = this.add.graphics();
         
         // CENTER WINDOW START //
@@ -22,34 +22,38 @@ class Pause extends Phaser.Scene {
         let BGBorder = graphics.lineStyle(6, 0xAA968A, 1).strokeRoundedRect(game.config.width/2 - JMBackgroundWidth/2, game.config.height/2 - JMBackgroundLength/2 + 25, JMBackgroundWidth, JMBackgroundLength, 8).setScrollFactor(0);
 
         // Add Menu text & button
-        var menuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4, 'gem', 'MENU', 32).setOrigin(0.5);
+        var menuButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4, 'gem', 'MAIN MENU', 32).setOrigin(0.5);
         menuButton.setInteractive();
         menuButton.on('pointerdown', () => {
+            this.sound.play('sfx_select');
             this.scene.stop(this.pausedScene);
             this.scene.start('menuScene');
         });
 
         // Add Reset text & button
-        var resetButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spaceing, 'gem', 'RESET', 32).setOrigin(0.5);
+        var resetButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spacing, 'gem', 'RESET', 32).setOrigin(0.5);
         resetButton.setInteractive();
         resetButton.on('pointerdown', () => {
+            this.sound.play('sfx_select');
             this.scene.stop(this.pausedScene);
             this.scene.start('playTileScene', this.pausedLevel);
         });
 
         // Add Controls & button
-        var controlsButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spaceing*2, 'gem', 'CONTROLS', 32).setOrigin(0.5);
+        var controlsButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spacing*2, 'gem', 'CONTROLS', 32).setOrigin(0.5);
         controlsButton.setInteractive();
         controlsButton.on('pointerdown', () => {
             //this.scene.stop(this.pausedScene);
             enterFromGame = true;
+            this.sound.play('sfx_select');
             this.scene.start('controlsScene');
         });
 
         // Add Back text & button
-        var backButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spaceing*3, 'gem', 'BACK', 32).setOrigin(0.5);
+        var backButton = this.add.bitmapText(game.config.width/2, game.config.height/2 - JMBackgroundLength/4 + spacing*3, 'gem', 'BACK', 32).setOrigin(0.5);
         backButton.setInteractive();
         backButton.on('pointerdown', () => {
+            this.sound.play('sfx_select');
             this.scene.resume(this.pausedScene);
             this.scene.stop();
         });
@@ -64,7 +68,7 @@ class Pause extends Phaser.Scene {
         //var JBackground = this.add.rectangle(game.config.width/5 - JBackgroundWidth/2, game.config.height/5, JBackgroundWidth, JBackgroundLength, 0xFF0000).setOrigin(0, 0);
 
         // Add Journal Title
-        var JournalTitle = this.add.bitmapText(game.config.width/5, game.config.height/5 + 22, 'gem', 'JOURNAL', 38).setOrigin(0.5);
+        var JournalTitle = this.add.bitmapText(game.config.width/5 + 40, game.config.height/5 + 22, 'gem', 'JOURNAL', 38).setOrigin(0.5);
         JournalTitle.tint = '0x000000';
 
         // Add text to show for all player's known ingredients
@@ -76,7 +80,7 @@ class Pause extends Phaser.Scene {
                 var SecJBackground = this.add.sprite(game.config.width*4/5 - 225, game.config.height/5, "journal").setOrigin(0,0);
                 SecJBackground.setScale(2,1.9);
                 // Add Journal 2 Title
-                var SecJournalTitle = this.add.bitmapText(game.config.width*4/5, game.config.height/5 + 22, 'gem', 'JOURNAL 2', 38).setOrigin(0.5);
+                var SecJournalTitle = this.add.bitmapText(game.config.width*4/5 + 40, game.config.height/5 + 22, 'gem', 'JOURNAL 2', 38).setOrigin(0.5);
                 SecJournalTitle.tint = '0x000000';
                 pageCenter = game.config.width*4/5 - 16;
                 line = 1;

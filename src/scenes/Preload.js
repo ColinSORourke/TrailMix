@@ -28,6 +28,7 @@ class Preload extends Phaser.Scene
         this.load.audio('sfx_tele', './assets/sfx/Teleport.wav');
         this.load.audio('sfx_levelcomplete', './assets/sfx/LevelComplete.wav');
         this.load.audio('sfx_blockbreak', './assets/sfx/BlockBreak.wav');
+        this.load.audio('sfx_select', './assets/sfx/MenuSelect.wav');
 
 
 
