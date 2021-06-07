@@ -102,7 +102,7 @@
                 {
                  "height":32.4474,
                  "id":2,
-                 "name":"aRealLevel",
+                 "name":"beginnerLevel",
                  "rotation":0,
                  "type":"nextLevel",
                  "visible":true,
