@@ -258,7 +258,7 @@ class PlayTile extends Phaser.Scene {
         this.nutsSprite.alpha = (this.player.nuts) ? 1 : 0.3;
         this.statusText.text = "Power: " + this.player.powerUpState;
         if (!this.player.passive){
-            this.statusText.text += "(D)";
+            this.statusText.text += " (D)";
         }
 
         // Add appropriate ingredient sprites UI
@@ -300,18 +300,18 @@ class PlayTile extends Phaser.Scene {
         // UIBackground Box
         //UIGroup.add(this.add.rectangle(0, 0, game.config.width, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UIBackground'));
 
-        let UILeftC = graphics.fillStyle(0xBFAFA6, 1).fillRoundedRect(0, 0, 425, 240, 8).setScrollFactor(0).setName('UILeftC');
+        let UILeftC = graphics.fillStyle(0x8e827b, 1).fillRoundedRect(0, 0, 435, 240, 8).setScrollFactor(0).setName('UILeftC');
         UIGroup.add(UILeftC);
-        UIGroup.add(graphics.lineStyle(2, 0xAA968A, 1).strokeRoundedRect(0, 0, 425, 240, 8).setScrollFactor(0).setName('UILeftCstroke'));
+        UIGroup.add(graphics.lineStyle(2, 0x72655d, 1).strokeRoundedRect(0, 0, 435, 240, 8).setScrollFactor(0).setName('UILeftCstroke'));
 
         
-        UIGroup.add(graphics.fillStyle(0xBFAFA6, 1).fillRoundedRect(game.config.width/2-25, 0, 48, 240, 8).setScrollFactor(0));
-        UIGroup.add(graphics.lineStyle(2, 0xAA968A, 1).strokeRoundedRect(game.config.width/2-25, 0, 48, 240, 8).setScrollFactor(0));
+        UIGroup.add(graphics.fillStyle(0x8e827b, 1).fillRoundedRect(game.config.width/2-25, 0, 48, 240, 8).setScrollFactor(0));
+        UIGroup.add(graphics.lineStyle(2, 0x72655d, 1).strokeRoundedRect(game.config.width/2-25, 0, 48, 240, 8).setScrollFactor(0));
         //UIGroup.add(this.add.rectangle(game.config.width/2-25, 0, 48, 240, 0x000000).setOrigin(0, 0).setScrollFactor(0).setName('UICenter'));
-        UIGroup.add(graphics.fillStyle(0xBFAFA6, 1).fillRoundedRect(game.config.width - 400, 0, 240, 240, 8).setScrollFactor(0).setName('UI'));
-        UIGroup.add(graphics.lineStyle(2, 0xAA968A, 1).strokeRoundedRect(game.config.width - 400, 0, 240, 240, 8).setScrollFactor(0));
+        UIGroup.add(graphics.fillStyle(0x8e827b, 1).fillRoundedRect(game.config.width - 400, 0, 240, 240, 8).setScrollFactor(0).setName('UI'));
+        UIGroup.add(graphics.lineStyle(2, 0x72655d, 1).strokeRoundedRect(game.config.width - 400, 0, 240, 240, 8).setScrollFactor(0));
         // Add Status Text
-        this.statusText = this.add.bitmapText(game.config.width/4+5, 230, 'gem', 'state: normal', 18).setOrigin(0, 0.5).setScrollFactor(0,0).setName('statusText');
+        this.statusText = this.add.bitmapText(game.config.width/4+5, 230, 'gem', 'state: normal', 16).setOrigin(0, 0.5).setScrollFactor(0,0).setName('statusText');
         UIGroup.add(this.statusText);
 
         // Add Journal/Menu Button
@@ -341,7 +341,7 @@ class PlayTile extends Phaser.Scene {
             camWidth = this.xBounds / 5
         }
 
-        this.minimap = this.cameras.add(game.config.width - 275, 20, camWidth, 60).setZoom(0.2, 0.2).setName('mini');
+        this.minimap = this.cameras.add(game.config.width - 275, 14, camWidth, 70).setZoom(0.2, 0.2).setName('mini');
         this.minimap.setBackgroundColor(0xcc99cc);
         this.minimap.setBounds(0, 0, this.xBounds, this.yBounds);
         this.minimap.startFollow(this.player);

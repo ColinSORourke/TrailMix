@@ -26,11 +26,11 @@ class SignObj extends Phaser.GameObjects.Sprite {
                 signBorder.setDepth(20);
 
                 // Delay Call then 'destory' the sign
-                scene.time.delayedCall(1500, () => {
+                scene.time.delayedCall(4500, () => {
                 scene.tweens.add({
                     targets: [myText, signBackground],
                     alpha: 0,
-                    duration: 3000,
+                    duration: 2000,
                     ease: 'Linear',
                     onComplete: function() {
                       myText.destroy();
