@@ -192,7 +192,6 @@ class PlayTile extends Phaser.Scene {
         this.player.update();
 
         if (this.firstUpdate){
-            console.log(this.cameras.main.scrollY);
             this.TreesBack.y = this.cameras.main.scrollY * 0.2;
             this.TreesMid.y = this.cameras.main.scrollY * 0.4;
             this.TreesFront.y = this.cameras.main.scrollY * 0.6;
@@ -370,7 +369,6 @@ class PlayTile extends Phaser.Scene {
     // Restart the Scene
     restart(){
         this.sound.play('sfx_reset');
-        console.log('restarting scene');
         this.scene.start('playTileScene', this.level);
     }
 }

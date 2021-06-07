@@ -229,7 +229,6 @@ class Player extends Phaser.GameObjects.Sprite {
         } else if (this.movingCrate){
             this.crate.body.setVelocityX(0);
             if ( this.crate.body.blocked.down ){
-                console.log('reset crate');
                 this.crate.body.setGravityY(0);
                 this.movingCrate = false;
                 this.crate.body.immovable = true;
@@ -237,7 +236,6 @@ class Player extends Phaser.GameObjects.Sprite {
         }
         if(Phaser.Input.Keyboard.UpDuration(keyD)) {
 	    	if ( this.crate.body.blocked.down ){
-                console.log('reset crate');
                 this.crate.body.setGravityY(0);
                 this.movingCrate = false;
                 this.crate.body.immovable = true;
@@ -251,10 +249,6 @@ class Player extends Phaser.GameObjects.Sprite {
             this.discardIngredients();
         }
 
-        // Debug: get player's position
-        if (Phaser.Input.Keyboard.JustDown(cursors.down)){
-            this.debugGetLocation();
-        }
     }
 
     // Switch inventory to correct PowerupState
@@ -567,13 +561,6 @@ class Player extends Phaser.GameObjects.Sprite {
             this.crate.y = this.y - 16;
             this.crate.x = this.x + 16;
         }
-    }
-
-    // DEBUG FUNCTIONS //
-    debugGetLocation() {
-        console.log("X: " + this.x + " | Y: " + this.y);
-        console.log(this.body.touching.down);
-        console.log(this.powerUpState);
     }
 
     getSize() {

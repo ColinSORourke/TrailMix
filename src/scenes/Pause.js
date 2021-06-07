@@ -9,8 +9,6 @@ class Pause extends Phaser.Scene {
     }
 
     create(){
-        
-        console.log("pause created");
 
         var spacing = 64;
         let graphics = this.add.graphics();
