@@ -107,8 +107,8 @@
                  "type":"Hazard",
                  "visible":true,
                  "width":140,
-                 "x":682.333333333333,
-                 "y":471.666666666667
+                 "x":682.333,
+                 "y":471.667
                 }, 
                 {
                  "height":32.4474,
@@ -356,9 +356,9 @@
                  "rotation":0,
                  "type":"Hazard",
                  "visible":true,
-                 "width":184.465246899134,
-                 "x":316.145565176691,
-                 "y":471.457992043061
+                 "width":184.465,
+                 "x":316.146,
+                 "y":471.458
                 }, 
                 {
                  "gid":6,
@@ -421,15 +421,15 @@
                  "y":400
                 }, 
                 {
-                 "height":109.405660377359,
+                 "height":109.406,
                  "id":51,
                  "name":"",
                  "rotation":0,
                  "type":"Hazard",
                  "visible":true,
                  "width":13.465,
-                 "x":641.615137415622,
-                 "y":96.6724495551391
+                 "x":641.615,
+                 "y":96.6724
                 }, 
                 {
                  "gid":2,
@@ -550,6 +550,17 @@
                  "width":16,
                  "x":784,
                  "y":16
+                }, 
+                {
+                 "height":28,
+                 "id":62,
+                 "name":"Some levels can be completed in several different ways - have fun exploring!",
+                 "rotation":0,
+                 "type":"signObj",
+                 "visible":true,
+                 "width":24,
+                 "x":197,
+                 "y":260
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -558,7 +569,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":62,
+ "nextobjectid":63,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.6.0",

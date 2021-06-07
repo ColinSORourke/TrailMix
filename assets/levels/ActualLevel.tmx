@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="62">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="63">
  <editorsettings>
   <export target="ActualLevel.json" format="json"/>
  </editorsettings>
@@ -1080,5 +1080,6 @@
   <object id="59" name="banana" type="mixObj" gid="1" x="736" y="16" width="16" height="16"/>
   <object id="60" name="nuts" type="mixObj" gid="8" x="416" y="16" width="16" height="16"/>
   <object id="61" name="pretzel" type="mixObj" gid="2" x="784" y="16" width="16" height="16"/>
+  <object id="62" name="Some levels can be completed in several different ways - have fun exploring!" type="signObj" x="197" y="260" width="24" height="28"/>
  </objectgroup>
 </map>
