@@ -1,3 +1,22 @@
+// ================================================================================================================
+//  Scroggin
+//  By Colin O'Rourke, Daniel Aughenbaugh, & Dennis Zabluda
+//  Date Completed: Monday June 7th
+//
+//  Citations:
+//
+//  The ambient forest and wind sounds were used with permission from BurghRecords at the following links:
+//  https://www.youtube.com/watch?v=wT2O-Egt_Hc
+//  https://www.youtube.com/watch?v=2YuvPtsa91I
+//
+//  The pixel art animations of the game were inspired by the following:
+//  https://appsandmojo.itch.io/character-template-animation-pack
+//  https://pixelvspixel.itch.io/pixel-art-character-for-platformer-games
+//  https://rvros.itch.io/animated-pixel-hero
+//
+// ================================================================================================================
+
+
 let config = {
     type: Phaser.WEBGL,
     width: 1024,
