@@ -49,7 +49,7 @@ class Menu extends Phaser.Scene {
       this.sound.play('sfx_select');
       game.menuAmbience.stop();
       game.music.play();
-      this.scene.start('playTileScene', "beginnerlevel");
+      this.scene.start('playTileScene', "beginnerlevel2");
     });
 
     // Controls Button
