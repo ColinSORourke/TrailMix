@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="43">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="44">
+ <editorsettings>
+  <export target="EndLevel.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" name="TilesetV4" tilewidth="16" tileheight="16" tilecount="136" columns="8">
   <image source="../TilesetV4.png" width="128" height="272"/>
   <tile id="0">
@@ -1025,5 +1028,6 @@
   <object id="40" name="chocolate" type="mixObj" gid="4" x="400" y="192" width="16" height="16"/>
   <object id="41" type="Hazard" x="268.333" y="357.667" width="182" height="26"/>
   <object id="42" type="Hazard" x="61.6667" y="358.333" width="182" height="26"/>
+  <object id="43" name="tutorial2" type="nextLevel" x="726.704" y="152.444" width="32.1022" height="32.4474"/>
  </objectgroup>
 </map>
