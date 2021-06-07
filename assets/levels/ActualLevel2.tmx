@@ -1354,7 +1354,7 @@
   <object id="1" name="playerSpawn" x="176" y="1200">
    <point/>
   </object>
-  <object id="2" name="TiledTestJSON" type="nextLevel" x="288" y="1264" width="32.1022" height="32.4474"/>
+  <object id="2" name="end" type="nextLevel" x="288" y="1264" width="32.1022" height="32.4474"/>
   <object id="3" name="nuts" type="mixObj" gid="8" x="240" y="1152" width="16" height="16"/>
   <object id="5" name="cranberry" type="mixObj" gid="3" x="272" y="1152" width="16" height="16"/>
   <object id="6" name="chocolate" type="mixObj" gid="4" x="96" y="1280" width="16" height="16"/>

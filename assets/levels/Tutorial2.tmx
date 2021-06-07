@@ -994,7 +994,7 @@
   <object id="1" name="playerSpawn" x="32" y="336">
    <point/>
   </object>
-  <object id="2" name="aRealLevel" type="nextLevel" x="400" y="304" width="32.1022" height="32.4474"/>
+  <object id="2" name="beginnerLevel" type="nextLevel" x="400" y="304" width="32.1022" height="32.4474"/>
   <object id="9" name="Be sure to try out trail mix combinations! You can view powers you've already discovered in your journal from the menu." type="signObj" x="68" y="308.203" width="24" height="28"/>
   <object id="10" name="Some powers are passive, but others are active and happen when you press (D). " type="signObj" x="181.424" y="308.203" width="24" height="28"/>
   <object id="12" name="You can return the ingredients you're currently carrying by pressing (S)." type="signObj" x="123.667" y="308.333" width="24" height="28"/>
