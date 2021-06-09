@@ -370,12 +370,12 @@
                  "height":14.5,
                  "id":172,
                  "name":"",
-                 "rotation":180,
+                 "rotation":0,
                  "type":"Hazard",
                  "visible":true,
                  "width":142,
-                 "x":463.666666666667,
-                 "y":785.083333333333
+                 "x":321,
+                 "y":769.083333333333
                 }, 
                 {
                  "height":14,
